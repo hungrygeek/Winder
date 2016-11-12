@@ -29,13 +29,32 @@ class ViewController: UIViewController {
         
         let logInUserName = UITextField()
         logInUserName.frame = CGRectMake(0, 0, 300, 50)
-        logInUserName.center = CGPoint(x: self.view.center.x, y: 400)
+        logInUserName.center = CGPoint(x: self.view.center.x, y: 450)
         logInUserName.layer.borderColor = UIColor.blackColor().CGColor
-        logInUserName.layer.backgroundColor = UIColor.whiteColor().CGColor
+        logInUserName.layer.backgroundColor = UIColor.grayColor().CGColor
         logInUserName.alpha = 0.8
         logInUserName.layer.cornerRadius = 10
         self.view.addSubview(logInUserName)
+        
+        let logInPassword = UITextField()
+        logInPassword.frame = CGRectMake(0, 0, 300, 50)
+        logInPassword.center = CGPoint(x: self.view.center.x, y: 550)
+        logInPassword.layer.borderColor = UIColor.blackColor().CGColor
+        logInPassword.layer.backgroundColor = UIColor.grayColor().CGColor
+        logInPassword.alpha = 0.8
+        logInPassword.layer.cornerRadius = 10
+        self.view.addSubview(logInPassword)
+        
+        let logInButton = UIButton()
+        logInButton.frame = CGRectMake(0, 0, 300, 50)
+        logInButton.center = CGPoint(x: self.view.center.x, y: 650)
+        logInButton.setTitle("LOG IN", forState: UIControlState.Normal)
+        logInButton.titleLabel?.textColor = UIColor.whiteColor()
+        logInButton.layer.backgroundColor = UIColor.getWustlGreenColor(UIColor())().CGColor
+        logInButton.layer.cornerRadius = 10
+        self.view.addSubview(logInButton)
     }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

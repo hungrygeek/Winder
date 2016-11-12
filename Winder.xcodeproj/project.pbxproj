@@ -13,6 +13,9 @@
 		83AF57FF1DD62BBD00C63709 /* Winder.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 83AF57FD1DD62BBD00C63709 /* Winder.xcdatamodeld */; };
 		83AF58011DD62BBD00C63709 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 83AF58001DD62BBD00C63709 /* Assets.xcassets */; };
 		83AF58041DD62BBD00C63709 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83AF58021DD62BBD00C63709 /* LaunchScreen.storyboard */; };
+		E0178F871DD7D68C008FBE1B /* background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E0178F851DD7D68B008FBE1B /* background.jpg */; };
+		E0178F881DD7D68C008FBE1B /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = E0178F861DD7D68C008FBE1B /* logo.png */; };
+		E0178F8A1DD7D7E2008FBE1B /* CustomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0178F891DD7D7E2008FBE1B /* CustomColor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +27,9 @@
 		83AF58001DD62BBD00C63709 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		83AF58031DD62BBD00C63709 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		83AF58051DD62BBD00C63709 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E0178F851DD7D68B008FBE1B /* background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = background.jpg; sourceTree = SOURCE_ROOT; };
+		E0178F861DD7D68C008FBE1B /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = SOURCE_ROOT; };
+		E0178F891DD7D7E2008FBE1B /* CustomColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomColor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,11 +64,14 @@
 			children = (
 				83AF57F61DD62BBD00C63709 /* AppDelegate.swift */,
 				83AF57F81DD62BBD00C63709 /* ViewController.swift */,
+				E0178F891DD7D7E2008FBE1B /* CustomColor.swift */,
 				83AF57FA1DD62BBD00C63709 /* Main.storyboard */,
 				83AF58001DD62BBD00C63709 /* Assets.xcassets */,
 				83AF58021DD62BBD00C63709 /* LaunchScreen.storyboard */,
 				83AF58051DD62BBD00C63709 /* Info.plist */,
 				83AF57FD1DD62BBD00C63709 /* Winder.xcdatamodeld */,
+				E0178F851DD7D68B008FBE1B /* background.jpg */,
+				E0178F861DD7D68C008FBE1B /* logo.png */,
 			);
 			path = Winder;
 			sourceTree = "<group>";
@@ -127,6 +136,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				83AF58041DD62BBD00C63709 /* LaunchScreen.storyboard in Resources */,
+				E0178F881DD7D68C008FBE1B /* logo.png in Resources */,
+				E0178F871DD7D68C008FBE1B /* background.jpg in Resources */,
 				83AF58011DD62BBD00C63709 /* Assets.xcassets in Resources */,
 				83AF57FC1DD62BBD00C63709 /* Main.storyboard in Resources */,
 			);
@@ -141,6 +152,7 @@
 			files = (
 				83AF57F91DD62BBD00C63709 /* ViewController.swift in Sources */,
 				83AF57F71DD62BBD00C63709 /* AppDelegate.swift in Sources */,
+				E0178F8A1DD7D7E2008FBE1B /* CustomColor.swift in Sources */,
 				83AF57FF1DD62BBD00C63709 /* Winder.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -297,6 +309,7 @@
 				83AF580A1DD62BBD00C63709 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
