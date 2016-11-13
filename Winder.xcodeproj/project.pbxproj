@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		831840671DD7E52300FF809E /* personalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831840661DD7E52300FF809E /* personalViewController.swift */; };
 		83AF57F71DD62BBD00C63709 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AF57F61DD62BBD00C63709 /* AppDelegate.swift */; };
 		83AF57F91DD62BBD00C63709 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AF57F81DD62BBD00C63709 /* ViewController.swift */; };
 		83AF57FC1DD62BBD00C63709 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83AF57FA1DD62BBD00C63709 /* Main.storyboard */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		831840661DD7E52300FF809E /* personalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = personalViewController.swift; sourceTree = "<group>"; };
 		83AF57F31DD62BBC00C63709 /* Winder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Winder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		83AF57F61DD62BBD00C63709 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		83AF57F81DD62BBD00C63709 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -62,6 +64,7 @@
 				83AF58001DD62BBD00C63709 /* Assets.xcassets */,
 				83AF58021DD62BBD00C63709 /* LaunchScreen.storyboard */,
 				83AF58051DD62BBD00C63709 /* Info.plist */,
+				831840661DD7E52300FF809E /* personalViewController.swift */,
 				83AF57FD1DD62BBD00C63709 /* Winder.xcdatamodeld */,
 			);
 			path = Winder;
@@ -141,6 +144,7 @@
 			files = (
 				83AF57F91DD62BBD00C63709 /* ViewController.swift in Sources */,
 				83AF57F71DD62BBD00C63709 /* AppDelegate.swift in Sources */,
+				831840671DD7E52300FF809E /* personalViewController.swift in Sources */,
 				83AF57FF1DD62BBD00C63709 /* Winder.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -297,6 +301,7 @@
 				83AF580A1DD62BBD00C63709 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
