@@ -7,21 +7,21 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>298069937935-ti3f2381pvrhuegg40tbmm295eccn1fm.apps.googleusercontent.com</string>
+	<string>1010174314874-malm7dauhe9ccf5g3pjjfr4eefs9uacg.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.298069937935-ti3f2381pvrhuegg40tbmm295eccn1fm</string>
+	<string>com.googleusercontent.apps.1010174314874-malm7dauhe9ccf5g3pjjfr4eefs9uacg</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAfUr34y7VBPa1WcsMQYxJLnfemjB9p9Z0</string>
+	<string>AIzaSyBJEnSOvXCjzBZnddyS23rymI6WsAy2EMk</string>
 	<key>GCM_SENDER_ID</key>
-	<string>298069937935</string>
+	<string>1010174314874</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.cse438.Winder</string>
 	<key>PROJECT_ID</key>
-	<string>winder-f96a1</string>
+	<string>winder-f1f0b</string>
 	<key>STORAGE_BUCKET</key>
-	<string>winder-f96a1.appspot.com</string>
+	<string>winder-f1f0b.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<true/>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -33,8 +33,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true/>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:298069937935:ios:4c2554b6fc46ca2b</string>
+	<string>1:1010174314874:ios:4c2554b6fc46ca2b</string>
 	<key>DATABASE_URL</key>
-	<string>https://winder-f96a1.firebaseio.com</string>
+	<string>https://winder-f1f0b.firebaseio.com</string>
 </dict>
 </plist>
