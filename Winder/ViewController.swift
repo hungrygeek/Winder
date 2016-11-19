@@ -34,6 +34,7 @@ class ViewController: UIViewController {
         backgroundPic.center = self.view.center
         backgroundPic.image = UIImage(named: "background1")
         backgroundPic.alpha = 0.4
+        
         self.view.addSubview(backgroundPic)
         
         let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.Light)
@@ -153,7 +154,7 @@ class ViewController: UIViewController {
     }
     
     func logInClick(){
-        let vc = MatchViewController()
+        let vc = PersonalViewController()
         vc.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
         presentViewController(vc, animated: false, completion: nil)
         print("Clicked")
