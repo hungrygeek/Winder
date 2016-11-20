@@ -18,12 +18,16 @@ PODS:
   - GoogleToolboxForMac/Defines (2.1.0)
   - GoogleToolboxForMac/NSData+zlib (2.1.0):
     - GoogleToolboxForMac/Defines (= 2.1.0)
+  - JSQMessagesViewController (7.3.4):
+    - JSQSystemSoundPlayer (~> 2.0.1)
+  - JSQSystemSoundPlayer (2.0.1)
   - Koloda (3.1.2):
     - pop (~> 1.0)
   - pop (1.0.9)
 
 DEPENDENCIES:
   - Firebase/Core
+  - JSQMessagesViewController
   - Koloda
 
 SPEC CHECKSUMS:
@@ -34,9 +38,11 @@ SPEC CHECKSUMS:
   GoogleInterchangeUtilities: d5bc4d88d5b661ab72f9d70c58d02ca8c27ad1f7
   GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
   GoogleToolboxForMac: 2b2596cbb7186865e98cadf2b1e262d851c2b168
+  JSQMessagesViewController: 39fed975e3c9f8eba7292071e29eeb541d105e66
+  JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
   Koloda: 5aee353329cd1605540f1215a4c1975481dc7a37
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
 
-PODFILE CHECKSUM: c12290e93ecd92c5311dc32d8c66351ba163db3b
+PODFILE CHECKSUM: 281108b26f2236d3d24c3f3f4d2b6eba343d73ae
 
 COCOAPODS: 1.1.1

@@ -154,7 +154,7 @@ class ViewController: UIViewController {
     }
     
     func logInClick(){
-        let vc = PersonalViewController()
+        let vc = MatchViewController()
         vc.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
         presentViewController(vc, animated: false, completion: nil)
         print("Clicked")
