@@ -45,7 +45,7 @@ class ViewController: UIViewController {
         view.addSubview(blurEffectView)
         
         logoImage.frame = CGRectMake(0, 0, 300, 300)
-        logoImage.center = CGPoint(x: self.view.center.x,y: 200)
+        logoImage.center = CGPoint(x: self.view.center.x,y: self.view.center.y*0.47)
         logoImage.image = UIImage(named: "logo")
         self.view.addSubview(logoImage)
         
@@ -58,7 +58,7 @@ class ViewController: UIViewController {
         
         
         choseButtonLeft.frame = CGRect(x: 0, y: 0, width: 150, height: 50)
-        choseButtonLeft.center = CGPoint(x: self.view.center.x-75, y: 370)
+        choseButtonLeft.center = CGPoint(x: self.view.center.x-75, y: self.view.center.y*0.95)
         //choseButtonLeft.layer.backgroundColor = UIColor.blackColor().CGColor
         let rectShape = CAShapeLayer()
         rectShape.frame = choseButtonLeft.bounds
@@ -73,7 +73,7 @@ class ViewController: UIViewController {
 
         
         choseButtonRight.frame = CGRect(x: 0, y: 0, width: 150, height: 50)
-        choseButtonRight.center = CGPoint(x: self.view.center.x+75, y: 370)
+        choseButtonRight.center = CGPoint(x: self.view.center.x+75, y: self.view.center.y*0.95)
         let rectShape2 = CAShapeLayer()
         rectShape2.frame = choseButtonRight.bounds
         rectShape2.path = UIBezierPath(roundedRect: rectShape2.bounds, byRoundingCorners: [UIRectCorner.BottomRight,UIRectCorner.TopRight], cornerRadii: CGSize(width: 25, height: 25)).CGPath
@@ -88,7 +88,7 @@ class ViewController: UIViewController {
         //username textfield
         
         logInUserName.frame = CGRectMake(0, 0, 300, 50)
-        logInUserName.center = CGPoint(x: self.view.center.x, y: 440)
+        logInUserName.center = CGPoint(x: self.view.center.x, y:self.view.center.y*1.2)
         //logInUserName.layer.borderColor = UIColor.whiteColor().CGColor
         //logInUserName.layer.borderWidth = 3
         //logInUserName.layer.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.65).CGColor
@@ -105,7 +105,7 @@ class ViewController: UIViewController {
         //password textfield
         
         logInPassword.frame = CGRectMake(0, 0, 300, 50)
-        logInPassword.center = CGPoint(x: self.view.center.x, y: 510)
+        logInPassword.center = CGPoint(x: self.view.center.x, y: self.view.center.y*1.4)
         //logInPassword.layer.borderColor = UIColor.whiteColor().CGColor
         //logInPassword.layer.borderWidth = 3
         //logInPassword.layer.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.65).CGColor
@@ -123,7 +123,7 @@ class ViewController: UIViewController {
         // sign up password again
         
         signUpPassword.frame = CGRectMake(0, 0, 300, 50)
-        signUpPassword.center = CGPoint(x: self.view.center.x, y: 580)
+        signUpPassword.center = CGPoint(x: self.view.center.x, y: self.view.center.y*1.6)
         signUpPassword.textColor = UIColor.getWustlGreenColor(UIColor())()
         signUpPassword.attributedPlaceholder = NSAttributedString(string: "Repeat Your Password", attributes: [NSForegroundColorAttributeName: UIColor.getWustlGreenColor(UIColor())()])
         signUpPassword.secureTextEntry = true
@@ -141,7 +141,7 @@ class ViewController: UIViewController {
         // Login button setting
         
         logInButton.frame = CGRectMake(0, 0, 300, 50)
-        logInButton.center = CGPoint(x: self.view.center.x, y: 650)
+        logInButton.center = CGPoint(x: self.view.center.x, y: self.view.center.y*1.8)
         logInButton.setTitle("LOG IN", forState: UIControlState.Normal)
         logInButton.titleLabel?.textColor = UIColor.whiteColor()
         logInButton.layer.backgroundColor = UIColor.getWustlGreenColor(UIColor())().CGColor
