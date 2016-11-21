@@ -34,6 +34,7 @@ class ViewController: UIViewController {
         backgroundPic.center = self.view.center
         backgroundPic.image = UIImage(named: "background1")
         backgroundPic.alpha = 0.4
+        
         self.view.addSubview(backgroundPic)
         
         let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.Light)
