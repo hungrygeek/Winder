@@ -20,11 +20,14 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
         // Do any additional setup after loading the view, typically from a nib.
         
         
+        
         let personalAvatar = UIImageView()
         personalAvatar.frame = CGRectMake(0, 0, 300, 300)
         personalAvatar.center = CGPoint(x: self.view.center.x, y: 180)
         personalAvatar.image = UIImage(named: "avatar1")
+        //personalAvatar.layer.backgroundColor = UIColor.whiteColor().CGColor
         personalAvatar.layer.cornerRadius = 150
+        personalAvatar.clipsToBounds = true
         self.view.addSubview(personalAvatar)
         
         let uniName = UILabel()
@@ -66,9 +69,21 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
         skillSet.dataSource = self
         skillSet.delegate = self
         self.view.addSubview(skillSet)
+        
+        view.backgroundColor = UIColor.whiteColor()
 
+        let recognizer: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(PersonalViewController.swipeLeft(_:)))
+        recognizer.direction = .Left
+        self.view.addGestureRecognizer(recognizer)
         
         
+    }
+    
+    func swipeLeft(recognizer: UIGestureRecognizer) {
+        let vc = MatchViewController()
+        vc.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
+        presentViewController(vc, animated: false, completion: nil)
+        print("Swiped")
     }
     
     

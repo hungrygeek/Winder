@@ -106,6 +106,26 @@ class MatchViewController:UIViewController{
         kolodaView2.center = CGPoint(x: view.frame.midX, y: view.frame.midY)
         view.addSubview(kolodaView2)
         view.backgroundColor = UIColor.whiteColor()
+        let recognizer1: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(MatchViewController.swipeLeft(_:)))
+        recognizer1.direction = .Left
+        self.view.addGestureRecognizer(recognizer1)
+        
+        let recognizer2: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(MatchViewController.swipeRight(_:)))
+        recognizer2.direction = .Right
+        self.view.addGestureRecognizer(recognizer2)
+    }
+    
+    func swipeLeft(recognizer1: UIGestureRecognizer) {
+        let vc = ChatViewController()
+        vc.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
+        presentViewController(vc, animated: false, completion: nil)
+        print("Swiped")
+    }
+    func swipeRight(recognizer2: UIGestureRecognizer) {
+        let vc = PersonalViewController()
+        vc.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
+        presentViewController(vc, animated: false, completion: nil)
+        print("Swiped")
     }
     
 }

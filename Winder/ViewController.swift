@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController,UIAlertViewDelegate {
     
 
     let backgroundPic = UIImageView()
@@ -22,6 +22,7 @@ class ViewController: UIViewController {
     let underlinePassword2 = UIView()
     let underlinePassword = UIView()
     let logInButton = UIButton()
+    let signUpButton = UIButton()
 
     
     override func viewDidLoad() {
@@ -34,6 +35,7 @@ class ViewController: UIViewController {
         backgroundPic.center = self.view.center
         backgroundPic.image = UIImage(named: "background1")
         backgroundPic.alpha = 0.4
+        
         self.view.addSubview(backgroundPic)
         
         let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.Light)
@@ -149,6 +151,16 @@ class ViewController: UIViewController {
         
         logInButton.addTarget(self, action: #selector(ViewController.logInClick), forControlEvents:UIControlEvents.TouchUpInside)
         
+        signUpButton.frame = CGRectMake(0, 0, 300, 50)
+        signUpButton.center = CGPoint(x: self.view.center.x, y: self.view.center.y*1.8)
+        signUpButton.setTitle("SIGN UP", forState: UIControlState.Normal)
+        signUpButton.titleLabel?.textColor = UIColor.whiteColor()
+        signUpButton.layer.backgroundColor = UIColor.getWustlGreenColor(UIColor())().CGColor
+        signUpButton.layer.cornerRadius = 25
+        self.view.addSubview(signUpButton)
+        signUpButton.hidden = true
+        
+        signUpButton.addTarget(self, action: #selector(ViewController.signUpClick), forControlEvents:UIControlEvents.TouchUpInside)
         
     }
     
@@ -156,7 +168,19 @@ class ViewController: UIViewController {
         let vc = MatchViewController()
         vc.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
         presentViewController(vc, animated: false, completion: nil)
-        print("Clicked")
+    }
+    
+    func signUpClick(){
+        if signUpPassword.text != logInPassword.text{
+            let alert = UIAlertController(title: "OOPS!", message: "You entered different password!", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Try Again", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+            print("Repeat Wrong Password")
+        }else{
+            let vc = PersonalViewController()
+            vc.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
+            presentViewController(vc, animated: true, completion: nil)
+        }
     }
     
     func choseLogIn(){
@@ -165,6 +189,7 @@ class ViewController: UIViewController {
         choseButtonLeft.layer.backgroundColor = UIColor.getWustlGreenColor(UIColor())().CGColor
         signUpPassword.hidden = true
         underlinePassword2.hidden = true
+        
     }
     
     func choseSignUp(){
@@ -173,11 +198,12 @@ class ViewController: UIViewController {
         choseButtonLeft.layer.backgroundColor = UIColor.grayColor().CGColor
         signUpPassword.hidden = false
         underlinePassword2.hidden = false
-        
-
+        signUpButton.hidden = false
+        logInButton.hidden = true
         
     }
-
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
