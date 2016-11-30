@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class ViewController: UIViewController,UIAlertViewDelegate {
     
@@ -164,23 +165,91 @@ class ViewController: UIViewController,UIAlertViewDelegate {
         
     }
     
+    func signOut(){
+        // [START signout]
+        let firebaseAuth = FIRAuth.auth()
+        do {
+            try firebaseAuth?.signOut()
+        } catch let signOutError as NSError {
+            print ("Error signing out: %@", signOutError)
+        }
+        // [END signout]
+    }
+    
     func logInClick(){
-        let vc = MatchViewController()
-        vc.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
-        presentViewController(vc, animated: false, completion: nil)
+        
+        signOut()
+        if let email = logInUserName.text != nil && logInUserName.text != "" ? logInUserName.text : "rokee.lv@gmail.com", pwd = logInPassword.text != nil && logInPassword.text != "" ? logInPassword.text : "111111" {
+            print("try to sign up with \(email) and \(pwd)")
+            FIRAuth.auth()?.signInWithEmail(email, password: pwd) {
+                (user, error) in
+                if let error = error {
+                    print("error? \(error.localizedDescription)")
+                    return
+                }
+                if FIRAuth.auth()?.currentUser != nil {
+                    print("user \(user?.uid)")
+                    print("display name \(FIRAuth.auth()?.currentUser?.displayName)")
+                    print("login in with \(FIRAuth.auth()?.currentUser?.email)")
+                } else {
+                    print("error.localizedDescription", error?.localizedDescription)
+                    print("error.localizedFailureReason", error?.localizedFailureReason)
+                }
+            }
+        } else {
+            print("something wrong")
+        }
+        
+        
+        
+        //transition to next view
+//        let vc = MatchViewController()
+//        vc.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
+//        presentViewController(vc, animated: false, completion: nil)
     }
     
     func signUpClick(){
-        if signUpPassword.text != logInPassword.text{
-            let alert = UIAlertController(title: "OOPS!", message: "You entered different password!", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Try Again", style: UIAlertActionStyle.Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
-            print("Repeat Wrong Password")
-        }else{
-            let vc = PersonalViewController()
-            vc.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
-            presentViewController(vc, animated: true, completion: nil)
+        
+        // [START signout]
+        let firebaseAuth = FIRAuth.auth()
+        do {
+            try firebaseAuth?.signOut()
+        } catch let signOutError as NSError {
+            print ("Error signing out: %@", signOutError)
         }
+        // [END signout]
+        
+        if let email = logInUserName.text, pwd = logInPassword.text where signUpPassword.text == logInPassword.text{
+            // [START create_user]
+            print("sign up with \(email) and \(pwd)")
+            FIRAuth.auth()?.createUserWithEmail(email, password: pwd) { (user, error) in
+                //edit something basic into DB
+                var ref: FIRDatabaseReference!
+                ref = FIRDatabase.database().reference()
+                if let user = user{
+                    ref.child("users/\(user.uid)/username").setValue("ya name")
+                    ref.child("users/\(user.uid)/school").setValue("ya school")
+                } else {
+                    print("something wrong when getting the user")
+                }
+                
+                
+            }
+            // [END create_user]
+
+        } else {
+            print("email/pass1/pass2 is wrong")
+        }
+//        if signUpPassword.text != logInPassword.text{
+//            let alert = UIAlertController(title: "OOPS!", message: "You entered different password!", preferredStyle: UIAlertControllerStyle.Alert)
+//            alert.addAction(UIAlertAction(title: "Try Again", style: UIAlertActionStyle.Default, handler: nil))
+//            self.presentViewController(alert, animated: true, completion: nil)
+//            print("Repeat Wrong Password")
+//        }else{
+//            let vc = PersonalViewController()
+//            vc.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
+//            presentViewController(vc, animated: true, completion: nil)
+//        }
     }
     
     func choseLogIn(){
