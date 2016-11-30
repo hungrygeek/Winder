@@ -9,7 +9,7 @@
 import UIKit
 import Koloda
 
-private var numberOfCards: UInt = 5
+var numberOfCards: UInt = 5
 
 class MatchViewController:UIViewController{
     
@@ -21,15 +21,15 @@ class MatchViewController:UIViewController{
         return kv
     }()
     
-    private var dataSource: Array<UIImage> = {
-        var array: Array<UIImage> = []
-        for index in 0..<numberOfCards {
-            array.append(UIImage(named: "round_\(index + 1)")!)
+    var dataSource: Array<UIView> = {
+        var array = Array<UIView>()
+        for index in 0...1{
+            array.append(PersonalInfo(w: 360, h: 640))
         }
-        
         return array
     }()
-
+    
+    
     var nameLabel:UILabel = {
         let label = UILabel()
         label.text = "Cat Wang"
@@ -113,7 +113,10 @@ class MatchViewController:UIViewController{
         let recognizer2: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(MatchViewController.swipeRight(_:)))
         recognizer2.direction = .Right
         self.view.addGestureRecognizer(recognizer2)
-    }
+        
+        
+        }
+    
     
     func swipeLeft(recognizer1: UIGestureRecognizer) {
         let vc = ChatViewController()
@@ -154,7 +157,7 @@ extension MatchViewController: KolodaViewDataSource {
     }
     
     func koloda(koloda: KolodaView, viewForCardAtIndex index: UInt) -> UIView {
-        return UIImageView(image: dataSource[Int(index)])
+        return dataSource[Int(index)]
     }
     
     func koloda(koloda: KolodaView, viewForCardOverlayAtIndex index: UInt) -> OverlayView? {

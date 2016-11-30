@@ -11,18 +11,18 @@ import UIKit
 class ViewController: UIViewController,UIAlertViewDelegate {
     
 
-    let backgroundPic = UIImageView()
-    let logoImage = UIImageView()
-    let choseButtonLeft = UIButton()
-    let choseButtonRight = UIButton()
-    let logInUserName = UITextField()
-    let underlineUsername = UIView()
-    let logInPassword = UITextField()
-    let signUpPassword = UITextField()
-    let underlinePassword2 = UIView()
-    let underlinePassword = UIView()
-    let logInButton = UIButton()
-    let signUpButton = UIButton()
+    private let backgroundPic = UIImageView()
+    private let logoImage = UIImageView()
+    private let choseButtonLeft = UIButton()
+    private let choseButtonRight = UIButton()
+    private let logInUserName = UITextField()
+    private let underlineUsername = UIView()
+    private let logInPassword = UITextField()
+    private let signUpPassword = UITextField()
+    private let underlinePassword2 = UIView()
+    private let underlinePassword = UIView()
+    private let logInButton = UIButton()
+    private let signUpButton = UIButton()
 
     
     override func viewDidLoad() {
