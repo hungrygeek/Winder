@@ -18,6 +18,10 @@ class ChatViewController: JSQMessagesViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print("in chat view", self.view.window?.rootViewController?.nibName)
+        
+        
         self.inputToolbar?.contentView?.leftBarButtonItem = nil
         
         

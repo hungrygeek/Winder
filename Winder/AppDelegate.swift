@@ -20,6 +20,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         FIRApp.configure()
+        if FIRAuth.auth()?.currentUser != nil{
+            print("DID login in appDelegate")
+            print(FIRAuth.auth()?.currentUser?.email)
+            let storyboard = UIStoryboard(name: "Second", bundle: nil)
+            let viewController = storyboard.instantiateViewControllerWithIdentifier("MatchView")
+            self.window?.rootViewController = viewController
+            self.window?.makeKeyAndVisible()
+            
+        } else {
+            print("did NOT login in appDelegate")
+        }
         return true
     }
 

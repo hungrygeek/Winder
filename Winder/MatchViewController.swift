@@ -8,6 +8,7 @@
 
 import UIKit
 import Koloda
+import Firebase
 
 private var numberOfCards: UInt = 5
 
@@ -49,7 +50,6 @@ class MatchViewController:UIViewController{
         label.frame = CGRect(x:0,y:0,width: 200,height: 50)
         return label
     }()
-
     var likeButton: UIButton = {
         let checkImg = UIImage(named:"check_mark")! as UIImage
         var button = UIButton()
@@ -75,14 +75,20 @@ class MatchViewController:UIViewController{
     }()
     
     override func viewDidAppear(animated: Bool) {
-        print("here")
-//        print(view.backgroundColor)
+        print("match view")
+        if FIRAuth.auth()?.currentUser != nil {
+            print("login success")
+            print("user \(FIRAuth.auth()?.currentUser?.uid)")
+            print("display name \(FIRAuth.auth()?.currentUser?.displayName)")
+            print("login in with \(FIRAuth.auth()?.currentUser?.email)")
+        }
 
     }
     override func viewDidLoad() {
         super.viewDidLoad()
 //        kolodaView.dataSource = self
 //        kolodaView.delegate = self
+        print("in match view", self.view.window?.rootViewController?.nibName)
         
         kolodaView2.dataSource = self
         kolodaView2.delegate = self
@@ -91,6 +97,7 @@ class MatchViewController:UIViewController{
         view.addSubview(likeButton)
         
         dislikeButton.center = CGPoint(x: likeButton.frame.width, y: view.frame.height-likeButton.frame.height)
+        dislikeButton.addTarget(self, action: #selector(ViewController.signOut), forControlEvents:UIControlEvents.TouchUpInside)
         view.addSubview(dislikeButton)
         
         
@@ -124,10 +131,21 @@ class MatchViewController:UIViewController{
     func swipeRight(recognizer2: UIGestureRecognizer) {
         let vc = PersonalViewController()
         vc.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
-        presentViewController(vc, animated: false, completion: nil)
+        presentViewController(vc, animated: true, completion: nil)
         print("Swiped")
     }
     
+    func signOut(){
+        print("sign out")
+        // [START signout]
+        let firebaseAuth = FIRAuth.auth()
+        do {
+            try firebaseAuth?.signOut()
+        } catch let signOutError as NSError {
+            print ("Error signing out: %@", signOutError)
+        }
+        // [END signout]
+    }
 }
 
 //MARK: KolodaViewDelegate
