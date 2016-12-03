@@ -17,14 +17,17 @@ class MatchViewController:UIViewController{
 //    @IBOutlet weak var kv: KolodaView!
     
     var kolodaView2: KolodaView = {
-        var kv: KolodaView = KolodaView(frame: CGRect(x:0,y: 0,width:100,height:100))
+        var kv: KolodaView = KolodaView(frame: CGRect(x:0,y: 0,width:250,height:250))
+        kv.countOfVisibleCards = 1
         return kv
     }()
     
     var dataSource: Array<UIView> = {
         var array = Array<UIView>()
         for index in 0...1{
-            array.append(PersonalInfo(w: 360, h: 640))
+            var userTemp = PersonalInfo(w: 270, h: 270)
+            array.append(userTemp)
+            userTemp.setAbilityBar([1,1,1,1])
         }
         return array
     }()
