@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("DID login in appDelegate")
             print(FIRAuth.auth()?.currentUser?.email)
             let storyboard = UIStoryboard(name: "Second", bundle: nil)
-            let viewController = storyboard.instantiateViewControllerWithIdentifier("MatchView")
+            let viewController = storyboard.instantiateViewControllerWithIdentifier("Second")
             self.window?.rootViewController = viewController
             self.window?.makeKeyAndVisible()
             
