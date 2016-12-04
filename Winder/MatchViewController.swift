@@ -54,17 +54,17 @@ class MatchViewController:UIViewController{
     }()
 
     var likeButton: UIButton = {
-        let checkImg = UIImage(named:"check_mark")! as UIImage
+        let checkImg = UIImage(named:"Thumb Up")! as UIImage
         var button = UIButton()
-        button.frame = CGRect(x: 0,y: 0,width: 100,height: 100)
+        button.frame = CGRect(x: 0,y: 0,width: 75,height: 75)
         button.setBackgroundImage(checkImg, forState: UIControlState.Normal)
         return button
     }()
     
     var dislikeButton: UIButton = {
-        let checkImg = UIImage(named:"cross_mark")! as UIImage
+        let checkImg = UIImage(named:"Thumbs Down")! as UIImage
         var button = UIButton()
-        button.frame = CGRect(x: 0,y: 0,width: 100,height: 100)
+        button.frame = CGRect(x: 0,y: 0,width: 75,height: 75)
         button.setBackgroundImage(checkImg, forState: UIControlState.Normal)
         return button
     }()
@@ -90,20 +90,20 @@ class MatchViewController:UIViewController{
         kolodaView2.dataSource = self
         kolodaView2.delegate = self
         
-        likeButton.center = CGPoint(x: view.frame.width-likeButton.frame.width, y: view.frame.height-likeButton.frame.height)
+        likeButton.center = CGPoint(x: view.frame.width-likeButton.frame.width-10, y: view.frame.height-likeButton.frame.height-40)
         view.addSubview(likeButton)
         
-        dislikeButton.center = CGPoint(x: likeButton.frame.width, y: view.frame.height-likeButton.frame.height)
+        dislikeButton.center = CGPoint(x: likeButton.frame.width+10, y: view.frame.height-likeButton.frame.height-20)
         view.addSubview(dislikeButton)
         
         
         personButton.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height)
         view.addSubview(personButton)
         
-        nameLabel.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height*2)
+        nameLabel.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height*2.4)
         view.addSubview(nameLabel)
         
-        schoolLabel.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height*1.618)
+        schoolLabel.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height*2.0)
         view.addSubview(schoolLabel)
         
         kolodaView2.center = CGPoint(x: view.frame.midX, y: view.frame.midY)
