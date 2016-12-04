@@ -214,16 +214,17 @@ class ViewController: UIViewController,UIAlertViewDelegate {
                     print("error.localizedFailureReason", error?.localizedFailureReason)
                 }
             }
+            let vc = MatchViewController()
+            vc.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
+            presentViewController(vc, animated: false, completion: nil)
         } else {
             print("something wrong")
         }
         
         
         
-        //transition to next view
-//        let vc = MatchViewController()
-//        vc.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
-//        presentViewController(vc, animated: false, completion: nil)
+        // transition to next view
+
     }
     
     func signUpClick(){
