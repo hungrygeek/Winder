@@ -14,7 +14,12 @@ class PersonalInfo:UIView {
     var ability = Array<Int>()
     var layerArray = Array<CAShapeLayer>()
     
-    init(w:CGFloat,h:CGFloat){
+    //hardcoded info
+    var uid = "KHTQ5FSmALgQD1aeoUMnpnBQxur2"
+    var id: Int
+    
+    init(w:CGFloat,h:CGFloat, id:Int){
+        self.id = id
         super.init(frame:CGRect(x: 0, y: 0, width: w, height: h))
         image = UIImageView(image: UIImage(named: "avatar1")!)
         image.frame = CGRectMake(0, 0, 240, 240)
@@ -25,10 +30,15 @@ class PersonalInfo:UIView {
         ability = [1,1,1,1]
         self.addSubview(image)
         self.backgroundColor = UIColor.whiteColor()
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    internal func printInfo(){
+        print(id)
     }
     
     func setAbilityBar(ability:Array<Int>){
