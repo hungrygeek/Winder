@@ -133,8 +133,13 @@ class MatchViewController:UIViewController{
     }
     func swipeRight(recognizer2: UIGestureRecognizer) {
         let vc = PersonalViewController()
+<<<<<<< HEAD
+        vc.modalTransitionStyle = UIModalTransitionStyle.PartialCurl
+        presentViewController(vc, animated: false, completion: nil)
+=======
         vc.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
         presentViewController(vc, animated: true, completion: nil)
+>>>>>>> 8b03f55dbf0bc3c1a6063292fefc56e632f58daa
         print("Swiped")
     }
     

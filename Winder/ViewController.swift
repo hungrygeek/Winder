@@ -12,26 +12,34 @@ import Firebase
 class ViewController: UIViewController,UIAlertViewDelegate {
     
 
-    let backgroundPic = UIImageView()
-    let logoImage = UIImageView()
-    let choseButtonLeft = UIButton()
-    let choseButtonRight = UIButton()
-    let logInUserName = UITextField()
-    let underlineUsername = UIView()
-    let logInPassword = UITextField()
-    let signUpPassword = UITextField()
-    let underlinePassword2 = UIView()
-    let underlinePassword = UIView()
-    let logInButton = UIButton()
-    let signUpButton = UIButton()
+    private let backgroundPic = UIImageView()
+    private let logoImage = UIImageView()
+    private let choseButtonLeft = UIButton()
+    private let choseButtonRight = UIButton()
+    private let logInUserName = UITextField()
+    private let underlineUsername = UIView()
+    private let logInPassword = UITextField()
+    private let signUpPassword = UITextField()
+    private let underlinePassword2 = UIView()
+    private let underlinePassword = UIView()
+    private let logInButton = UIButton()
+    private let signUpButton = UIButton()
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("in ViewController")
         // Do any additional setup after loading the view, typically from a nib.
-        
         //background setting
-        
+        if FIRAuth.auth()?.currentUser != nil{
+            print("DID login in viewDidLoad")
+            goToMatchView()
+//            let vc = PersonalViewController()
+//            vc.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
+//            presentViewController(vc, animated: true, completion: nil)
+        } else {
+            print("did NOT login in viewDidLoad")
+        }
         backgroundPic.frame = self.view.frame
         backgroundPic.center = self.view.center
         backgroundPic.image = UIImage(named: "background1")
@@ -97,6 +105,7 @@ class ViewController: UIViewController,UIAlertViewDelegate {
         //logInUserName.layer.cornerRadius = 10
         logInUserName.textColor = UIColor.getWustlGreenColor(UIColor())()
         logInUserName.attributedPlaceholder = NSAttributedString(string: "Username", attributes: [NSForegroundColorAttributeName: UIColor.getWustlGreenColor(UIColor())()])
+        logInUserName.text = "rokee.lv@gmail.com"
         self.view.addSubview(logInUserName)
         
         underlineUsername.frame = CGRectMake(0, 0, 300, 1)
@@ -115,6 +124,7 @@ class ViewController: UIViewController,UIAlertViewDelegate {
         logInPassword.textColor = UIColor.getWustlGreenColor(UIColor())()
         logInPassword.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSForegroundColorAttributeName: UIColor.getWustlGreenColor(UIColor())()])
         logInPassword.secureTextEntry = true
+        logInPassword.text = "111111"
         self.view.addSubview(logInPassword)
         
         underlinePassword.frame = CGRectMake(0, 0, 300, 1)
@@ -164,8 +174,13 @@ class ViewController: UIViewController,UIAlertViewDelegate {
         signUpButton.addTarget(self, action: #selector(ViewController.signUpClick), forControlEvents:UIControlEvents.TouchUpInside)
         
     }
-    
+    func goToMatchView(){
+        let vc = PersonalViewController()
+        vc.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
+        presentViewController(vc, animated: true, completion: nil)
+    }
     func signOut(){
+        print("sign out")
         // [START signout]
         let firebaseAuth = FIRAuth.auth()
         do {
@@ -178,19 +193,22 @@ class ViewController: UIViewController,UIAlertViewDelegate {
     
     func logInClick(){
         
-        signOut()
-        if let email = logInUserName.text != nil && logInUserName.text != "" ? logInUserName.text : "rokee.lv@gmail.com", pwd = logInPassword.text != nil && logInPassword.text != "" ? logInPassword.text : "111111" {
+//        signOut()
+//        if let email = logInUserName.text != nil && logInUserName.text != "" ? logInUserName.text : "rokee.lv@gmail.com", pwd = logInPassword.text != nil && logInPassword.text != "" ? logInPassword.text : "111111" {
+        if let email = logInUserName.text, pwd = logInPassword.text{
             print("try to sign up with \(email) and \(pwd)")
             FIRAuth.auth()?.signInWithEmail(email, password: pwd) {
                 (user, error) in
                 if let error = error {
-                    print("error? \(error.localizedDescription)")
+                    self.popUpAlert(error)
                     return
                 }
                 if FIRAuth.auth()?.currentUser != nil {
+                    print("login success")
                     print("user \(user?.uid)")
                     print("display name \(FIRAuth.auth()?.currentUser?.displayName)")
                     print("login in with \(FIRAuth.auth()?.currentUser?.email)")
+                    self.goToMatchView()
                 } else {
                     print("error.localizedDescription", error?.localizedDescription)
                     print("error.localizedFailureReason", error?.localizedFailureReason)
@@ -223,7 +241,7 @@ class ViewController: UIViewController,UIAlertViewDelegate {
         if let email = logInUserName.text, pwd = logInPassword.text where signUpPassword.text == logInPassword.text{
             // [START create_user]
             print("sign up with \(email) and \(pwd)")
-            FIRAuth.auth()?.createUserWithEmail(email, password: pwd) { (user, error) in
+            firebaseAuth?.createUserWithEmail(email, password: pwd) { (user, error) in
                 //edit something basic into DB
                 var ref: FIRDatabaseReference!
                 ref = FIRDatabase.database().reference()
@@ -231,7 +249,8 @@ class ViewController: UIViewController,UIAlertViewDelegate {
                     ref.child("users/\(user.uid)/username").setValue("ya name")
                     ref.child("users/\(user.uid)/school").setValue("ya school")
                 } else {
-                    print("something wrong when getting the user")
+                    self.popUpAlert(error!)
+                    print("error \(error?.localizedDescription)")
                 }
                 
                 
@@ -259,10 +278,13 @@ class ViewController: UIViewController,UIAlertViewDelegate {
         choseButtonLeft.layer.backgroundColor = UIColor.getWustlGreenColor(UIColor())().CGColor
         signUpPassword.hidden = true
         underlinePassword2.hidden = true
-        
+        logInButton.hidden = false
     }
     
     func choseSignUp(){
+//        signOut()
+//        let firebaseAuth = FIRAuth.auth()
+        print("is user logged in?", FIRAuth.auth()?.currentUser?.uid)
         print("sign up mode chosen")
         choseButtonRight.layer.backgroundColor = UIColor.getWustlGreenColor(UIColor())().CGColor
         choseButtonLeft.layer.backgroundColor = UIColor.grayColor().CGColor
@@ -273,7 +295,20 @@ class ViewController: UIViewController,UIAlertViewDelegate {
         
     }
     
-    
+    func popUpAlert(error: NSError){
+        print("error? \(error.localizedDescription)")
+        let refreshAlert = UIAlertController(title: error.localizedDescription, message: "", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        refreshAlert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: { (action: UIAlertAction!) in
+        }))
+        //
+        //                    refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action: UIAlertAction!) in
+        //                        print("Handle Cancel Logic here")
+        //                    }))
+        
+        self.presentViewController(refreshAlert, animated: true, completion: nil)
+
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

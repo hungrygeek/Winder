@@ -25,6 +25,7 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+<<<<<<< HEAD
         
         var ref: FIRDatabaseReference!
         ref = FIRDatabase.database().reference()
@@ -33,6 +34,16 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
             print(snapshot.value![userID!]!!["username"]);
         })
         
+=======
+        print("in personal view", self.view.window?.rootViewController?.nibName)
+        print("match view")
+        if FIRAuth.auth()?.currentUser != nil {
+            print("login success")
+            print("user \(FIRAuth.auth()?.currentUser?.uid)")
+            print("display name \(FIRAuth.auth()?.currentUser?.displayName)")
+            print("login in with \(FIRAuth.auth()?.currentUser?.email)")
+        }
+>>>>>>> 8b03f55dbf0bc3c1a6063292fefc56e632f58daa
         let personalAvatar = UIImageView()
         personalAvatar.frame = CGRectMake(0, 0, 300, 300)
         personalAvatar.center = CGPoint(x: self.view.center.x, y: 180)

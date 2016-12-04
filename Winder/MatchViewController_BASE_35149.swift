@@ -8,7 +8,6 @@
 
 import UIKit
 import Koloda
-import Firebase
 
 private var numberOfCards: UInt = 5
 
@@ -18,18 +17,16 @@ class MatchViewController:UIViewController{
 //    @IBOutlet weak var kv: KolodaView!
     
     var kolodaView2: KolodaView = {
-        var kv: KolodaView = KolodaView(frame: CGRect(x:0,y: 0,width:250,height:250))
-        kv.countOfVisibleCards = 1
+        var kv: KolodaView = KolodaView(frame: CGRect(x:0,y: 0,width:100,height:100))
         return kv
     }()
     
-    var dataSource: Array<UIView> = {
-        var array = Array<UIView>()
-        for index in 0...1{
-            var userTemp = PersonalInfo(w: 270, h: 270)
-            array.append(userTemp)
-            userTemp.setAbilityBar([1,1,1,1])
+    private var dataSource: Array<UIImage> = {
+        var array: Array<UIImage> = []
+        for index in 0..<numberOfCards {
+            array.append(UIImage(named: "round_\(index + 1)")!)
         }
+        
         return array
     }()
 
@@ -52,18 +49,19 @@ class MatchViewController:UIViewController{
         label.frame = CGRect(x:0,y:0,width: 200,height: 50)
         return label
     }()
+
     var likeButton: UIButton = {
-        let checkImg = UIImage(named:"Thumb Up")! as UIImage
+        let checkImg = UIImage(named:"check_mark")! as UIImage
         var button = UIButton()
-        button.frame = CGRect(x: 0,y: 0,width: 75,height: 75)
+        button.frame = CGRect(x: 0,y: 0,width: 100,height: 100)
         button.setBackgroundImage(checkImg, forState: UIControlState.Normal)
         return button
     }()
     
     var dislikeButton: UIButton = {
-        let checkImg = UIImage(named:"Thumbs Down")! as UIImage
+        let checkImg = UIImage(named:"cross_mark")! as UIImage
         var button = UIButton()
-        button.frame = CGRect(x: 0,y: 0,width: 75,height: 75)
+        button.frame = CGRect(x: 0,y: 0,width: 100,height: 100)
         button.setBackgroundImage(checkImg, forState: UIControlState.Normal)
         return button
     }()
@@ -77,39 +75,32 @@ class MatchViewController:UIViewController{
     }()
     
     override func viewDidAppear(animated: Bool) {
-        print("match view")
-        if FIRAuth.auth()?.currentUser != nil {
-            print("login success")
-            print("user \(FIRAuth.auth()?.currentUser?.uid)")
-            print("display name \(FIRAuth.auth()?.currentUser?.displayName)")
-            print("login in with \(FIRAuth.auth()?.currentUser?.email)")
-        }
+        print("here")
+//        print(view.backgroundColor)
 
     }
     override func viewDidLoad() {
         super.viewDidLoad()
 //        kolodaView.dataSource = self
 //        kolodaView.delegate = self
-        print("in match view", self.view.window?.rootViewController?.nibName)
         
         kolodaView2.dataSource = self
         kolodaView2.delegate = self
         
-        likeButton.center = CGPoint(x: view.frame.width-likeButton.frame.width-10, y: view.frame.height-likeButton.frame.height-40)
+        likeButton.center = CGPoint(x: view.frame.width-likeButton.frame.width, y: view.frame.height-likeButton.frame.height)
         view.addSubview(likeButton)
         
-        dislikeButton.addTarget(self, action: #selector(ViewController.signOut), forControlEvents:UIControlEvents.TouchUpInside)
-        dislikeButton.center = CGPoint(x: likeButton.frame.width+10, y: view.frame.height-likeButton.frame.height-20)
+        dislikeButton.center = CGPoint(x: likeButton.frame.width, y: view.frame.height-likeButton.frame.height)
         view.addSubview(dislikeButton)
         
         
         personButton.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height)
         view.addSubview(personButton)
         
-        nameLabel.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height*2.4)
+        nameLabel.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height*2)
         view.addSubview(nameLabel)
         
-        schoolLabel.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height*2.0)
+        schoolLabel.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height*1.618)
         view.addSubview(schoolLabel)
         
         kolodaView2.center = CGPoint(x: view.frame.midX, y: view.frame.midY)
@@ -125,30 +116,18 @@ class MatchViewController:UIViewController{
     }
     
     func swipeLeft(recognizer1: UIGestureRecognizer) {
-        let vc = MessageViewController()
-        let navController = UINavigationController(rootViewController: vc)
-        vc.modalTransitionStyle = UIModalTransitionStyle.PartialCurl
-        presentViewController(navController, animated: false, completion: nil)
+        let vc = ChatViewController()
+        vc.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
+        presentViewController(vc, animated: false, completion: nil)
         print("Swiped")
     }
     func swipeRight(recognizer2: UIGestureRecognizer) {
         let vc = PersonalViewController()
         vc.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
-        presentViewController(vc, animated: true, completion: nil)
+        presentViewController(vc, animated: false, completion: nil)
         print("Swiped")
     }
     
-    func signOut(){
-        print("sign out")
-        // [START signout]
-        let firebaseAuth = FIRAuth.auth()
-        do {
-            try firebaseAuth?.signOut()
-        } catch let signOutError as NSError {
-            print ("Error signing out: %@", signOutError)
-        }
-        // [END signout]
-    }
 }
 
 //MARK: KolodaViewDelegate
@@ -175,7 +154,7 @@ extension MatchViewController: KolodaViewDataSource {
     }
     
     func koloda(koloda: KolodaView, viewForCardAtIndex index: UInt) -> UIView {
-        return dataSource[Int(index)]
+        return UIImageView(image: dataSource[Int(index)])
     }
     
     func koloda(koloda: KolodaView, viewForCardOverlayAtIndex index: UInt) -> OverlayView? {

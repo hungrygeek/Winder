@@ -125,10 +125,9 @@ class MatchViewController:UIViewController{
     }
     
     func swipeLeft(recognizer1: UIGestureRecognizer) {
-        let vc = MessageViewController()
-        let navController = UINavigationController(rootViewController: vc)
-        vc.modalTransitionStyle = UIModalTransitionStyle.PartialCurl
-        presentViewController(navController, animated: false, completion: nil)
+        let vc = ChatViewController()
+        vc.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
+        presentViewController(vc, animated: false, completion: nil)
         print("Swiped")
     }
     func swipeRight(recognizer2: UIGestureRecognizer) {
