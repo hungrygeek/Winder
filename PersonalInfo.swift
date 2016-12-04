@@ -46,7 +46,7 @@ class PersonalInfo:UIView {
             layer.lineWidth = 15
             layer.lineCap = kCALineCapRound
             let startAngle = CGFloat(M_PI_2*3)
-            let endAngle = CGFloat(M_PI_2*3 + M_PI/Double(index+1))
+            let endAngle = CGFloat(M_PI_2*3 + M_PI*1.75)
             layer.path = UIBezierPath(arcCenter:centerPoint, radius: CGFloat(index+8)*15, startAngle:startAngle, endAngle:endAngle, clockwise: true).CGPath
             let animation = CABasicAnimation(keyPath: "strokeEnd")
             animation.delegate = self

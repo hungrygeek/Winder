@@ -77,15 +77,33 @@ class MatchViewController:UIViewController{
         return button
     }()
     
+    var backgroundPic = UIImageView()
+    let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.Light)
+
+    
     override func viewDidAppear(animated: Bool) {
         print("here")
 //        print(view.backgroundColor)
+       
 
     }
     override func viewDidLoad() {
         super.viewDidLoad()
 //        kolodaView.dataSource = self
 //        kolodaView.delegate = self
+        
+        backgroundPic.frame = self.view.frame
+        backgroundPic.image = UIImage(named: "avatar1")
+        backgroundPic.clipsToBounds = true
+        backgroundPic.center = self.view.center
+        backgroundPic.alpha = 0.4
+        view.addSubview(backgroundPic)
+        
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        blurEffectView.alpha = 0.7
+        view.addSubview(blurEffectView)
         
         kolodaView2.dataSource = self
         kolodaView2.delegate = self
@@ -119,6 +137,8 @@ class MatchViewController:UIViewController{
         
         
         }
+    
+    
     
     
     func swipeLeft(recognizer1: UIGestureRecognizer) {
