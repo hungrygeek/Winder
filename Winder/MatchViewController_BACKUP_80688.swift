@@ -26,8 +26,9 @@ class MatchViewController:UIViewController{
     var dataSource: Array<UIView> = {
         var array = Array<UIView>()
         for index in 0...1{
-            var userTemp = PersonalInfo(w: 270, h: 270, userImage: UIImageView(image:UIImage(named: "avatar\(index+1)")))
+            var userTemp = PersonalInfo(w: 270, h: 270)
             array.append(userTemp)
+            userTemp.setAbilityBar([1,1,1,1])
         }
         return array
     }()
@@ -80,6 +81,11 @@ class MatchViewController:UIViewController{
 
     
     override func viewDidAppear(animated: Bool) {
+<<<<<<< HEAD
+        print("here")
+//        print(view.backgroundColor)
+       
+=======
         print("match view")
         if FIRAuth.auth()?.currentUser != nil {
             print("login success")
@@ -87,6 +93,7 @@ class MatchViewController:UIViewController{
             print("display name \(FIRAuth.auth()?.currentUser?.displayName)")
             print("login in with \(FIRAuth.auth()?.currentUser?.email)")
         }
+>>>>>>> 8b03f55dbf0bc3c1a6063292fefc56e632f58daa
 
     }
     override func viewDidLoad() {
@@ -140,6 +147,8 @@ class MatchViewController:UIViewController{
         self.view.addGestureRecognizer(recognizer2)
     }
     
+    
+    
     func swipeLeft(recognizer1: UIGestureRecognizer) {
         let vc = ChatViewController()
         vc.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
@@ -190,9 +199,6 @@ extension MatchViewController: KolodaViewDataSource {
     }
     
     func koloda(koloda: KolodaView, viewForCardAtIndex index: UInt) -> UIView {
-        
-        let userTemp = dataSource[0] as! PersonalInfo
-        userTemp.setAbilityBar([0.5*Double(index+1),0.5*Double(index+1),0.5*Double(index+1),0.5*Double(index+1)])
         return dataSource[Int(index)]
     }
     
@@ -203,14 +209,4 @@ extension MatchViewController: KolodaViewDataSource {
         print(OverlayView())
         return ov
     }
-    
-    func koloda(koloda: KolodaView, didShowCardAtIndex index: UInt){
-        
-            let userTemp = dataSource[Int(index)] as! PersonalInfo
-            userTemp.setAbilityBar([0.5*Double(index+1),0.5*Double(index+1),0.5*Double(index+1),0.5*Double(index+1)])
-    }
-//    
-//    func kolodaShouldApplyAppearAnimation(koloda: KolodaView) -> Bool {
-//        return true
-//    }
 }

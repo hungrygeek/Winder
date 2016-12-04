@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Firebase
 
 class PersonalViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -19,8 +20,14 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        
-        
+        print("in personal view", self.view.window?.rootViewController?.nibName)
+        print("match view")
+        if FIRAuth.auth()?.currentUser != nil {
+            print("login success")
+            print("user \(FIRAuth.auth()?.currentUser?.uid)")
+            print("display name \(FIRAuth.auth()?.currentUser?.displayName)")
+            print("login in with \(FIRAuth.auth()?.currentUser?.email)")
+        }
         let personalAvatar = UIImageView()
         personalAvatar.frame = CGRectMake(0, 0, 300, 300)
         personalAvatar.center = CGPoint(x: self.view.center.x, y: 180)

@@ -22,6 +22,7 @@
 		BA948D4C1DE24FB3001AF134 /* OverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA948D4A1DE24FB3001AF134 /* OverlayView.xib */; };
 		BA948D4E1DE2502A001AF134 /* CustomOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA948D4D1DE2502A001AF134 /* CustomOverlayView.swift */; };
 		BABCA0C11DE2262200DA40DA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BABCA0C01DE2262200DA40DA /* GoogleService-Info.plist */; };
+		BAEECD9F1DF2372700868C8B /* Second.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BAEECD9E1DF2372700868C8B /* Second.storyboard */; };
 		E002DB401DE690490098A74B /* PersonalInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E002DB3F1DE690490098A74B /* PersonalInfo.swift */; };
 		E0178F871DD7D68C008FBE1B /* background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E0178F851DD7D68B008FBE1B /* background.jpg */; };
 		E0178F881DD7D68C008FBE1B /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = E0178F861DD7D68C008FBE1B /* logo.png */; };
@@ -40,7 +41,6 @@
 		83AF57FB1DD62BBD00C63709 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		83AF57FE1DD62BBD00C63709 /* Winder.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Winder.xcdatamodel; sourceTree = "<group>"; };
 		83AF58001DD62BBD00C63709 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		83AF58031DD62BBD00C63709 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		83AF58051DD62BBD00C63709 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		83B716AF1DE2573F0083B24D /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		83B716B01DE2573F0083B24D /* Conversation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
@@ -50,6 +50,7 @@
 		BA948D4D1DE2502A001AF134 /* CustomOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomOverlayView.swift; sourceTree = "<group>"; };
 		BABCA0C01DE2262200DA40DA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E002DB3F1DE690490098A74B /* PersonalInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PersonalInfo.swift; path = ../PersonalInfo.swift; sourceTree = "<group>"; };
+		BAEECD9E1DF2372700868C8B /* Second.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Second.storyboard; sourceTree = "<group>"; };
 		E0178F851DD7D68B008FBE1B /* background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = background.jpg; sourceTree = SOURCE_ROOT; };
 		E0178F861DD7D68C008FBE1B /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = SOURCE_ROOT; };
 		E0178F891DD7D7E2008FBE1B /* CustomColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomColor.swift; sourceTree = "<group>"; };
@@ -111,11 +112,11 @@
 				E0178F891DD7D7E2008FBE1B /* CustomColor.swift */,
 				E002DB3F1DE690490098A74B /* PersonalInfo.swift */,
 				BA3E389F1DD7FC7500BD373A /* MatchViewController.swift */,
+				831840661DD7E52300FF809E /* personalViewController.swift */,
 				83AF57FA1DD62BBD00C63709 /* Main.storyboard */,
 				83AF58001DD62BBD00C63709 /* Assets.xcassets */,
-				83AF58021DD62BBD00C63709 /* LaunchScreen.storyboard */,
 				83AF58051DD62BBD00C63709 /* Info.plist */,
-				831840661DD7E52300FF809E /* personalViewController.swift */,
+				E0178F891DD7D7E2008FBE1B /* CustomColor.swift */,
 				83AF57FD1DD62BBD00C63709 /* Winder.xcdatamodeld */,
 				E0178F851DD7D68B008FBE1B /* background.jpg */,
 				E0178F8B1DD9317C008FBE1B /* background1.png */,
@@ -126,6 +127,7 @@
 				83B716AF1DE2573F0083B24D /* ChatViewController.swift */,
 				83B716B01DE2573F0083B24D /* Conversation.swift */,
 				83B716B11DE2573F0083B24D /* DemoConversation.swift */,
+				BAEECD9E1DF2372700868C8B /* Second.storyboard */,
 			);
 			path = Winder;
 			sourceTree = "<group>";
@@ -192,11 +194,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				83AF58041DD62BBD00C63709 /* LaunchScreen.storyboard in Resources */,
 				E0178F8C1DD9317C008FBE1B /* background1.png in Resources */,
 				E0178F881DD7D68C008FBE1B /* logo.png in Resources */,
 				E0178F871DD7D68C008FBE1B /* background.jpg in Resources */,
 				83AF58011DD62BBD00C63709 /* Assets.xcassets in Resources */,
+				BAEECD9F1DF2372700868C8B /* Second.storyboard in Resources */,
 				BA948D4C1DE24FB3001AF134 /* OverlayView.xib in Resources */,
 				83AF57FC1DD62BBD00C63709 /* Main.storyboard in Resources */,
 				BABCA0C11DE2262200DA40DA /* GoogleService-Info.plist in Resources */,
@@ -281,14 +283,6 @@
 				83AF57FB1DD62BBD00C63709 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		83AF58021DD62BBD00C63709 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				83AF58031DD62BBD00C63709 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 		BA948D4A1DE24FB3001AF134 /* OverlayView.xib */ = {

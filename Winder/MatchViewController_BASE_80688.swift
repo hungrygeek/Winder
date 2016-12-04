@@ -8,9 +8,8 @@
 
 import UIKit
 import Koloda
-import Firebase
 
-private var numberOfCards: UInt = 5
+var numberOfCards: UInt = 5
 
 class MatchViewController:UIViewController{
     
@@ -26,12 +25,14 @@ class MatchViewController:UIViewController{
     var dataSource: Array<UIView> = {
         var array = Array<UIView>()
         for index in 0...1{
-            var userTemp = PersonalInfo(w: 270, h: 270, userImage: UIImageView(image:UIImage(named: "avatar\(index+1)")))
+            var userTemp = PersonalInfo(w: 270, h: 270)
             array.append(userTemp)
+            userTemp.setAbilityBar([1,1,1,1])
         }
         return array
     }()
-
+    
+    
     var nameLabel:UILabel = {
         let label = UILabel()
         label.text = "Cat Wang"
@@ -51,6 +52,7 @@ class MatchViewController:UIViewController{
         label.frame = CGRect(x:0,y:0,width: 200,height: 50)
         return label
     }()
+
     var likeButton: UIButton = {
         let checkImg = UIImage(named:"Thumb Up")! as UIImage
         var button = UIButton()
@@ -75,38 +77,15 @@ class MatchViewController:UIViewController{
         return button
     }()
     
-    var backgroundPic = UIImageView()
-    let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.Light)
-
-    
     override func viewDidAppear(animated: Bool) {
-        print("match view")
-        if FIRAuth.auth()?.currentUser != nil {
-            print("login success")
-            print("user \(FIRAuth.auth()?.currentUser?.uid)")
-            print("display name \(FIRAuth.auth()?.currentUser?.displayName)")
-            print("login in with \(FIRAuth.auth()?.currentUser?.email)")
-        }
+        print("here")
+//        print(view.backgroundColor)
 
     }
     override func viewDidLoad() {
         super.viewDidLoad()
 //        kolodaView.dataSource = self
 //        kolodaView.delegate = self
-        print("in match view", self.view.window?.rootViewController?.nibName)
-        
-        backgroundPic.frame = self.view.frame
-        backgroundPic.image = UIImage(named: "avatar1")
-        backgroundPic.clipsToBounds = true
-        backgroundPic.center = self.view.center
-        backgroundPic.alpha = 0.4
-        view.addSubview(backgroundPic)
-        
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = view.bounds
-        blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-        blurEffectView.alpha = 0.7
-        view.addSubview(blurEffectView)
         
         kolodaView2.dataSource = self
         kolodaView2.delegate = self
@@ -114,7 +93,6 @@ class MatchViewController:UIViewController{
         likeButton.center = CGPoint(x: view.frame.width-likeButton.frame.width-10, y: view.frame.height-likeButton.frame.height-40)
         view.addSubview(likeButton)
         
-        dislikeButton.addTarget(self, action: #selector(ViewController.signOut), forControlEvents:UIControlEvents.TouchUpInside)
         dislikeButton.center = CGPoint(x: likeButton.frame.width+10, y: view.frame.height-likeButton.frame.height-20)
         view.addSubview(dislikeButton)
         
@@ -138,7 +116,10 @@ class MatchViewController:UIViewController{
         let recognizer2: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(MatchViewController.swipeRight(_:)))
         recognizer2.direction = .Right
         self.view.addGestureRecognizer(recognizer2)
-    }
+        
+        
+        }
+    
     
     func swipeLeft(recognizer1: UIGestureRecognizer) {
         let vc = ChatViewController()
@@ -149,21 +130,10 @@ class MatchViewController:UIViewController{
     func swipeRight(recognizer2: UIGestureRecognizer) {
         let vc = PersonalViewController()
         vc.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
-        presentViewController(vc, animated: true, completion: nil)
+        presentViewController(vc, animated: false, completion: nil)
         print("Swiped")
     }
     
-    func signOut(){
-        print("sign out")
-        // [START signout]
-        let firebaseAuth = FIRAuth.auth()
-        do {
-            try firebaseAuth?.signOut()
-        } catch let signOutError as NSError {
-            print ("Error signing out: %@", signOutError)
-        }
-        // [END signout]
-    }
 }
 
 //MARK: KolodaViewDelegate
@@ -190,9 +160,6 @@ extension MatchViewController: KolodaViewDataSource {
     }
     
     func koloda(koloda: KolodaView, viewForCardAtIndex index: UInt) -> UIView {
-        
-        let userTemp = dataSource[0] as! PersonalInfo
-        userTemp.setAbilityBar([0.5*Double(index+1),0.5*Double(index+1),0.5*Double(index+1),0.5*Double(index+1)])
         return dataSource[Int(index)]
     }
     
@@ -203,14 +170,4 @@ extension MatchViewController: KolodaViewDataSource {
         print(OverlayView())
         return ov
     }
-    
-    func koloda(koloda: KolodaView, didShowCardAtIndex index: UInt){
-        
-            let userTemp = dataSource[Int(index)] as! PersonalInfo
-            userTemp.setAbilityBar([0.5*Double(index+1),0.5*Double(index+1),0.5*Double(index+1),0.5*Double(index+1)])
-    }
-//    
-//    func kolodaShouldApplyAppearAnimation(koloda: KolodaView) -> Bool {
-//        return true
-//    }
 }

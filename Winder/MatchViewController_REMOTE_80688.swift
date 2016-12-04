@@ -26,8 +26,9 @@ class MatchViewController:UIViewController{
     var dataSource: Array<UIView> = {
         var array = Array<UIView>()
         for index in 0...1{
-            var userTemp = PersonalInfo(w: 270, h: 270, userImage: UIImageView(image:UIImage(named: "avatar\(index+1)")))
+            var userTemp = PersonalInfo(w: 270, h: 270)
             array.append(userTemp)
+            userTemp.setAbilityBar([1,1,1,1])
         }
         return array
     }()
@@ -75,10 +76,6 @@ class MatchViewController:UIViewController{
         return button
     }()
     
-    var backgroundPic = UIImageView()
-    let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.Light)
-
-    
     override func viewDidAppear(animated: Bool) {
         print("match view")
         if FIRAuth.auth()?.currentUser != nil {
@@ -94,19 +91,6 @@ class MatchViewController:UIViewController{
 //        kolodaView.dataSource = self
 //        kolodaView.delegate = self
         print("in match view", self.view.window?.rootViewController?.nibName)
-        
-        backgroundPic.frame = self.view.frame
-        backgroundPic.image = UIImage(named: "avatar1")
-        backgroundPic.clipsToBounds = true
-        backgroundPic.center = self.view.center
-        backgroundPic.alpha = 0.4
-        view.addSubview(backgroundPic)
-        
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = view.bounds
-        blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-        blurEffectView.alpha = 0.7
-        view.addSubview(blurEffectView)
         
         kolodaView2.dataSource = self
         kolodaView2.delegate = self
@@ -190,9 +174,6 @@ extension MatchViewController: KolodaViewDataSource {
     }
     
     func koloda(koloda: KolodaView, viewForCardAtIndex index: UInt) -> UIView {
-        
-        let userTemp = dataSource[0] as! PersonalInfo
-        userTemp.setAbilityBar([0.5*Double(index+1),0.5*Double(index+1),0.5*Double(index+1),0.5*Double(index+1)])
         return dataSource[Int(index)]
     }
     
@@ -203,14 +184,4 @@ extension MatchViewController: KolodaViewDataSource {
         print(OverlayView())
         return ov
     }
-    
-    func koloda(koloda: KolodaView, didShowCardAtIndex index: UInt){
-        
-            let userTemp = dataSource[Int(index)] as! PersonalInfo
-            userTemp.setAbilityBar([0.5*Double(index+1),0.5*Double(index+1),0.5*Double(index+1),0.5*Double(index+1)])
-    }
-//    
-//    func kolodaShouldApplyAppearAnimation(koloda: KolodaView) -> Bool {
-//        return true
-//    }
 }

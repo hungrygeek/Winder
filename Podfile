@@ -9,6 +9,8 @@ target 'Winder' do
   pod "Koloda"
   pod 'Firebase/Core'
   pod 'JSQMessagesViewController'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Database'
 
 end
 
