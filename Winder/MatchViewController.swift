@@ -18,16 +18,18 @@ class MatchViewController:UIViewController{
 //    @IBOutlet weak var kv: KolodaView!
     
     var kolodaView2: KolodaView = {
-        var kv: KolodaView = KolodaView(frame: CGRect(x:0,y: 0,width:100,height:100))
+        var kv: KolodaView = KolodaView(frame: CGRect(x:0,y: 0,width:250,height:250))
+        kv.countOfVisibleCards = 1
         return kv
     }()
     
-    private var dataSource: Array<UIImage> = {
-        var array: Array<UIImage> = []
-        for index in 0..<numberOfCards {
-            array.append(UIImage(named: "round_\(index + 1)")!)
+    var dataSource: Array<UIView> = {
+        var array = Array<UIView>()
+        for index in 0...1{
+            var userTemp = PersonalInfo(w: 270, h: 270)
+            array.append(userTemp)
+            userTemp.setAbilityBar([1,1,1,1])
         }
-        
         return array
     }()
 
@@ -51,17 +53,17 @@ class MatchViewController:UIViewController{
         return label
     }()
     var likeButton: UIButton = {
-        let checkImg = UIImage(named:"check_mark")! as UIImage
+        let checkImg = UIImage(named:"Thumb Up")! as UIImage
         var button = UIButton()
-        button.frame = CGRect(x: 0,y: 0,width: 100,height: 100)
+        button.frame = CGRect(x: 0,y: 0,width: 75,height: 75)
         button.setBackgroundImage(checkImg, forState: UIControlState.Normal)
         return button
     }()
     
     var dislikeButton: UIButton = {
-        let checkImg = UIImage(named:"cross_mark")! as UIImage
+        let checkImg = UIImage(named:"Thumbs Down")! as UIImage
         var button = UIButton()
-        button.frame = CGRect(x: 0,y: 0,width: 100,height: 100)
+        button.frame = CGRect(x: 0,y: 0,width: 75,height: 75)
         button.setBackgroundImage(checkImg, forState: UIControlState.Normal)
         return button
     }()
@@ -93,21 +95,21 @@ class MatchViewController:UIViewController{
         kolodaView2.dataSource = self
         kolodaView2.delegate = self
         
-        likeButton.center = CGPoint(x: view.frame.width-likeButton.frame.width, y: view.frame.height-likeButton.frame.height)
+        likeButton.center = CGPoint(x: view.frame.width-likeButton.frame.width-10, y: view.frame.height-likeButton.frame.height-40)
         view.addSubview(likeButton)
         
-        dislikeButton.center = CGPoint(x: likeButton.frame.width, y: view.frame.height-likeButton.frame.height)
         dislikeButton.addTarget(self, action: #selector(ViewController.signOut), forControlEvents:UIControlEvents.TouchUpInside)
+        dislikeButton.center = CGPoint(x: likeButton.frame.width+10, y: view.frame.height-likeButton.frame.height-20)
         view.addSubview(dislikeButton)
         
         
         personButton.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height)
         view.addSubview(personButton)
         
-        nameLabel.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height*2)
+        nameLabel.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height*2.4)
         view.addSubview(nameLabel)
         
-        schoolLabel.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height*1.618)
+        schoolLabel.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height*2.0)
         view.addSubview(schoolLabel)
         
         kolodaView2.center = CGPoint(x: view.frame.midX, y: view.frame.midY)
@@ -172,7 +174,7 @@ extension MatchViewController: KolodaViewDataSource {
     }
     
     func koloda(koloda: KolodaView, viewForCardAtIndex index: UInt) -> UIView {
-        return UIImageView(image: dataSource[Int(index)])
+        return dataSource[Int(index)]
     }
     
     func koloda(koloda: KolodaView, viewForCardOverlayAtIndex index: UInt) -> OverlayView? {
