@@ -19,6 +19,7 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
     let editicon = UIImage(named: "edit_icon_100")
     let okicon = UIImage(named: "ok_100")
     let uniName = UILabel()
+    let personName = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,9 +66,9 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
         self.view.addSubview(self.uniName)
         
         
-        let personName = UILabel()
-        personName.frame = CGRectMake(0, 0, 300, 40)
-        personName.center = CGPoint(x: self.view.center.x, y: 380)
+        //let personName = UILabel()
+        self.personName.frame = CGRectMake(0, 0, 300, 40)
+        self.personName.center = CGPoint(x: self.view.center.x, y: 380)
         ref.child("users").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
             let personNamef = snapshot.value![userID!]!!["username"]!
             let attachment = NSTextAttachment()
@@ -76,10 +77,13 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
             let attachmentString = NSAttributedString(attachment: attachment)
             let myString = NSMutableAttributedString(string: (String(personNamef!) + "  "))
             myString.appendAttributedString(attachmentString)
-            personName.attributedText = myString
+            self.personName.attributedText = myString
         })
 //        personName.text = "Shi Shu"
-        personName.textAlignment = .Center
+        self.personName.textAlignment = .Center
+        self.personName.userInteractionEnabled = true
+        let gestureRecognizer2 = UITapGestureRecognizer(target: self, action: #selector(PersonalViewController.namePressed(_:)))
+        self.personName.addGestureRecognizer(gestureRecognizer2)
         self.view.addSubview(personName)
         
         let addSkill = UIButton()
@@ -226,13 +230,13 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
     
     func schoolPressed(gestureRecognizer1 :UITapGestureRecognizer){
         print("Label pressed")
-        var alert = UIAlertController(title: "Edit your name", message: "Enter your name", preferredStyle: .Alert)
+        var alert = UIAlertController(title: "Edit your School", message: "Enter your School", preferredStyle: .Alert)
         //2. Add the text field. You can configure it however you need.
         alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
-            textField.text = "Your name Here."
+            textField.text = ""
         })
         //3. Grab the value from the text field, and print it when the user clicks OK.
-        alert.addAction(UIAlertAction(title: "Add", style: .Default, handler: { [weak alert] (action) -> Void in
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { [weak alert] (action) -> Void in
             let textField = alert!.textFields![0] as UITextField
             print("Text field: \(textField.text)")
             let attachment = NSTextAttachment()
@@ -242,6 +246,49 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
             let myString = NSMutableAttributedString(string: (String(textField.text!) + "  "))
             myString.appendAttributedString(attachmentString)
             self.uniName.attributedText = myString
+            var ref: FIRDatabaseReference!
+            ref = FIRDatabase.database().reference()
+            let userID = FIRAuth.auth()?.currentUser?.uid
+            ref.child("users").child(userID! + "/school").setValue(String(textField.text!))
+            
+            }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action: UIAlertAction!) in
+            print("Cancel Logic")
+        }))
+        
+        
+        // 4. Present the alert.
+        self.presentViewController(alert, animated: true, completion: nil)
+        //Your awesome code.
+    }
+    
+    
+    
+    
+    
+    func namePressed(gestureRecognizer2 :UITapGestureRecognizer){
+        print("Label pressed")
+        var alert = UIAlertController(title: "Edit your Name", message: "Enter your Name", preferredStyle: .Alert)
+        //2. Add the text field. You can configure it however you need.
+        alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
+            textField.text = ""
+        })
+        //3. Grab the value from the text field, and print it when the user clicks OK.
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { [weak alert] (action) -> Void in
+            let textField = alert!.textFields![0] as UITextField
+            print("Text field: \(textField.text)")
+            let attachment = NSTextAttachment()
+            attachment.bounds = CGRectMake(0, 0, 20, 20)
+            attachment.image = UIImage(named: "edit_name")
+            let attachmentString = NSAttributedString(attachment: attachment)
+            let myString = NSMutableAttributedString(string: (String(textField.text!) + "  "))
+            myString.appendAttributedString(attachmentString)
+            self.personName.attributedText = myString
+            var ref: FIRDatabaseReference!
+            ref = FIRDatabase.database().reference()
+            let userID = FIRAuth.auth()?.currentUser?.uid
+            ref.child("users").child(userID! + "/username").setValue(String(textField.text!))
+            
             }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action: UIAlertAction!) in
             print("Cancel Logic")
