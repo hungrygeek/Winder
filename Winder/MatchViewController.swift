@@ -19,14 +19,14 @@ class MatchViewController:UIViewController{
     
     var kolodaView2: KolodaView = {
         var kv: KolodaView = KolodaView(frame: CGRect(x:0,y: 0,width:250,height:250))
-        kv.countOfVisibleCards = 1
+        kv.countOfVisibleCards = 2
         return kv
     }()
     
     var dataSource: Array<UIView> = {
         var array = Array<UIView>()
         for index in 0...1{
-            var userTemp = PersonalInfo(w: 270, h: 270)
+            var userTemp = PersonalInfo(w: 270, h: 270, id: index)
             array.append(userTemp)
             userTemp.setAbilityBar([1,1,1,1])
         }
@@ -163,6 +163,20 @@ extension MatchViewController: KolodaViewDelegate {
     func koloda(koloda: KolodaView, didSelectCardAtIndex index: UInt) {
 //        UIApplication.sharedApplication().openURL(NSURL(string: "http://yalantis.com/")!)
         print("you click")
+    }
+    func koloda(koloda: KolodaView, didSwipeCardAtIndex index: UInt, inDirection direction: SwipeResultDirection){
+        if direction == .Right {
+            print("count \(koloda.countOfCards)")
+            print("cur index \(koloda.currentCardIndex)")
+            print("you swipe that biatch *RIGHT*")
+            print("you swipe \(index) *RIGHT*")
+            
+            print((koloda.viewForCardAtIndex(Int(index+1)) as! PersonalInfo).uid)
+        } else {
+            print("you swipe that biatch *LEFT*")
+            
+        }
+    
     }
 }
 
