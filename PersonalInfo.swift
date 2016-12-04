@@ -17,6 +17,7 @@ class PersonalInfo:UIView {
     //hardcoded info
     var uid = "KHTQ5FSmALgQD1aeoUMnpnBQxur2"
     var id: Int
+    //hardcoded info ends
     
     init(w:CGFloat,h:CGFloat, id:Int){
         self.id = id

@@ -171,13 +171,14 @@ extension MatchViewController: KolodaViewDelegate {
             print("you swipe that biatch *RIGHT*")
             print("you swipe \(index) *RIGHT*")
             
-            print((koloda.viewForCardAtIndex(Int(index+1)) as! PersonalInfo).uid)
+            print((koloda.viewForCardAtIndex(Int(index)) as! PersonalInfo).id)
         } else {
             print("you swipe that biatch *LEFT*")
             
         }
     
     }
+    
 }
 
 //MARK: KolodaViewDataSource
