@@ -11,27 +11,29 @@ import Koloda
 import Firebase
 
 private var numberOfCards: UInt = 5
-
 class MatchViewController:UIViewController{
     
-//    var profileButton
-//    @IBOutlet weak var kv: KolodaView!
+    var ref: FIRDatabaseReference!
     
-    var kolodaView2: KolodaView = {
-        var kv: KolodaView = KolodaView(frame: CGRect(x:0,y: 0,width:250,height:250))
-        kv.countOfVisibleCards = 2
-        return kv
-    }()
+//    var kolodaView: KolodaView = {
+//        var kv: KolodaView = KolodaView(frame: CGRect(x:0,y: 0,width:250,height:250))
+//        kv.countOfVisibleCards = 2
+//        return kv
+//    }()
+    var kolodaView: KolodaView!
     
-    var dataSource: Array<UIView> = {
-        var array = Array<UIView>()
-        for index in 0...1{
-            var userTemp = PersonalInfo(w: 270, h: 270, id: index)
-            array.append(userTemp)
-            userTemp.setAbilityBar([1,1,1,1])
-        }
-        return array
-    }()
+//    var dataSource: Array<UIView> = {
+//        
+//        var array = Array<UIView>()
+//        
+//        for index in 0...1{
+//            var userTemp = PersonalInfo(w: 270, h: 270, uid: String(index))
+//            array.append(userTemp)
+//            userTemp.setAbilityBar([1,1,1,1])
+//        }
+//        return array
+//    }()
+    var dataSource = Array<UIView>()
 
     var nameLabel:UILabel = {
         let label = UILabel()
@@ -77,23 +79,18 @@ class MatchViewController:UIViewController{
     }()
     
     override func viewDidAppear(animated: Bool) {
-        print("match view")
+//        print("match view")
         if FIRAuth.auth()?.currentUser != nil {
             print("login success")
-            print("user \(FIRAuth.auth()?.currentUser?.uid)")
-            print("display name \(FIRAuth.auth()?.currentUser?.displayName)")
-            print("login in with \(FIRAuth.auth()?.currentUser?.email)")
+            print("uid: \(FIRAuth.auth()!.currentUser!.uid)")
+            print("login in with \(FIRAuth.auth()!.currentUser!.email)")
         }
 
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-//        kolodaView.dataSource = self
-//        kolodaView.delegate = self
-        print("in match view", self.view.window?.rootViewController?.nibName)
         
-        kolodaView2.dataSource = self
-        kolodaView2.delegate = self
+        
         
         likeButton.center = CGPoint(x: view.frame.width-likeButton.frame.width-10, y: view.frame.height-likeButton.frame.height-40)
         view.addSubview(likeButton)
@@ -112,8 +109,17 @@ class MatchViewController:UIViewController{
         schoolLabel.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height*2.0)
         view.addSubview(schoolLabel)
         
-        kolodaView2.center = CGPoint(x: view.frame.midX, y: view.frame.midY)
-        view.addSubview(kolodaView2)
+        // use call back to get the data
+        
+        getMatchList(){
+            () in
+            self.kolodaView = KolodaView(frame: CGRect(x:0,y: 0,width:250,height:250))
+            self.kolodaView.center = CGPoint(x: self.view.frame.midX, y: self.view.frame.midY)
+            self.kolodaView.dataSource = self
+            self.kolodaView.delegate = self
+            self.view.addSubview(self.kolodaView)
+        }
+        
         view.backgroundColor = UIColor.whiteColor()
         let recognizer1: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(MatchViewController.swipeLeft(_:)))
         recognizer1.direction = .Left
@@ -122,6 +128,26 @@ class MatchViewController:UIViewController{
         let recognizer2: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(MatchViewController.swipeRight(_:)))
         recognizer2.direction = .Right
         self.view.addGestureRecognizer(recognizer2)
+    }
+    
+    func getMatchList(matchCount:UInt=5, onCompletion: ()->Void){
+        print("retrieving match list")
+        ref = FIRDatabase.database().reference()
+        ref.child("users").queryLimitedToFirst(matchCount).observeSingleEventOfType(.Value, withBlock: {
+            (snapshot) in
+            if let users = snapshot.value as? NSDictionary {
+                for (index, key) in (users.allKeys as! [String]).enumerate(){
+                    let pi = PersonalInfo(w: 270, h: 270, uid: key)
+                    let ab = index+1
+                    pi.setAbilityBar([ab,ab+1,ab+2,ab+3])
+                    self.dataSource.append(pi)
+                }
+                onCompletion()
+            } else {
+                print("load match list wrong")
+            }
+            
+        })
     }
     
     func swipeLeft(recognizer1: UIGestureRecognizer) {
@@ -171,13 +197,14 @@ extension MatchViewController: KolodaViewDelegate {
             print("you swipe that biatch *RIGHT*")
             print("you swipe \(index) *RIGHT*")
             
-            print((koloda.viewForCardAtIndex(Int(index+1)) as! PersonalInfo).uid)
+            print((dataSource[Int(index)] as! PersonalInfo).uid)
         } else {
             print("you swipe that biatch *LEFT*")
             
         }
     
     }
+    
 }
 
 //MARK: KolodaViewDataSource

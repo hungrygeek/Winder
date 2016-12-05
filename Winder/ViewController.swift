@@ -281,6 +281,7 @@ class ViewController: UIViewController,UIAlertViewDelegate {
         choseButtonLeft.layer.backgroundColor = UIColor.getWustlGreenColor(UIColor())().CGColor
         signUpPassword.hidden = true
         underlinePassword2.hidden = true
+        signUpButton.hidden = true
         logInButton.hidden = false
     }
     
