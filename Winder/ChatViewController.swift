@@ -99,8 +99,8 @@ class ChatViewController: JSQMessagesViewController {
     }
     
     override func collectionView(collectionView: JSQMessagesCollectionView?, messageBubbleImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageBubbleImageDataSource? {
-        var ref: FIRDatabaseReference!
-        ref = FIRDatabase.database().reference()
+        //var ref: FIRDatabaseReference!
+        //ref = FIRDatabase.database().reference()
         let userID = FIRAuth.auth()?.currentUser?.uid
         return messages[indexPath.item].senderId == userID ? outgoingBubble : incomingBubble
     }
@@ -161,7 +161,7 @@ class ChatViewController: JSQMessagesViewController {
             for child in snapshot.children {
                 //print(userID!)
                 
-                if String(child.value["fromID"]!!) == userID! && String(child.value["toID"]!!) == self.partner.partnerID {
+                if (String(child.value["fromID"]!!) == userID! && String(child.value["toID"]!!) == self.partner.partnerID) || ((String(child.value["toID"]!!) == userID! && String(child.value["fromID"]!!) == self.partner.partnerID)) {
                     
                     //print("11111111111111111")
                     let tempmessage = JSQMessage(senderId: String(child.value["fromID"]!!), displayName: "", text: String(child.value["text"]!!))
