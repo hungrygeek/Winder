@@ -7,6 +7,7 @@
 //
 
 import JSQMessagesViewController
+import Firebase
 
 // Create Names to display
 let DisplayNameSquires = "Jesse Squires"
@@ -35,8 +36,28 @@ let message3 = JSQMessage(senderId: AvatarIdWoz, displayName: DisplayNameWoz, te
 let message4 = JSQMessage(senderId: AvatarIdJobs, displayName: DisplayNameJobs, text: "Sure thats for me")
 let message5 = JSQMessage(senderId: AvatarIDLeonard, displayName: DisplayNameLeonard, text: "Oh wait but that will be Winder demo time")
 
+let partner = ShareData.sharedInstance
+
 func makeConversation()->[JSQMessage]{
-    conversation = [message, message2,message3, message4, message5]
+    var ref: FIRDatabaseReference!
+    ref = FIRDatabase.database().reference()
+    let userID = FIRAuth.auth()?.currentUser?.uid
+    
+    conversation = []
+    ref.child("messages").observeEventType(.Value, withBlock: { snapshot in
+        for child in snapshot.children {
+            //print(userID!)
+            
+            if String(child.value["fromID"]!!) == userID! && String(child.value["toID"]!!) == partner.partnerID {
+
+                print("11111111111111111")
+                let tempmessage = JSQMessage(senderId: String(child.value["fromID"]!!), displayName: "", text: String(child.value["text"]!!))
+                //print(conversation)
+                conversation.append(tempmessage)
+            }
+        }
+        
+    })
     return conversation
 }
 
