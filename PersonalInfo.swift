@@ -11,7 +11,7 @@ import UIKit
 class PersonalInfo:UIView {
     
     var image = UIImageView()
-    var ability = Array<Int>()
+    var ability = Array<Double>()
     var layerArray = Array<CAShapeLayer>()
     
     //hardcoded info
@@ -19,59 +19,60 @@ class PersonalInfo:UIView {
 //    var id: Int
     //hardcoded info ends
     
-    init(w:CGFloat,h:CGFloat, uid:String){
+    init(w:CGFloat,h:CGFloat, uid:String, userImage:UIImageView){
         self.uid = uid
         super.init(frame:CGRect(x: 0, y: 0, width: w, height: h))
-        image = UIImageView(image: UIImage(named: "avatar1")!)
+        
+        image = userImage
         image.frame = CGRectMake(0, 0, 240, 240)
         image.layer.cornerRadius = 120
         image.clipsToBounds = true
-//        image.layer.backgroundColor = UIColor.whiteColor().CGColor
-        image.center = CGPointMake(self.frame.midX, self.frame.midY-100)
-        ability = [1,1,1,1]
+        image.layer.backgroundColor = UIColor.whiteColor().CGColor
+        image.center = CGPointMake(self.frame.midX, self.frame.midY)
+//        image.layer.shadowColor = UIColor.blackColor().CGColor
+//        image.layer.shadowOpacity = 1
+//        image.layer.shadowOffset = CGSize.zero
+//        image.layer.shadowRadius = 10
         self.addSubview(image)
         self.backgroundColor = UIColor.whiteColor()
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    internal func printInfo(){
-        print(uid)
-    }
-    
-    func setAbilityBar(abilityLevel:Array<Int>){
+    func setAbilityBar(abilityLevel:Array<Double>){
+//        var ability = ability
         let abilityArray = ["Math","Physics","English","Painting"]
-        let centerPoint = CGPointMake(self.frame.midX, self.frame.midY-100)
+        let centerPoint = CGPointMake(self.frame.midX, self.frame.midY)
         for index:Int in 0..<4 {
-            let ability = UILabel()
-            ability.frame = CGRectMake(0, 0, 100, 15)
-            ability.center = CGPointMake(self.frame.midX-20, self.frame.midY-100-CGFloat(index+8)*15)
-            ability.text = abilityArray[index]
-            ability.font.fontWithSize(12)
+            let skill = UILabel()
+            skill.frame = CGRectMake(0, 0, 100, 15)
+            skill.center = CGPointMake(self.frame.midX-20, self.frame.midY-CGFloat(index+8)*15)
+            skill.text = abilityArray[index]
+            skill.font = skill.font.fontWithSize(12)
             let layer = CAShapeLayer()
+            layer.backgroundColor = UIColor.clearColor().CGColor
             layer.fillColor = UIColor.clearColor().CGColor
             layer.strokeColor = UIColor.getCustomColor(UIColor())(Int(index)).CGColor
             layer.lineWidth = 15
             layer.lineCap = kCALineCapRound
             let startAngle = CGFloat(M_PI_2*3)
-            let endAngle = CGFloat(M_PI_2*3 + M_PI/Double(index+1))
+            let endAngle = CGFloat(M_PI_2*3 + M_PI*abilityLevel[index]*1.75)
             layer.path = UIBezierPath(arcCenter:centerPoint, radius: CGFloat(index+8)*15, startAngle:startAngle, endAngle:endAngle, clockwise: true).CGPath
             let animation = CABasicAnimation(keyPath: "strokeEnd")
             animation.delegate = self
-            animation.duration = 3
+            animation.duration = 1
             animation.fromValue = 0
             animation.toValue = 1
             layer.strokeEnd = 1
             layer.addAnimation(animation, forKey: nil)
             layerArray.append(layer)
+            self.backgroundColor = UIColor.clearColor()
 
             self.layer.addSublayer(layer)
-            self.addSubview(ability)
+            self.addSubview(skill)
         }
-
     }
 
 

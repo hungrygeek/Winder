@@ -251,6 +251,7 @@ class ViewController: UIViewController,UIAlertViewDelegate {
                     ref.child("users/\(user.uid)/username").setValue("ya name")
                     ref.child("users/\(user.uid)/school").setValue("ya school")
                     ref.child("users/\(user.uid)/email").setValue(email)
+                    ref.child("users/\(user.uid)/skill").setValue(["course1":1,"course2:":2,"course3":3,"course4:":4])
                 } else {
                     self.popUpAlert(error!)
                     print("error \(error?.localizedDescription)")

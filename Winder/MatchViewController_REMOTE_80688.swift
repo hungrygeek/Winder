@@ -10,32 +10,28 @@ import UIKit
 import Koloda
 import Firebase
 
-private var numberOfCards: UInt = 3
-private var matchListLenLimit: UInt = 5
+private var numberOfCards: UInt = 5
 
 class MatchViewController:UIViewController{
     
-    var ref: FIRDatabaseReference!
+//    var profileButton
+//    @IBOutlet weak var kv: KolodaView!
     
-//    var kolodaView: KolodaView = {
-//        var kv: KolodaView = KolodaView(frame: CGRect(x:0,y: 0,width:250,height:250))
-//        kv.countOfVisibleCards = 2
-//        return kv
-//    }()
-    var kolodaView: KolodaView!
+    var kolodaView2: KolodaView = {
+        var kv: KolodaView = KolodaView(frame: CGRect(x:0,y: 0,width:250,height:250))
+        kv.countOfVisibleCards = 1
+        return kv
+    }()
     
-//    var dataSource: Array<UIView> = {
-//        
-//        var array = Array<UIView>()
-//        
-//        for index in 0...1{
-//            var userTemp = PersonalInfo(w: 270, h: 270, uid: String(index))
-//            array.append(userTemp)
-//            userTemp.setAbilityBar([1,1,1,1])
-//        }
-//        return array
-//    }()
-    var dataSource = Array<UIView>()
+    var dataSource: Array<UIView> = {
+        var array = Array<UIView>()
+        for index in 0...1{
+            var userTemp = PersonalInfo(w: 270, h: 270)
+            array.append(userTemp)
+            userTemp.setAbilityBar([1,1,1,1])
+        }
+        return array
+    }()
 
     var nameLabel:UILabel = {
         let label = UILabel()
@@ -80,22 +76,24 @@ class MatchViewController:UIViewController{
         return button
     }()
     
-    var backgroundPic = UIImageView()
-    let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.Light)
-
-    
     override func viewDidAppear(animated: Bool) {
+        print("match view")
         if FIRAuth.auth()?.currentUser != nil {
             print("login success")
-            print("uid: \(FIRAuth.auth()!.currentUser!.uid)")
-            print("login in with \(FIRAuth.auth()!.currentUser!.email)")
+            print("user \(FIRAuth.auth()?.currentUser?.uid)")
+            print("display name \(FIRAuth.auth()?.currentUser?.displayName)")
+            print("login in with \(FIRAuth.auth()?.currentUser?.email)")
         }
 
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+//        kolodaView.dataSource = self
+//        kolodaView.delegate = self
+        print("in match view", self.view.window?.rootViewController?.nibName)
         
-        
+        kolodaView2.dataSource = self
+        kolodaView2.delegate = self
         
         likeButton.center = CGPoint(x: view.frame.width-likeButton.frame.width-10, y: view.frame.height-likeButton.frame.height-40)
         view.addSubview(likeButton)
@@ -114,19 +112,8 @@ class MatchViewController:UIViewController{
         schoolLabel.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height*2.0)
         view.addSubview(schoolLabel)
         
-        // use call back to get the data
-        
-        getMatchList(){
-            () in
-            self.kolodaView = KolodaView(frame: CGRect(x:0,y: 0,width:250,height:250))
-            self.kolodaView.center = CGPoint(x: self.view.frame.midX, y: self.view.frame.midY)
-            self.kolodaView.dataSource = self
-            self.kolodaView.delegate = self
-            self.view.addSubview(self.kolodaView)
-            let total = Double(matchListLenLimit)*2
-            (self.dataSource[0] as! PersonalInfo).setAbilityBar([1/total,(1+1)/total,(1+2)/total,(1+3)/total])
-        }
-        
+        kolodaView2.center = CGPoint(x: view.frame.midX, y: view.frame.midY)
+        view.addSubview(kolodaView2)
         view.backgroundColor = UIColor.whiteColor()
         let recognizer1: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(MatchViewController.swipeLeft(_:)))
         recognizer1.direction = .Left
@@ -135,26 +122,6 @@ class MatchViewController:UIViewController{
         let recognizer2: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(MatchViewController.swipeRight(_:)))
         recognizer2.direction = .Right
         self.view.addGestureRecognizer(recognizer2)
-    }
-    
-    func getMatchList(matchCount:UInt=5, onCompletion: ()->Void){
-        print("retrieving match list")
-        ref = FIRDatabase.database().reference()
-        ref.child("users").queryLimitedToFirst(matchCount).observeSingleEventOfType(.Value, withBlock: {
-            (snapshot) in
-            if let users = snapshot.value as? NSDictionary {
-                for (index, key) in (users.allKeys as! [String]).enumerate(){
-
-                    let pi = PersonalInfo(w: 270, h: 270, uid: key, userImage: UIImageView(image:UIImage(named: "avatar\(index+1)")))
-                    self.dataSource.append(pi)
-                    print("got \((users[key] as! NSDictionary)["username"])")
-                }
-                onCompletion()
-            } else {
-                print("load match list wrong")
-            }
-            
-        })
     }
     
     func swipeLeft(recognizer1: UIGestureRecognizer) {
@@ -188,30 +155,15 @@ extension MatchViewController: KolodaViewDelegate {
     
     func kolodaDidRunOutOfCards(koloda: KolodaView) {
         print("no cards more")
-//        dataSource.insert(UIImage(named: "Card_like_6")!, atIndex: kolodaView.currentCardIndex - 1)
-//        let position = kolodaView.currentCardIndex
-//        kolodaView.insertCardAtIndexRange(position...position, animated: true)
+//        dataSource.insert(UIImage(named: "Card_like_6")!, atIndex: kolodaView2.currentCardIndex - 1)
+//        let position = kolodaView2.currentCardIndex
+//        kolodaView2.insertCardAtIndexRange(position...position, animated: true)
     }
     
     func koloda(koloda: KolodaView, didSelectCardAtIndex index: UInt) {
 //        UIApplication.sharedApplication().openURL(NSURL(string: "http://yalantis.com/")!)
         print("you click")
     }
-    func koloda(koloda: KolodaView, didSwipeCardAtIndex index: UInt, inDirection direction: SwipeResultDirection){
-        if direction == .Right {
-            print("count \(koloda.countOfCards)")
-            print("cur index \(koloda.currentCardIndex)")
-            print("you swipe that biatch *RIGHT*")
-            print("you swipe \(index) *RIGHT*")
-            
-            print((dataSource[Int(index)] as! PersonalInfo).uid)
-        } else {
-            print("you swipe that biatch *LEFT*")
-            
-        }
-    
-    }
-    
 }
 
 //MARK: KolodaViewDataSource
@@ -232,22 +184,4 @@ extension MatchViewController: KolodaViewDataSource {
         print(OverlayView())
         return ov
     }
-    
-    func koloda(koloda: KolodaView, didShowCardAtIndex index: UInt){
-        
-        let userTemp = dataSource[Int(index)] as! PersonalInfo
-        let ab = Double(index)
-        let matchCount = Double(matchListLenLimit)*2
-        userTemp.setAbilityBar([ab/matchCount,(ab+1)/matchCount,(ab+2)/matchCount,(ab+3)/matchCount])
-//        userTemp.setAbilityBar([0.5,0.5,0.5,0.5])
-//        backgroundPic.frame = self.view.frame
-//        backgroundPic.image = UIImage(named: "avatar\(index+1)")
-//        backgroundPic.clipsToBounds = true
-//        backgroundPic.center = self.view.center
-//        backgroundPic.alpha = 0.4
-    }
-//
-//    func kolodaShouldApplyAppearAnimation(koloda: KolodaView) -> Bool {
-//        return true
-//    }
 }

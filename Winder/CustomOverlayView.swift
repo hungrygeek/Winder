@@ -15,10 +15,12 @@ private let overlayLeftImageName = "noOverlayImage"
 
 class CustomOverlayView: OverlayView {
     
+    
     @IBOutlet lazy var overlayImageView: UIImageView!={
         [unowned self] in
         
-        var imageView = UIImageView(frame: self.bounds)
+        var imageView = UIImageView(frame:self.bounds)
+//        imageView.layer.backgroundColor = UIColor.clearColor().CGColor
         self.addSubview(imageView)
         return imageView
         
