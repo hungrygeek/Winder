@@ -10,7 +10,7 @@ import UIKit
 import Koloda
 import Firebase
 
-private var numberOfCards: UInt = 5
+private var numberOfCards: UInt = 3
 
 class MatchViewController:UIViewController{
     
@@ -18,14 +18,14 @@ class MatchViewController:UIViewController{
 //    @IBOutlet weak var kv: KolodaView!
     
     var kolodaView2: KolodaView = {
-        var kv: KolodaView = KolodaView(frame: CGRect(x:0,y: 0,width:250,height:250))
+        var kv: KolodaView = KolodaView(frame: CGRect(x:0,y: 0,width:270,height:270))
         kv.countOfVisibleCards = 1
         return kv
     }()
     
     var dataSource: Array<UIView> = {
         var array = Array<UIView>()
-        for index in 0...1{
+        for index in 0..<numberOfCards{
             var userTemp = PersonalInfo(w: 270, h: 270, userImage: UIImageView(image:UIImage(named: "avatar\(index+1)")))
             array.append(userTemp)
         }
@@ -87,21 +87,22 @@ class MatchViewController:UIViewController{
             print("display name \(FIRAuth.auth()?.currentUser?.displayName)")
             print("login in with \(FIRAuth.auth()?.currentUser?.email)")
         }
-
+        let userTemp = dataSource[0] as! PersonalInfo
+        userTemp.setAbilityBar([0.5,0.5,0.5,0.5])
+        backgroundPic.frame = self.view.frame
+        backgroundPic.image = UIImage(named: "avatar1")
+        backgroundPic.clipsToBounds = true
+        backgroundPic.center = self.view.center
+        backgroundPic.alpha = 0.4
     }
     override func viewDidLoad() {
         super.viewDidLoad()
 //        kolodaView.dataSource = self
 //        kolodaView.delegate = self
         print("in match view", self.view.window?.rootViewController?.nibName)
-        
-        backgroundPic.frame = self.view.frame
-        backgroundPic.image = UIImage(named: "avatar1")
-        backgroundPic.clipsToBounds = true
-        backgroundPic.center = self.view.center
-        backgroundPic.alpha = 0.4
+       
         view.addSubview(backgroundPic)
-        
+
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = view.bounds
         blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
@@ -128,7 +129,9 @@ class MatchViewController:UIViewController{
         schoolLabel.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height*2.0)
         view.addSubview(schoolLabel)
         
-        kolodaView2.center = CGPoint(x: view.frame.midX, y: view.frame.midY)
+        kolodaView2.center = CGPoint(x: view.frame.midX, y: view.frame.midY-100)
+        kolodaView2.backgroundColor = UIColor.clearColor()
+//        kolodaView2.layer.cornerRadius = 135
         view.addSubview(kolodaView2)
         view.backgroundColor = UIColor.whiteColor()
         let recognizer1: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(MatchViewController.swipeLeft(_:)))
@@ -191,8 +194,7 @@ extension MatchViewController: KolodaViewDataSource {
     
     func koloda(koloda: KolodaView, viewForCardAtIndex index: UInt) -> UIView {
         
-        let userTemp = dataSource[0] as! PersonalInfo
-        userTemp.setAbilityBar([0.5*Double(index+1),0.5*Double(index+1),0.5*Double(index+1),0.5*Double(index+1)])
+       
         return dataSource[Int(index)]
     }
     
@@ -206,10 +208,15 @@ extension MatchViewController: KolodaViewDataSource {
     
     func koloda(koloda: KolodaView, didShowCardAtIndex index: UInt){
         
-            let userTemp = dataSource[Int(index)] as! PersonalInfo
-            userTemp.setAbilityBar([0.5*Double(index+1),0.5*Double(index+1),0.5*Double(index+1),0.5*Double(index+1)])
+        let userTemp = dataSource[Int(index)] as! PersonalInfo
+        userTemp.setAbilityBar([0.5,0.5,0.5,0.5])
+        backgroundPic.frame = self.view.frame
+        backgroundPic.image = UIImage(named: "avatar\(index+1)")
+        backgroundPic.clipsToBounds = true
+        backgroundPic.center = self.view.center
+        backgroundPic.alpha = 0.4
     }
-//    
+//
 //    func kolodaShouldApplyAppearAnimation(koloda: KolodaView) -> Bool {
 //        return true
 //    }

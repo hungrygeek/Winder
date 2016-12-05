@@ -22,8 +22,12 @@ class PersonalInfo:UIView {
         image.frame = CGRectMake(0, 0, 240, 240)
         image.layer.cornerRadius = 120
         image.clipsToBounds = true
-//        image.layer.backgroundColor = UIColor.whiteColor().CGColor
-        image.center = CGPointMake(self.frame.midX, self.frame.midY-100)
+        image.layer.backgroundColor = UIColor.whiteColor().CGColor
+        image.center = CGPointMake(self.frame.midX, self.frame.midY)
+//        image.layer.shadowColor = UIColor.blackColor().CGColor
+//        image.layer.shadowOpacity = 1
+//        image.layer.shadowOffset = CGSize.zero
+//        image.layer.shadowRadius = 10
         self.addSubview(image)
         self.backgroundColor = UIColor.whiteColor()
     }
@@ -35,14 +39,15 @@ class PersonalInfo:UIView {
     func setAbilityBar(ability:Array<Double>){
         var ability = ability
         let abilityArray = ["Math","Physics","English","Painting"]
-        let centerPoint = CGPointMake(self.frame.midX, self.frame.midY-100)
+        let centerPoint = CGPointMake(self.frame.midX, self.frame.midY)
         for index:Int in 0..<4 {
             let skill = UILabel()
             skill.frame = CGRectMake(0, 0, 100, 15)
-            skill.center = CGPointMake(self.frame.midX-20, self.frame.midY-100-CGFloat(index+8)*15)
+            skill.center = CGPointMake(self.frame.midX-20, self.frame.midY-CGFloat(index+8)*15)
             skill.text = abilityArray[index]
             skill.font = skill.font.fontWithSize(12)
             let layer = CAShapeLayer()
+            layer.backgroundColor = UIColor.clearColor().CGColor
             layer.fillColor = UIColor.clearColor().CGColor
             layer.strokeColor = UIColor.getCustomColor(UIColor())(Int(index)).CGColor
             layer.lineWidth = 15
@@ -58,6 +63,7 @@ class PersonalInfo:UIView {
             layer.strokeEnd = 1
             layer.addAnimation(animation, forKey: nil)
             layerArray.append(layer)
+            self.backgroundColor = UIColor.clearColor()
 
             self.layer.addSublayer(layer)
             self.addSubview(skill)
