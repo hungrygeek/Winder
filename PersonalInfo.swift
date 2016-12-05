@@ -15,12 +15,12 @@ class PersonalInfo:UIView {
     var layerArray = Array<CAShapeLayer>()
     
     //hardcoded info
-    var uid = "KHTQ5FSmALgQD1aeoUMnpnBQxur2"
-    var id: Int
+    var uid: String
+//    var id: Int
     //hardcoded info ends
     
-    init(w:CGFloat,h:CGFloat, id:Int){
-        self.id = id
+    init(w:CGFloat,h:CGFloat, uid:String){
+        self.uid = uid
         super.init(frame:CGRect(x: 0, y: 0, width: w, height: h))
         image = UIImageView(image: UIImage(named: "avatar1")!)
         image.frame = CGRectMake(0, 0, 240, 240)
@@ -39,10 +39,10 @@ class PersonalInfo:UIView {
     }
     
     internal func printInfo(){
-        print(id)
+        print(uid)
     }
     
-    func setAbilityBar(ability:Array<Int>){
+    func setAbilityBar(abilityLevel:Array<Int>){
         let abilityArray = ["Math","Physics","English","Painting"]
         let centerPoint = CGPointMake(self.frame.midX, self.frame.midY-100)
         for index:Int in 0..<4 {
@@ -50,7 +50,7 @@ class PersonalInfo:UIView {
             ability.frame = CGRectMake(0, 0, 100, 15)
             ability.center = CGPointMake(self.frame.midX-20, self.frame.midY-100-CGFloat(index+8)*15)
             ability.text = abilityArray[index]
-            ability.font = ability.font.fontWithSize(12)
+            ability.font.fontWithSize(12)
             let layer = CAShapeLayer()
             layer.fillColor = UIColor.clearColor().CGColor
             layer.strokeColor = UIColor.getCustomColor(UIColor())(Int(index)).CGColor
