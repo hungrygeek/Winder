@@ -31,15 +31,15 @@ class ViewController: UIViewController,UIAlertViewDelegate {
         print("in ViewController")
         // Do any additional setup after loading the view, typically from a nib.
         //background setting
-        if FIRAuth.auth()?.currentUser != nil{
-            print("DID login in viewDidLoad")
-            goToMatchView()
+//        if FIRAuth.auth()?.currentUser != nil{
+//            print("DID login in viewDidLoad")
+//            goToMatchView()
 //            let vc = PersonalViewController()
 //            vc.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
 //            presentViewController(vc, animated: true, completion: nil)
-        } else {
-            print("did NOT login in viewDidLoad")
-        }
+//        } else {
+//            print("did NOT login in viewDidLoad")
+//        }
         backgroundPic.frame = self.view.frame
         backgroundPic.center = self.view.center
         backgroundPic.image = UIImage(named: "background1")
@@ -105,7 +105,7 @@ class ViewController: UIViewController,UIAlertViewDelegate {
         //logInUserName.layer.cornerRadius = 10
         logInUserName.textColor = UIColor.getWustlGreenColor(UIColor())()
         logInUserName.attributedPlaceholder = NSAttributedString(string: "Username", attributes: [NSForegroundColorAttributeName: UIColor.getWustlGreenColor(UIColor())()])
-        logInUserName.text = "rokee.lv@gmail.com"
+        logInUserName.text = ""
         self.view.addSubview(logInUserName)
         
         underlineUsername.frame = CGRectMake(0, 0, 300, 1)

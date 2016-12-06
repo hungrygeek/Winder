@@ -46,6 +46,7 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
         self.uniName.frame = CGRectMake(0, 0, 300, 40)
         self.uniName.center = CGPoint(x: self.view.center.x, y: 350)
         ref.child("users").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+            print(userID)
             let uniNamef = snapshot.value![userID!]!!["school"]!
             // print(String(uniNamef!))
             let attachment = NSTextAttachment()
