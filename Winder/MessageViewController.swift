@@ -22,6 +22,7 @@ class MessageViewController: UITableViewController {
         super.viewDidLoad()
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .Plain, target: self, action: #selector(handleBack))
         tableView.registerClass(UserCell.self, forCellReuseIdentifier: cellId)
+        self.title = "Talk to your peer"
         fetchUser()
         
         
