@@ -39,8 +39,8 @@ class MatchViewController:UIViewController{
     
     var picArray: Array<UIImage> = {
         var array1 = Array<UIImage>()
-        for index in 0...2{
-            array1.append(UIImage(named: "avatar\(index+1)")!)
+        for index in 0...11{
+            array1.append(UIImage(named: "\(index+1)")!)
         }
         return array1
     }()
