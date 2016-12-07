@@ -165,6 +165,7 @@ class ChatViewController: JSQMessagesViewController {
                     
                     //print("11111111111111111")
                     let tempmessage = JSQMessage(senderId: String(child.value["fromID"]!!), displayName: "", text: String(child.value["text"]!!))
+                    //child.updateChildValues(["read":"1"])
                     //print(conversation)
                     self.messages.append(tempmessage)
                 }

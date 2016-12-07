@@ -88,7 +88,7 @@ class MessageViewController: UITableViewController {
         let vc = ChatViewController()
         let navController = UINavigationController(rootViewController: vc)
         navController.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
-        presentViewController(navController, animated: false, completion: nil)
+        presentViewController(navController, animated: true, completion: nil)
         
     }
     
