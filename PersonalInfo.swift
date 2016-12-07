@@ -34,7 +34,7 @@ class PersonalInfo:UIView {
 //        image.layer.shadowOffset = CGSize.zero
 //        image.layer.shadowRadius = 10
         self.addSubview(image)
-        self.backgroundColor = UIColor.whiteColor()
+        self.backgroundColor = UIColor.clearColor()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -43,13 +43,14 @@ class PersonalInfo:UIView {
     
     func setAbilityBar(abilityLevel:Array<Double>){
 //        var ability = ability
-        let abilityArray = ["Math","Physics","English","Painting"]
+        print(abilityLevel)
+        let courseArray = ["Math","Physics","English","Painting"]
         let centerPoint = CGPointMake(self.frame.midX, self.frame.midY)
         for index:Int in 0..<4 {
             let skill = UILabel()
             skill.frame = CGRectMake(0, 0, 100, 15)
             skill.center = CGPointMake(self.frame.midX-20, self.frame.midY-CGFloat(index+8)*15)
-            skill.text = abilityArray[index]
+            skill.text = courseArray[index]
             skill.font = skill.font.fontWithSize(12)
             let layer = CAShapeLayer()
             layer.backgroundColor = UIColor.clearColor().CGColor
@@ -58,7 +59,7 @@ class PersonalInfo:UIView {
             layer.lineWidth = 15
             layer.lineCap = kCALineCapRound
             let startAngle = CGFloat(M_PI_2*3)
-            let endAngle = CGFloat(M_PI_2*3 + M_PI*abilityLevel[index]*1.75)
+            let endAngle = CGFloat(M_PI_2*3 + M_PI*abilityLevel[index]*0.0175)
             layer.path = UIBezierPath(arcCenter:centerPoint, radius: CGFloat(index+8)*15, startAngle:startAngle, endAngle:endAngle, clockwise: true).CGPath
             let animation = CABasicAnimation(keyPath: "strokeEnd")
             animation.delegate = self
@@ -73,6 +74,7 @@ class PersonalInfo:UIView {
             self.layer.addSublayer(layer)
             self.addSubview(skill)
         }
+        
     }
 
 

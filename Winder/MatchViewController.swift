@@ -36,11 +36,21 @@ class MatchViewController:UIViewController{
 //        return array
 //    }()
     var dataSource = Array<UIView>()
-
+    
+    var picArray: Array<UIImage> = {
+        var array1 = Array<UIImage>()
+        for index in 0...2{
+            array1.append(UIImage(named: "avatar\(index+1)")!)
+        }
+        return array1
+    }()
+    
+    var backgroundPicArray = Array<UIImage>()
+    
     var nameLabel:UILabel = {
         let label = UILabel()
         label.text = "Cat Wang"
-        label.textColor = UIColor.redColor()
+        label.textColor = UIColor.blackColor()
         label.textAlignment = NSTextAlignment.Center
         label.font = UIFont.systemFontOfSize(25, weight: UIFontWeightLight)
         label.frame = CGRect(x:0,y:0,width: 200,height: 50)
@@ -50,7 +60,7 @@ class MatchViewController:UIViewController{
     var schoolLabel:UILabel = {
         let label = UILabel()
         label.text = "Cashington University"
-        label.textColor = UIColor.redColor()
+        label.textColor = UIColor.blackColor()
         label.textAlignment = NSTextAlignment.Center
         label.font = UIFont.systemFontOfSize(20, weight: UIFontWeightLight)
         label.frame = CGRect(x:0,y:0,width: 200,height: 50)
@@ -81,9 +91,9 @@ class MatchViewController:UIViewController{
     }()
     
     var backgroundPic = UIImageView()
-    let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.Light)
+    let blurEffect1 = UIBlurEffect(style: UIBlurEffectStyle.ExtraLight)
 
-    
+
     override func viewDidAppear(animated: Bool) {
         if FIRAuth.auth()?.currentUser != nil {
             print("login success")
@@ -95,7 +105,18 @@ class MatchViewController:UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        self.backgroundPic.frame = self.view.frame
+        self.backgroundPic.center = self.view.center
+        self.backgroundPic.alpha = 0.4
+
+        view.addSubview(backgroundPic)
+
+        let blurEffectView = UIVisualEffectView(effect: blurEffect1)
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        blurEffectView.alpha = 0.8
+        view.addSubview(blurEffectView)
+
         
         likeButton.center = CGPoint(x: view.frame.width-likeButton.frame.width-10, y: view.frame.height-likeButton.frame.height-40)
         view.addSubview(likeButton)
@@ -109,26 +130,31 @@ class MatchViewController:UIViewController{
         personButton.addTarget(self, action: #selector(MatchViewController.personClick), forControlEvents:UIControlEvents.TouchUpInside)
         view.addSubview(personButton)
         
-        nameLabel.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height*2.4)
+        nameLabel.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height*2.6)
         view.addSubview(nameLabel)
         
-        schoolLabel.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height*2.0)
+        schoolLabel.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height*2.2)
         view.addSubview(schoolLabel)
         
         // use call back to get the data
         
         getMatchList(){
             () in
-            self.kolodaView = KolodaView(frame: CGRect(x:0,y: 0,width:250,height:250))
-            self.kolodaView.center = CGPoint(x: self.view.frame.midX, y: self.view.frame.midY)
+            self.kolodaView = KolodaView(frame: CGRect(x:0,y: 0,width:270,height:270))
+            self.kolodaView.center = CGPoint(x: self.view.frame.midX, y: self.view.frame.midY-80)
             self.kolodaView.dataSource = self
             self.kolodaView.delegate = self
             self.view.addSubview(self.kolodaView)
-            let total = Double(matchListLenLimit)*2
-            (self.dataSource[0] as! PersonalInfo).setAbilityBar([1/total,(1+1)/total,(1+2)/total,(1+3)/total])
+//            let total = Double(matchListLenLimit)*2
+            (self.dataSource[0] as! PersonalInfo).setAbilityBar([21,1,89,53])
+            print("Now i have \(self.backgroundPicArray.count) images")
+            self.backgroundPic.image = self.backgroundPicArray[0]
+            self.backgroundPic.setNeedsDisplay()
         }
         
+
         view.backgroundColor = UIColor.whiteColor()
+        
         let recognizer1: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(MatchViewController.swipeLeft(_:)))
         recognizer1.direction = .Left
         self.view.addGestureRecognizer(recognizer1)
@@ -145,8 +171,10 @@ class MatchViewController:UIViewController{
             (snapshot) in
             if let users = snapshot.value as? NSDictionary {
                 for (index, key) in (users.allKeys as! [String]).enumerate(){
-
-                    let pi = PersonalInfo(w: 270, h: 270, uid: key, userImage: UIImageView(image:UIImage(named: "avatar\(index+1)")))
+                    let randomIndex = Int(arc4random_uniform(UInt32(self.picArray.count)))
+                    let tempImage = self.picArray[randomIndex]
+                    let pi = PersonalInfo(w: 270, h: 270, uid: key, userImage: UIImageView(image:tempImage))
+                    self.backgroundPicArray.append(tempImage)
                     self.dataSource.append(pi)
                     print("got \((users[key] as! NSDictionary)["username"])")
                 }
@@ -183,6 +211,8 @@ class MatchViewController:UIViewController{
         }
         // [END signout]
     }
+    
+
 }
 
 //MARK: KolodaViewDelegate
@@ -224,6 +254,8 @@ extension MatchViewController: KolodaViewDataSource {
     }
     
     func koloda(koloda: KolodaView, viewForCardAtIndex index: UInt) -> UIView {
+        
+
         return dataSource[Int(index)]
     }
     
@@ -238,15 +270,13 @@ extension MatchViewController: KolodaViewDataSource {
     func koloda(koloda: KolodaView, didShowCardAtIndex index: UInt){
         
         let userTemp = dataSource[Int(index)] as! PersonalInfo
-        let ab = Double(index)
-        let matchCount = Double(matchListLenLimit)*2
-        userTemp.setAbilityBar([ab/matchCount,(ab+1)/matchCount,(ab+2)/matchCount,(ab+3)/matchCount])
-//        userTemp.setAbilityBar([0.5,0.5,0.5,0.5])
-//        backgroundPic.frame = self.view.frame
-//        backgroundPic.image = UIImage(named: "avatar\(index+1)")
-//        backgroundPic.clipsToBounds = true
-//        backgroundPic.center = self.view.center
-//        backgroundPic.alpha = 0.4
+//        let ab = Double(index)
+//        let matchCount = Double(matchListLenLimit)*2
+        
+        self.backgroundPic.image = self.backgroundPicArray[Int(index)]
+        self.backgroundPic.setNeedsDisplay()
+        userTemp.setAbilityBar([73,64,52,78])
+     
     }
     
     
