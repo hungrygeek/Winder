@@ -260,16 +260,7 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
     // end of image picker
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
     
     
@@ -289,7 +280,7 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
             ref = FIRDatabase.database().reference()
             let userID = FIRAuth.auth()?.currentUser?.uid
             
-            ref.child("users").child(userID!).child("skill").updateChildValues([input![0]:input![1]])
+            ref.child("users").child(userID!).child("skill").updateChildValues([input![0]:Int(input![1])!])
             ref.child("users").child(userID!).child("skill").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
                 let diction1 = snapshot.value! as! [String: AnyObject]
                 self.courses = []
@@ -316,7 +307,7 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
     
     func swipeLeft(recognizer: UIGestureRecognizer) {
         let vc = MatchViewController()
-        vc.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
+        vc.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
         presentViewController(vc, animated: false, completion: nil)
         print("Swiped")
     }
@@ -374,15 +365,12 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
     
     
     func signout() {
-        // signout function for Firebase.
-//        let vc = ViewController()
-//        presentViewController(vc, animated: false, completion: nil)
-        var ref: FIRDatabaseReference!
-        ref = FIRDatabase.database().reference()
-        let userID = FIRAuth.auth()?.currentUser?.uid
-        ref.child("users").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
-            print(snapshot.value![userID!]!!["username"]);
-        })
+         // signout function for Firebase.
+        //try FIRAuth.auth()?.signOut()
+        let vc = ViewController()
+        vc.view.backgroundColor = UIColor.whiteColor()
+        presentViewController(vc, animated: true, completion: nil)
+
         
     }
     

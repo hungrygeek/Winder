@@ -144,7 +144,7 @@ class ChatViewController: JSQMessagesViewController {
     func handleBack() {
         let vc = MessageViewController()
         let navController = UINavigationController(rootViewController: vc)
-        navController.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
+        navController.modalTransitionStyle = UIModalTransitionStyle.CoverVertical
         presentViewController(navController, animated: false, completion: nil)
         
     }
