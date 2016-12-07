@@ -10,8 +10,8 @@
 import UIKit
 import Koloda
 
-private let overlayRightImageName = "yesOverlayImage"
-private let overlayLeftImageName = "noOverlayImage"
+private let overlayRightImageName = "swipeRight"
+private let overlayLeftImageName = "swipeLeft"
 
 class CustomOverlayView: OverlayView {
     
@@ -20,19 +20,29 @@ class CustomOverlayView: OverlayView {
         [unowned self] in
         
         var imageView = UIImageView(frame:self.bounds)
-//        imageView.layer.backgroundColor = UIColor.clearColor().CGColor
+//          imageView.clipsToBounds = true
+//          imageView.backgroundColor = UIColor.clearColor()
         self.addSubview(imageView)
+        
         return imageView
         
     }()
+    
     
     override var overlayState: SwipeResultDirection?{
         didSet{
             switch overlayState {
             case .Left?:
                 overlayImageView.image = UIImage(named: overlayLeftImageName)
+//                overlayImageView.clipsToBounds = true
+//                overlayImageView.backgroundColor = UIColor.clearColor()
+                
             case .Right?:
                 overlayImageView.image = UIImage(named: overlayRightImageName)
+//                overlayImageView.clipsToBounds = true
+//                overlayImageView.backgroundColor = UIColor.clearColor()
+                
+                
             default:
                 overlayImageView.image = nil
             }
