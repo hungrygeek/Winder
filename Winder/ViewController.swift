@@ -152,15 +152,7 @@ class ViewController: UIViewController,UIAlertViewDelegate {
         
         // Login button setting
         
-        logInButton.frame = CGRectMake(0, 0, 300, 50)
-        logInButton.center = CGPoint(x: self.view.center.x, y: self.view.center.y*1.8)
-        logInButton.setTitle("LOG IN", forState: UIControlState.Normal)
-        logInButton.titleLabel?.textColor = UIColor.whiteColor()
-        logInButton.layer.backgroundColor = UIColor.getWustlGreenColor(UIColor())().CGColor
-        logInButton.layer.cornerRadius = 25
-        self.view.addSubview(logInButton)
         
-        logInButton.addTarget(self, action: #selector(ViewController.logInClick), forControlEvents:UIControlEvents.TouchUpInside)
         
         signUpButton.frame = CGRectMake(0, 0, 300, 50)
         signUpButton.center = CGPoint(x: self.view.center.x, y: self.view.center.y*1.8)
@@ -172,6 +164,16 @@ class ViewController: UIViewController,UIAlertViewDelegate {
         signUpButton.hidden = true
         
         signUpButton.addTarget(self, action: #selector(ViewController.signUpClick), forControlEvents:UIControlEvents.TouchUpInside)
+        
+        logInButton.frame = CGRectMake(0, 0, 300, 50)
+        logInButton.center = CGPoint(x: self.view.center.x, y: self.view.center.y*1.8)
+        logInButton.setTitle("LOG IN", forState: UIControlState.Normal)
+        logInButton.titleLabel?.textColor = UIColor.whiteColor()
+        logInButton.layer.backgroundColor = UIColor.getWustlGreenColor(UIColor())().CGColor
+        logInButton.layer.cornerRadius = 25
+        self.view.addSubview(logInButton)
+        
+        logInButton.addTarget(self, action: #selector(ViewController.logInClick), forControlEvents:UIControlEvents.TouchUpInside)
         
     }
     func goToMatchView(){
@@ -248,6 +250,8 @@ class ViewController: UIViewController,UIAlertViewDelegate {
                 if let user = user{
                     ref.child("users/\(user.uid)/username").setValue("ya name")
                     ref.child("users/\(user.uid)/school").setValue("ya school")
+                    ref.child("users/\(user.uid)/email").setValue(email)
+                    ref.child("users/\(user.uid)/skill").setValue(["course1":1,"course2:":2,"course3":3,"course4:":4])
                 } else {
                     self.popUpAlert(error!)
                     print("error \(error?.localizedDescription)")
@@ -278,6 +282,7 @@ class ViewController: UIViewController,UIAlertViewDelegate {
         choseButtonLeft.layer.backgroundColor = UIColor.getWustlGreenColor(UIColor())().CGColor
         signUpPassword.hidden = true
         underlinePassword2.hidden = true
+        signUpButton.hidden = true
         logInButton.hidden = false
     }
     
