@@ -19,26 +19,52 @@ class PersonalInfo:UIView {
 //    var id: Int
     //hardcoded info ends
     
-    init(w:CGFloat,h:CGFloat, uid:String, userImage:UIImageView){
+    init(w:CGFloat,h:CGFloat, uid:String, userDict: NSDictionary){
         self.uid = uid
         super.init(frame:CGRect(x: 0, y: 0, width: w, height: h))
-        
-        image = userImage
-        image.frame = CGRectMake(0, 0, 240, 240)
-        image.layer.cornerRadius = 120
-        image.clipsToBounds = true
-        image.layer.backgroundColor = UIColor.whiteColor().CGColor
-        image.center = CGPointMake(self.frame.midX, self.frame.midY)
-//        image.layer.shadowColor = UIColor.blackColor().CGColor
-//        image.layer.shadowOpacity = 1
-//        image.layer.shadowOffset = CGSize.zero
-//        image.layer.shadowRadius = 10
-        self.addSubview(image)
-        self.backgroundColor = UIColor.clearColor()
+        loadImageUsingCacheWithUrlString(userDict["image"] as! String)
+//        image = UIImage(named:userDict["image"])
+                self.backgroundColor = UIColor.clearColor()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func loadImageUsingCacheWithUrlString(urlString: String) {
+        if urlString == "" || self.image.image != nil {
+            print("we got profile image or the url is null")
+            
+        } else {
+            print("got \(urlString)")
+            let url = NSURL(string: urlString)
+            NSURLSession.sharedSession().dataTaskWithURL(url!, completionHandler: { (data, response, error) in
+                
+                //download hit an error so lets return out
+                if error != nil {
+                    print(error)
+                    return
+                }
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    
+                    if let downloadedImage = UIImage(data: data!) {
+                        
+                        self.image = UIImageView(image: downloadedImage)
+                        self.image.frame = CGRectMake(0, 0, 240, 240)
+                        self.image.layer.cornerRadius = 120
+                        self.image.clipsToBounds = true
+                        self.image.layer.backgroundColor = UIColor.whiteColor().CGColor
+                        self.image.center = CGPointMake(self.frame.midX, self.frame.midY)
+                        self.addSubview(self.image)
+                        self.image.setNeedsDisplay()
+                    }
+                    
+                })
+                
+            }).resume()
+        }
+        
     }
     
     func setAbilityBar(abilityLevel:Array<Double>){
