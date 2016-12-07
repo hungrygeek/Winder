@@ -12,6 +12,7 @@
 		837279D21DF4E6BB00BDB61C /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837279D01DF4E6BB00BDB61C /* UserCell.swift */; };
 		837279D31DF4E6BB00BDB61C /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837279D11DF4E6BB00BDB61C /* MessageViewController.swift */; };
 		837279D91DF51EE900BDB61C /* ShareData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837279D81DF51EE900BDB61C /* ShareData.swift */; };
+		837279DB1DF7B36200BDB61C /* ViewOtherProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837279DA1DF7B36200BDB61C /* ViewOtherProfileViewController.swift */; };
 		83AF57F71DD62BBD00C63709 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AF57F61DD62BBD00C63709 /* AppDelegate.swift */; };
 		83AF57F91DD62BBD00C63709 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AF57F81DD62BBD00C63709 /* ViewController.swift */; };
 		83AF57FC1DD62BBD00C63709 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83AF57FA1DD62BBD00C63709 /* Main.storyboard */; };
@@ -40,6 +41,7 @@
 		837279D01DF4E6BB00BDB61C /* UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		837279D11DF4E6BB00BDB61C /* MessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 		837279D81DF51EE900BDB61C /* ShareData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareData.swift; sourceTree = "<group>"; };
+		837279DA1DF7B36200BDB61C /* ViewOtherProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewOtherProfileViewController.swift; sourceTree = "<group>"; };
 		83AF57F31DD62BBC00C63709 /* Winder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Winder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		83AF57F61DD62BBD00C63709 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		83AF57F81DD62BBD00C63709 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 				837279D01DF4E6BB00BDB61C /* UserCell.swift */,
 				837279D11DF4E6BB00BDB61C /* MessageViewController.swift */,
 				837279D81DF51EE900BDB61C /* ShareData.swift */,
+				837279DA1DF7B36200BDB61C /* ViewOtherProfileViewController.swift */,
 			);
 			path = Winder;
 			sourceTree = "<group>";
@@ -276,6 +279,7 @@
 				E002DB401DE690490098A74B /* PersonalInfo.swift in Sources */,
 				83AF57F71DD62BBD00C63709 /* AppDelegate.swift in Sources */,
 				83B716B21DE2573F0083B24D /* ChatViewController.swift in Sources */,
+				837279DB1DF7B36200BDB61C /* ViewOtherProfileViewController.swift in Sources */,
 				837279D21DF4E6BB00BDB61C /* UserCell.swift in Sources */,
 				E0178F8A1DD7D7E2008FBE1B /* CustomColor.swift in Sources */,
 				837279D91DF51EE900BDB61C /* ShareData.swift in Sources */,

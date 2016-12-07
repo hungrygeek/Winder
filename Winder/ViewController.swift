@@ -248,10 +248,10 @@ class ViewController: UIViewController,UIAlertViewDelegate {
                 var ref: FIRDatabaseReference!
                 ref = FIRDatabase.database().reference()
                 if let user = user{
-                    ref.child("users/\(user.uid)/username").setValue("ya name")
-                    ref.child("users/\(user.uid)/school").setValue("ya school")
+                    ref.child("users/\(user.uid)/username").setValue("your name")
+                    ref.child("users/\(user.uid)/school").setValue("your school")
                     ref.child("users/\(user.uid)/email").setValue(email)
-                    ref.child("users/\(user.uid)/skill").setValue(["course1":1,"course2:":2,"course3":3,"course4:":4])
+                    ref.child("users/\(user.uid)/skill").setValue(["course1":1,"course2":2,"course3":3,"course4":4])
                 } else {
                     self.popUpAlert(error!)
                     print("error \(error?.localizedDescription)")

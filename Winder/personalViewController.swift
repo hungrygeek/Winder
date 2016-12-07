@@ -13,6 +13,7 @@ import Firebase
 class PersonalViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var courses :[String] = ["Artificial Intelligence", "Swift", "Machine Learning", "Calculus", "Differentail Equation","Asian History", "Computer Architecture"]
+    var skillLevels = ["","","","","","",""]
     let cellReuseIdentifier = "cell"
     var skillSet = UITableView()
     let editSkill = UIButton()
@@ -29,9 +30,17 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
         var ref: FIRDatabaseReference!
         ref = FIRDatabase.database().reference()
         let userID = FIRAuth.auth()?.currentUser?.uid
-//        ref.child("users").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
-//            print(snapshot.value![userID!]!!["username"]);
-//        })
+
+        ref.child("users").child(userID!).child("skill").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+            let diction1 = snapshot.value! as! [String: AnyObject]
+            self.courses = []
+            self.skillLevels = []
+            for keydic in diction1.keys {
+                self.courses.append(keydic)
+                self.skillLevels.append(String(diction1[keydic]!))
+            }
+            self.skillSet.reloadData()
+        })
         
         let personalAvatar = UIImageView()
         personalAvatar.frame = CGRectMake(0, 0, 300, 300)
@@ -117,7 +126,7 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
         logout.frame = CGRectMake(0, 0, 80, 40)
         logout.center = CGPoint(x: self.view.frame.width - 40, y: 35)
         //logout.backgroundColor = UIColor.blueColor()
-        logout.setTitle("LogOut", forState: .Normal)
+        logout.setTitle("Log Out", forState: .Normal)
         logout.titleLabel!.textAlignment = .Right
         logout.setTitleColor(UIColor.blackColor(), forState: .Normal)
         logout.addTarget(self, action: #selector(PersonalViewController.signout), forControlEvents:UIControlEvents.TouchUpInside)
@@ -145,14 +154,31 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
         var alert = UIAlertController(title: "Add a new skill", message: "Enter a new skill", preferredStyle: .Alert)
         //2. Add the text field. You can configure it however you need.
         alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
-            textField.text = "Your Skills Here."
+            textField.text = "Course name:Skill level(0-100)"
         })
         //3. Grab the value from the text field, and print it when the user clicks OK.
         alert.addAction(UIAlertAction(title: "Add", style: .Default, handler: { [weak alert] (action) -> Void in
             let textField = alert!.textFields![0] as UITextField
+            let input = textField.text?.componentsSeparatedByString(":")
             print("Text field: \(textField.text)")
-            self.courses.append(textField.text!)
-            self.skillSet.reloadData()
+            var ref: FIRDatabaseReference!
+            ref = FIRDatabase.database().reference()
+            let userID = FIRAuth.auth()?.currentUser?.uid
+            
+            ref.child("users").child(userID!).child("skill").updateChildValues([input![0]:input![1]])
+            ref.child("users").child(userID!).child("skill").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+                let diction1 = snapshot.value! as! [String: AnyObject]
+                self.courses = []
+                self.skillLevels = []
+                for keydic in diction1.keys {
+                    self.courses.append(keydic)
+                    self.skillLevels.append(String(diction1[keydic]!))
+                }
+                self.skillSet.reloadData()
+            })
+            
+            
+            
             }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action: UIAlertAction!) in
             print("Cancel Logic")
@@ -179,7 +205,7 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: UITableViewCell? = UITableViewCell(style: .Value1, reuseIdentifier: cellReuseIdentifier)
         cell!.textLabel?.text = courses[indexPath.row]
-        cell!.detailTextLabel?.text = String(Int(arc4random_uniform(100))) + "%"
+        cell!.detailTextLabel?.text = String(self.skillLevels[indexPath.row]) + "%"
         return cell!
     }
     
@@ -194,8 +220,15 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
         if editingStyle == .Delete {
             // Delete the row from the data source
             courses.removeAtIndex(indexPath.row)
+            var ref: FIRDatabaseReference!
+            ref = FIRDatabase.database().reference()
+            let userID = FIRAuth.auth()?.currentUser?.uid
+            
+            ref.child("users").child(userID!).child("skill").child(self.courses[indexPath.row]).removeValue()
+            
             skillSet.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         }
+        
     }
     
     func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {

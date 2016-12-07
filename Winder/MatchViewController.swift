@@ -106,6 +106,7 @@ class MatchViewController:UIViewController{
         
         
         personButton.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height)
+        personButton.addTarget(self, action: #selector(MatchViewController.personClick), forControlEvents:UIControlEvents.TouchUpInside)
         view.addSubview(personButton)
         
         nameLabel.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height*2.4)
@@ -247,6 +248,21 @@ extension MatchViewController: KolodaViewDataSource {
 //        backgroundPic.center = self.view.center
 //        backgroundPic.alpha = 0.4
     }
+    
+    
+    func personClick() {
+        let vc = ViewOtherProfileViewController()
+        let currentSuggestion = (dataSource[self.kolodaView.currentCardIndex] as! PersonalInfo).uid
+        vc.selectedUserID = "YoLazoj0J0cNFLMvoTsjXy7gzmK2"
+        vc.selectedUserID = currentSuggestion
+        print(vc.selectedUserID)
+        let navController = UINavigationController(rootViewController: vc)
+        navController.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
+        presentViewController(navController, animated: true, completion: nil)
+        print("clicked")
+        
+    }
+    
 //
 //    func kolodaShouldApplyAppearAnimation(koloda: KolodaView) -> Bool {
 //        return true
