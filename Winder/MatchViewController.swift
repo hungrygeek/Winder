@@ -10,8 +10,8 @@ import UIKit
 import Koloda
 import Firebase
 
-private var numberOfCards: UInt = 3
-private var matchListLenLimit: UInt = 5
+private var numberOfCards: UInt = 2
+private var matchListLenLimit: UInt = 10
 
 class MatchViewController:UIViewController{
     
@@ -117,6 +117,8 @@ class MatchViewController:UIViewController{
         self.backgroundPic.frame = self.view.frame
         self.backgroundPic.center = self.view.center
         self.backgroundPic.alpha = 0.4
+        
+        ref = FIRDatabase.database().reference()
 
         view.addSubview(backgroundPic)
 
@@ -125,14 +127,13 @@ class MatchViewController:UIViewController{
         blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         blurEffectView.alpha = 0.8
         view.addSubview(blurEffectView)
-        
-        
 
         
         likeButton.center = CGPoint(x: view.frame.width-likeButton.frame.width-10, y: view.frame.height-likeButton.frame.height-25)
+        likeButton.addTarget(self, action: #selector(self.like), forControlEvents:UIControlEvents.TouchUpInside)
         view.addSubview(likeButton)
         
-        dislikeButton.addTarget(self, action: #selector(ViewController.signOut), forControlEvents:UIControlEvents.TouchUpInside)
+        dislikeButton.addTarget(self, action: #selector(self.dislike), forControlEvents:UIControlEvents.TouchUpInside)
         dislikeButton.center = CGPoint(x: likeButton.frame.width+10, y: view.frame.height-likeButton.frame.height-15)
         view.addSubview(dislikeButton)
         
@@ -140,8 +141,6 @@ class MatchViewController:UIViewController{
         personButton.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height-25)
         personButton.addTarget(self, action: #selector(MatchViewController.personClick), forControlEvents:UIControlEvents.TouchUpInside)
         view.addSubview(personButton)
-        
-        
         
         nameLabel.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height*2.6)
         view.addSubview(nameLabel)
@@ -189,13 +188,20 @@ class MatchViewController:UIViewController{
     func getMatchList(matchCount:UInt=5, onCompletion: ()->Void){
         print("retrieving match list")
         ref = FIRDatabase.database().reference()
+        if self.dataSource.count>0{
+            self.kolodaView.reloadData()
+            return
+        }
         ref.child("users").queryLimitedToFirst(matchCount).observeSingleEventOfType(.Value, withBlock: {
             (snapshot) in
             if let users = snapshot.value as? NSDictionary {
                 for (index, key) in (users.allKeys as! [String]).enumerate(){
+                    if key==FIRAuth.auth()?.currentUser?.uid{
+                        continue
+                    }
                     let randomIndex = Int(arc4random_uniform(UInt32(self.picArray.count)))
                     let tempImage = self.picArray[randomIndex]
-                    let pi = PersonalInfo(w: 270, h: 270, uid: key, userImage: UIImageView(image:tempImage))
+                    let pi = PersonalInfo(w: 270, h: 270, uid: key, userDict: users[key] as! NSDictionary)
                     self.backgroundPicArray.append(tempImage)
                     self.dataSource.append(pi)
                     print("got \((users[key] as! NSDictionary)["username"])")
@@ -222,6 +228,14 @@ class MatchViewController:UIViewController{
         print("Swiped")
     }
     
+    func like(){
+        kolodaView.swipe(.Right)
+    }
+    
+    func dislike(){
+        kolodaView.swipe(.Left)
+    }
+
     func signOut(){
         print("sign out")
         // [START signout]
@@ -259,6 +273,14 @@ extension MatchViewController: KolodaViewDelegate {
             print("you swipe \(index) *RIGHT*")
             
             print((dataSource[Int(index)] as! PersonalInfo).uid)
+            
+            // add uid to matched lis
+            if let uid = FIRAuth.auth()!.currentUser?.uid, peer_uid = (dataSource[Int(index)] as? PersonalInfo)?.uid{
+                ref.child("users/\(uid)/matched/\(peer_uid)").setValue(NSDate().timeIntervalSince1970*1000)
+            } else{
+                print("can not get user")
+            }
+
         } else {
             print("you swipe that biatch *LEFT*")
             
@@ -313,9 +335,9 @@ extension MatchViewController: KolodaViewDataSource {
     func personClick() {
         let vc = ViewOtherProfileViewController()
         let currentSuggestion = (dataSource[self.kolodaView.currentCardIndex] as! PersonalInfo).uid
-        //vc.selectedUserID = "YoLazoj0J0cNFLMvoTsjXy7gzmK2"
+//        vc.selectedUserID = "YoLazoj0J0cNFLMvoTsjXy7gzmK2"
         vc.selectedUserID = currentSuggestion
-        print(vc.selectedUserID)
+//        print(vc.selectedUserID)
         let navController = UINavigationController(rootViewController: vc)
         navController.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
         presentViewController(navController, animated: true, completion: nil)

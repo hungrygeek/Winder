@@ -24,6 +24,9 @@ class MessageViewController: UITableViewController {
         tableView.registerClass(UserCell.self, forCellReuseIdentifier: cellId)
         self.title = "Talk to your peer"
         fetchUser()
+        fetchUserName(){
+            self.tableView.reloadData()
+        }
         
         
         
@@ -34,22 +37,42 @@ class MessageViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    func fetchUser() {
-        FIRDatabase.database().reference().child("users").observeEventType(.ChildAdded, withBlock: { (snapshot) in
-            
-            if let dictionary = snapshot.value as? [String: AnyObject] {
-                
-                //if you use this setter, your app will crash if your class properties don't exactly match up with the firebase dictionary keys
-                self.userlist.append(String(dictionary["username"]!))
-                self.idlist.append(String(snapshot.key))
-                
-                //this will crash because of background thread, so lets use dispatch_async to fix
+    func fetchUserName(onCompletion: ()->Void) {
+        self.userlist = []
+        FIRDatabase.database().reference().child("users").observeEventType(.Value, withBlock: { (snapshot) in
+            print(snapshot)
+            if let d = snapshot.value as? [String: NSDictionary] {
+                print(d)
+                for id in self.idlist{
+                    if let uname = d[id]?["username"] {
+                        self.userlist.append(uname as! String)
+                    } else{
+                        print("fail to get username of id \(id)")
+                    }
+                }
+                print("usernames \(self.userlist)")
+                self.tableView.reloadData()
                 dispatch_async(dispatch_get_main_queue(), {
+                    /*
+                     this will be executed len(idlist) times
+                     */
                     self.tableView.reloadData()
                 })
-                
-                //                user.name = dictionary["name"]
+            }
+            
+            }, withCancelBlock: nil)
+    }
+    func fetchUser() {
+        FIRDatabase.database().reference().child("users").child((FIRAuth.auth()?.currentUser?.uid)!).child("matched").observeEventType(.ChildAdded, withBlock: { (snapshot) in
+            if snapshot.key != FIRAuth.auth()?.currentUser?.uid  {
+                //if you use this setter, your app will crash if your class properties don't exactly match up with the firebase dictionary keys
+                self.idlist.append(String(snapshot.key))
+                //this will crash because of background thread, so lets use dispatch_async to fix
+//                dispatch_async(dispatch_get_main_queue(), {
+                    /*
+                     this will be executed len(idlist) times
+                        */
+//                })
             }
             
             }, withCancelBlock: nil)
