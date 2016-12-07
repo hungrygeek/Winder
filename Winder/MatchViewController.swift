@@ -71,6 +71,9 @@ class MatchViewController:UIViewController{
         var button = UIButton()
         button.frame = CGRect(x: 0,y: 0,width: 75,height: 75)
         button.setBackgroundImage(checkImg, forState: UIControlState.Normal)
+        button.layer.shadowColor = UIColor.blackColor().CGColor
+        button.layer.shadowRadius = 5
+        button.layer.shadowOpacity = 0.5
         return button
     }()
     
@@ -79,6 +82,9 @@ class MatchViewController:UIViewController{
         var button = UIButton()
         button.frame = CGRect(x: 0,y: 0,width: 75,height: 75)
         button.setBackgroundImage(checkImg, forState: UIControlState.Normal)
+        button.layer.shadowColor = UIColor.blackColor().CGColor
+        button.layer.shadowRadius = 5
+        button.layer.shadowOpacity = 0.5
         return button
     }()
     
@@ -87,6 +93,9 @@ class MatchViewController:UIViewController{
         var button = UIButton()
         button.frame = CGRect(x: 0,y: 0,width: 45,height: 45)
         button.setBackgroundImage(checkImg, forState: UIControlState.Normal)
+        button.layer.shadowColor = UIColor.blackColor().CGColor
+        button.layer.shadowRadius = 5
+        button.layer.shadowOpacity = 0.5
         return button
     }()
     
@@ -118,15 +127,15 @@ class MatchViewController:UIViewController{
         view.addSubview(blurEffectView)
 
         
-        likeButton.center = CGPoint(x: view.frame.width-likeButton.frame.width-10, y: view.frame.height-likeButton.frame.height-40)
+        likeButton.center = CGPoint(x: view.frame.width-likeButton.frame.width-10, y: view.frame.height-likeButton.frame.height-25)
         view.addSubview(likeButton)
         
         dislikeButton.addTarget(self, action: #selector(ViewController.signOut), forControlEvents:UIControlEvents.TouchUpInside)
-        dislikeButton.center = CGPoint(x: likeButton.frame.width+10, y: view.frame.height-likeButton.frame.height-20)
+        dislikeButton.center = CGPoint(x: likeButton.frame.width+10, y: view.frame.height-likeButton.frame.height-15)
         view.addSubview(dislikeButton)
         
         
-        personButton.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height)
+        personButton.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height-25)
         personButton.addTarget(self, action: #selector(MatchViewController.personClick), forControlEvents:UIControlEvents.TouchUpInside)
         view.addSubview(personButton)
         
