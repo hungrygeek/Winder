@@ -23,6 +23,7 @@ class ViewOtherProfileViewController: UIViewController, UITableViewDelegate, UIT
     let uniName = UILabel()
     let personName = UILabel()
     var selectedUserID = ""
+    var image = UIImageView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +34,10 @@ class ViewOtherProfileViewController: UIViewController, UITableViewDelegate, UIT
         var ref: FIRDatabaseReference!
         ref = FIRDatabase.database().reference()
         //let userID = FIRAuth.auth()?.currentUser?.uid
-        
+        ref.child("users").child(self.selectedUserID).child("image").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+            let url = snapshot.value! as! String
+            self.loadImageUsingCacheWithUrlString(url)
+        })
         ref.child("users").child(self.selectedUserID).child("skill").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
             let diction1 = snapshot.value! as! [String: AnyObject]
             self.courses = []
@@ -45,14 +49,14 @@ class ViewOtherProfileViewController: UIViewController, UITableViewDelegate, UIT
             self.skillSet.reloadData()
         })
         
-        let personalAvatar = UIImageView()
-        personalAvatar.frame = CGRectMake(0, 0, 300, 300)
-        personalAvatar.center = CGPoint(x: self.view.center.x, y: 220)
-        personalAvatar.image = UIImage(named: "avatar1")
+//        let personalAvatar = UIImageView()
+//        personalAvatar.frame = CGRectMake(0, 0, 300, 300)
+//        personalAvatar.center = CGPoint(x: self.view.center.x, y: 220)
+//        personalAvatar.image = UIImage(named: "avatar1")
         //personalAvatar.layer.backgroundColor = UIColor.whiteColor().CGColor
-        personalAvatar.layer.cornerRadius = 150
-        personalAvatar.clipsToBounds = true
-        self.view.addSubview(personalAvatar)
+//        personalAvatar.layer.cornerRadius = 150
+//        personalAvatar.clipsToBounds = true
+//        self.view.addSubview(personalAvatar)
         
         
         self.uniName.frame = CGRectMake(0, 0, 300, 40)
@@ -129,6 +133,42 @@ class ViewOtherProfileViewController: UIViewController, UITableViewDelegate, UIT
     }
     
     
+    private func loadImageUsingCacheWithUrlString(urlString: String) {
+        if urlString == "" || self.image.image != nil {
+            print("we got profile image or the url is null")
+            
+        } else {
+            print("got \(urlString)")
+            let url = NSURL(string: urlString)
+            NSURLSession.sharedSession().dataTaskWithURL(url!, completionHandler: { (data, response, error) in
+                
+                //download hit an error so lets return out
+                if error != nil {
+                    print(error)
+                    return
+                }
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    
+                    if let downloadedImage = UIImage(data: data!) {
+                        
+                        self.image = UIImageView(image: downloadedImage)
+                        self.image.frame = CGRectMake(0, 0, 240, 240)
+                        self.image.layer.cornerRadius = 120
+                        self.image.clipsToBounds = true
+                        self.image.layer.backgroundColor = UIColor.whiteColor().CGColor
+                        self.image.center = CGPoint(x: self.view.center.x, y: 220)
+//                        self.image.center = CGPointMake(self.view.frame.midX, self.view.frame.midY)
+                        self.view.addSubview(self.image)
+                        self.image.setNeedsDisplay()
+                    }
+                    
+                })
+                
+            }).resume()
+        }
+        
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
