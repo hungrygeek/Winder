@@ -13,6 +13,7 @@ class PersonalInfo:UIView {
     var image = UIImageView()
     var ability = Array<Double>()
     var layerArray = Array<CAShapeLayer>()
+    var userDict: NSDictionary
     
     //hardcoded info
     var uid: String
@@ -21,6 +22,7 @@ class PersonalInfo:UIView {
     
     init(w:CGFloat,h:CGFloat, uid:String, userDict: NSDictionary){
         self.uid = uid
+        self.userDict = userDict
         super.init(frame:CGRect(x: 0, y: 0, width: w, height: h))
         loadImageUsingCacheWithUrlString(userDict["image"] as! String)
 //        image = UIImage(named:userDict["image"])
@@ -65,6 +67,42 @@ class PersonalInfo:UIView {
             }).resume()
         }
         
+    }
+    func setAbilityBar2(){
+        let keys = self.userDict["skill"]!.allKeys as! [String]
+        let centerPoint = CGPointMake(self.frame.midX, self.frame.midY)
+        let c = min(keys.count, 4)
+        for index:Int in 0..<c{
+            let skill = UILabel()
+            skill.frame = CGRectMake(0, 0, 100, 15)
+            skill.center = CGPointMake(self.frame.midX-20, self.frame.midY-CGFloat(index+8)*15)
+            skill.text = keys[index]
+            skill.font = skill.font.fontWithSize(10)
+            let layer = CAShapeLayer()
+            layer.backgroundColor = UIColor.clearColor().CGColor
+            layer.fillColor = UIColor.clearColor().CGColor
+            layer.strokeColor = UIColor.getCustomColor(UIColor())(Int(index)).CGColor
+            layer.lineWidth = 15
+            layer.lineCap = kCALineCapRound
+            let startAngle = CGFloat(M_PI_2*3)
+            print("ability \(self.userDict["skill"]?.valueForKey(keys[index]))")
+            let abilityLevel = (self.userDict["skill"]?.valueForKey(keys[index])) as! Int
+//            let skillValue = abilityLevel as! Double
+            let endAngle = CGFloat(M_PI_2*3 + M_PI*Double(abilityLevel)*0.0175)
+            layer.path = UIBezierPath(arcCenter:centerPoint, radius: CGFloat(index+8)*15, startAngle:startAngle, endAngle:endAngle, clockwise: true).CGPath
+            let animation = CABasicAnimation(keyPath: "strokeEnd")
+            animation.delegate = self
+            animation.duration = 1
+            animation.fromValue = 0
+            animation.toValue = 1
+            layer.strokeEnd = 1
+            layer.addAnimation(animation, forKey: nil)
+            layerArray.append(layer)
+            self.backgroundColor = UIColor.clearColor()
+            
+            self.layer.addSublayer(layer)
+            self.addSubview(skill)
+        }
     }
     
     func setAbilityBar(abilityLevel:Array<Double>){

@@ -158,10 +158,10 @@ class MatchViewController:UIViewController{
             self.kolodaView.delegate = self
             self.view.addSubview(self.kolodaView)
 //            let total = Double(matchListLenLimit)*2
-            (self.dataSource[0] as! PersonalInfo).setAbilityBar([21,1,89,53])
+//            (self.dataSource[0] as! PersonalInfo).setAbilityBar([21,1,89,53])
+            (self.dataSource[0] as! PersonalInfo).setAbilityBar2()
             print("Now i have \(self.backgroundPicArray.count) images")
             self.backgroundPic.image = self.backgroundPicArray[0]
-            self.backgroundPic.setNeedsDisplay()
             var ref: FIRDatabaseReference!
             ref = FIRDatabase.database().reference()
             let userTemp = self.dataSource[self.kolodaView.currentCardIndex] as! PersonalInfo
@@ -171,6 +171,7 @@ class MatchViewController:UIViewController{
                 self.schoolLabel.text = String(schoolNamef!)
                 self.nameLabel.text = String(personNamef!)
             })
+            self.backgroundPic.setNeedsDisplay()
         }
         
 
@@ -319,7 +320,8 @@ extension MatchViewController: KolodaViewDataSource {
         
         self.backgroundPic.image = self.backgroundPicArray[Int(index)]
         self.backgroundPic.setNeedsDisplay()
-        userTemp.setAbilityBar([73,64,52,78])
+//        userTemp.setAbilityBar([73,64,52,78])
+        userTemp.setAbilityBar2()
         var ref: FIRDatabaseReference!
         ref = FIRDatabase.database().reference()
         ref.child("users").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
