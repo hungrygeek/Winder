@@ -32,7 +32,7 @@ class ViewOtherProfileViewController: UIViewController, UITableViewDelegate, UIT
 
         var ref: FIRDatabaseReference!
         ref = FIRDatabase.database().reference()
-        let userID = FIRAuth.auth()?.currentUser?.uid
+        //let userID = FIRAuth.auth()?.currentUser?.uid
         
         ref.child("users").child(self.selectedUserID).child("skill").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
             let diction1 = snapshot.value! as! [String: AnyObject]
@@ -129,11 +129,6 @@ class ViewOtherProfileViewController: UIViewController, UITableViewDelegate, UIT
     }
     
     
-    func editClick() {
-        
-        self.skillSet.editing = !self.skillSet.editing
-        
-    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import Firebase
 
-class PersonalViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class PersonalViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var courses :[String] = ["Artificial Intelligence", "Swift", "Machine Learning", "Calculus", "Differentail Equation","Asian History", "Computer Architecture"]
     var skillLevels = ["","","","","","",""]
@@ -21,6 +21,7 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
     let okicon = UIImage(named: "ok_100")
     let uniName = UILabel()
     let personName = UILabel()
+    let personalAvatar = UIImageView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +31,39 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
         var ref: FIRDatabaseReference!
         ref = FIRDatabase.database().reference()
         let userID = FIRAuth.auth()?.currentUser?.uid
+        
+        
+        func loadImageUsingCacheWithUrlString(urlString: String) {
+            let url = NSURL(string: urlString)
+            NSURLSession.sharedSession().dataTaskWithURL(url!, completionHandler: { (data, response, error) in
+                
+                //download hit an error so lets return out
+                if error != nil {
+                    print(error)
+                    return
+                }
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    
+                    if let downloadedImage = UIImage(data: data!) {
+                        
+                        self.personalAvatar.image = downloadedImage
+                    }
+                    
+                })
+                
+            }).resume()
+        }
+        
+        ref.child("users").child(userID!).child("image").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+            if String(snapshot.value!) != "" {
+                loadImageUsingCacheWithUrlString(String(snapshot.value!))
+            } else {
+            
+                self.personalAvatar.image = UIImage(named: "avatar1")
+            }
+            
+        })
 
         ref.child("users").child(userID!).child("skill").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
             let diction1 = snapshot.value! as! [String: AnyObject]
@@ -42,14 +76,29 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
             self.skillSet.reloadData()
         })
         
-        let personalAvatar = UIImageView()
-        personalAvatar.frame = CGRectMake(0, 0, 300, 300)
-        personalAvatar.center = CGPoint(x: self.view.center.x, y: 180)
-        personalAvatar.image = UIImage(named: "avatar1")
+        //let personalAvatar = UIImageView()
+        self.personalAvatar.frame = CGRectMake(0, 0, 300, 300)
+        self.personalAvatar.center = CGPoint(x: self.view.center.x, y: 180)
+        //self.personalAvatar.image = UIImage(named: "avatar1")
         //personalAvatar.layer.backgroundColor = UIColor.whiteColor().CGColor
-        personalAvatar.layer.cornerRadius = 150
-        personalAvatar.clipsToBounds = true
+        self.personalAvatar.layer.cornerRadius = 150
+        self.personalAvatar.clipsToBounds = true
+        self.personalAvatar.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSelectProfileImageView)))
+        self.personalAvatar.userInteractionEnabled = true
         self.view.addSubview(personalAvatar)
+
+        
+        
+
+        
+        
+        // load image
+
+        
+        // end of load image
+        
+        
+        
         
         
         self.uniName.frame = CGRectMake(0, 0, 300, 40)
@@ -147,6 +196,81 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
         
         
     }
+    
+    
+    
+    // image picker
+    
+    func handleSelectProfileImageView() {
+        let picker = UIImagePickerController()
+        
+        picker.delegate = self
+        picker.allowsEditing = true
+        
+        presentViewController(picker, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        
+        var selectedImageFromPicker: UIImage?
+        
+        if let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage {
+            selectedImageFromPicker = editedImage
+        } else if let originalImage = info["UIImagePickerControllerOriginalImage"] as? UIImage {
+            
+            selectedImageFromPicker = originalImage
+        }
+        
+        if let selectedImage = selectedImageFromPicker {
+            self.personalAvatar.image = selectedImage
+        }
+        
+        let imageName = NSUUID().UUIDString
+        let storageRef = FIRStorage.storage().reference().child("profile_images").child("\(imageName).png")
+        
+        if let uploadData = UIImagePNGRepresentation(self.personalAvatar.image!) {
+            
+            storageRef.putData(uploadData, metadata: nil, completion: { (metadata, error) in
+                
+                if error != nil {
+                    print(error)
+                    return
+                }
+                
+                if let profileImageUrl = metadata?.downloadURL()?.absoluteString {
+                    
+                    let ref = FIRDatabase.database().reference()
+                    let userID = FIRAuth.auth()?.currentUser?.uid
+                    ref.child("users").child(userID!).updateChildValues(["image":profileImageUrl])
+                    
+                }
+            })
+        
+        dismissViewControllerAnimated(true, completion: nil)
+        
+        }
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        print("canceled picker")
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    
+    // end of image picker
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     func addClick() {

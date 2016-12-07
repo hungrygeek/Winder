@@ -87,7 +87,7 @@ class MessageViewController: UITableViewController {
         self.partner.partnerName = self.userlist[indexPath.row]
         let vc = ChatViewController()
         let navController = UINavigationController(rootViewController: vc)
-        navController.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
+        navController.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
         presentViewController(navController, animated: true, completion: nil)
         
     }

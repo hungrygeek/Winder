@@ -49,7 +49,7 @@ class MatchViewController:UIViewController{
     
     var nameLabel:UILabel = {
         let label = UILabel()
-        label.text = "Cat Wang"
+        label.text = ""
         label.textColor = UIColor.blackColor()
         label.textAlignment = NSTextAlignment.Center
         label.font = UIFont.systemFontOfSize(25, weight: UIFontWeightLight)
@@ -59,7 +59,7 @@ class MatchViewController:UIViewController{
     
     var schoolLabel:UILabel = {
         let label = UILabel()
-        label.text = "Cashington University"
+        label.text = ""
         label.textColor = UIColor.blackColor()
         label.textAlignment = NSTextAlignment.Center
         label.font = UIFont.systemFontOfSize(20, weight: UIFontWeightLight)
@@ -125,6 +125,8 @@ class MatchViewController:UIViewController{
         blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         blurEffectView.alpha = 0.8
         view.addSubview(blurEffectView)
+        
+        
 
         
         likeButton.center = CGPoint(x: view.frame.width-likeButton.frame.width-10, y: view.frame.height-likeButton.frame.height-25)
@@ -138,6 +140,8 @@ class MatchViewController:UIViewController{
         personButton.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height-25)
         personButton.addTarget(self, action: #selector(MatchViewController.personClick), forControlEvents:UIControlEvents.TouchUpInside)
         view.addSubview(personButton)
+        
+        
         
         nameLabel.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height*2.6)
         view.addSubview(nameLabel)
@@ -159,6 +163,15 @@ class MatchViewController:UIViewController{
             print("Now i have \(self.backgroundPicArray.count) images")
             self.backgroundPic.image = self.backgroundPicArray[0]
             self.backgroundPic.setNeedsDisplay()
+            var ref: FIRDatabaseReference!
+            ref = FIRDatabase.database().reference()
+            let userTemp = self.dataSource[self.kolodaView.currentCardIndex] as! PersonalInfo
+            ref.child("users").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+                let personNamef = snapshot.value![userTemp.uid]!!["username"]!
+                let schoolNamef = snapshot.value![userTemp.uid]!!["school"]!
+                self.schoolLabel.text = String(schoolNamef!)
+                self.nameLabel.text = String(personNamef!)
+            })
         }
         
 
@@ -285,6 +298,14 @@ extension MatchViewController: KolodaViewDataSource {
         self.backgroundPic.image = self.backgroundPicArray[Int(index)]
         self.backgroundPic.setNeedsDisplay()
         userTemp.setAbilityBar([73,64,52,78])
+        var ref: FIRDatabaseReference!
+        ref = FIRDatabase.database().reference()
+        ref.child("users").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+            let personNamef = snapshot.value![userTemp.uid]!!["username"]!
+            let schoolNamef = snapshot.value![userTemp.uid]!!["school"]!
+            self.schoolLabel.text = String(schoolNamef!)
+            self.nameLabel.text = String(personNamef!)
+        })
      
     }
     
@@ -292,7 +313,7 @@ extension MatchViewController: KolodaViewDataSource {
     func personClick() {
         let vc = ViewOtherProfileViewController()
         let currentSuggestion = (dataSource[self.kolodaView.currentCardIndex] as! PersonalInfo).uid
-        vc.selectedUserID = "YoLazoj0J0cNFLMvoTsjXy7gzmK2"
+        //vc.selectedUserID = "YoLazoj0J0cNFLMvoTsjXy7gzmK2"
         vc.selectedUserID = currentSuggestion
         print(vc.selectedUserID)
         let navController = UINavigationController(rootViewController: vc)
