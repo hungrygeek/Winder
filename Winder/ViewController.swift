@@ -212,8 +212,9 @@ class ViewController: UIViewController,UIAlertViewDelegate {
                     print("login in with \(FIRAuth.auth()?.currentUser?.email)")
                     self.goToMatchView()
                 } else {
-                    print("error.localizedDescription", error?.localizedDescription)
-                    print("error.localizedFailureReason", error?.localizedFailureReason)
+                    print("error")
+//                    print("error.localizedDescription", error?.localizedDescription)
+//                    print("error.localizedFailureReason", error?.localizedFailureReason)
                 }
             }
             let vc = MatchViewController()

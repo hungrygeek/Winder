@@ -48,10 +48,10 @@ func makeConversation()->[JSQMessage]{
         for child in snapshot.children {
             //print(userID!)
             
-            if String((child as AnyObject).value["fromID"]!!) == userID! && String(child.value["toID"]!!) == partner.partnerID {
+            if String((child as NSDictionary).value["fromID"]!!) == userID! && String(child.value["toID"]!!) == partner.partnerID {
 
                 print("11111111111111111")
-                let tempmessage = JSQMessage(senderId: String((child as AnyObject).value["fromID"]!!), displayName: "", text: String(child.value["text"]!!))
+                let tempmessage = JSQMessage(senderId: String((child as NSDictionary).value["fromID"]!!), displayName: "", text: String(child.value["text"]!!))
                 //print(conversation)
                 conversation.append(tempmessage)
             }
