@@ -5,6 +5,9 @@
 //  Created by Rokee on 11/12/16.
 //  Copyright © 2016 cse438. All rights reserved.
 //
+//
+//modified on Dec. 16, 2016 for Swift3
+//
 
 import UIKit
 import Koloda
