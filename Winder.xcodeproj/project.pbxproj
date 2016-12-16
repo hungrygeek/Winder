@@ -178,6 +178,7 @@
 					83AF57F21DD62BBC00C63709 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = N32KG697D9;
+						LastSwiftMigration = 0820;
 					};
 				};
 			};
@@ -405,6 +406,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.cse438.Winder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -420,6 +422,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.cse438.Winder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

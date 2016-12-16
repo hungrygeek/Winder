@@ -20,8 +20,8 @@ class MessageViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .Plain, target: self, action: #selector(handleBack))
-        tableView.registerClass(UserCell.self, forCellReuseIdentifier: cellId)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(handleBack))
+        tableView.register(UserCell.self, forCellReuseIdentifier: cellId)
         self.title = "Talk to your peer"
         fetchUser()
         fetchUserName(){
@@ -37,9 +37,9 @@ class MessageViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    func fetchUserName(onCompletion: ()->Void) {
+    func fetchUserName(_ onCompletion: ()->Void) {
         self.userlist = []
-        FIRDatabase.database().reference().child("users").observeEventType(.Value, withBlock: { (snapshot) in
+        FIRDatabase.database().reference().child("users").observe(.value, with: { (snapshot) in
             print(snapshot)
             if let d = snapshot.value as? [String: NSDictionary] {
                 print(d)
@@ -52,7 +52,7 @@ class MessageViewController: UITableViewController {
                 }
                 print("usernames \(self.userlist)")
                 self.tableView.reloadData()
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async(execute: {
                     /*
                      this will be executed len(idlist) times
                      */
@@ -60,10 +60,10 @@ class MessageViewController: UITableViewController {
                 })
             }
             
-            }, withCancelBlock: nil)
+            }, withCancel: nil)
     }
     func fetchUser() {
-        FIRDatabase.database().reference().child("users").child((FIRAuth.auth()?.currentUser?.uid)!).child("matched").observeEventType(.ChildAdded, withBlock: { (snapshot) in
+        FIRDatabase.database().reference().child("users").child((FIRAuth.auth()?.currentUser?.uid)!).child("matched").observe(.childAdded, with: { (snapshot) in
             if snapshot.key != FIRAuth.auth()?.currentUser?.uid  {
                 //if you use this setter, your app will crash if your class properties don't exactly match up with the firebase dictionary keys
                 self.idlist.append(String(snapshot.key))
@@ -75,28 +75,28 @@ class MessageViewController: UITableViewController {
 //                })
             }
             
-            }, withCancelBlock: nil)
+            }, withCancel: nil)
     }
     
     
     func handleBack() {
         let matchView = MatchViewController()
-        presentViewController(matchView, animated: true, completion: nil)
+        present(matchView, animated: true, completion: nil)
         
     }
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.userlist.count
     }
     
     
     
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // let use a hack for now, we actually need to dequeue our cells for memory efficiency
         //        let cell = UITableViewCell(style: .Subtitle, reuseIdentifier: cellId)
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellId, forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
         
         let user = userlist[indexPath.row]
         cell.textLabel?.text = user
@@ -104,14 +104,14 @@ class MessageViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         self.partner.partnerID = self.idlist[indexPath.row]
         self.partner.partnerName = self.userlist[indexPath.row]
         let vc = ChatViewController()
         let navController = UINavigationController(rootViewController: vc)
-        navController.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
-        presentViewController(navController, animated: true, completion: nil)
+        navController.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+        present(navController, animated: true, completion: nil)
         
     }
     

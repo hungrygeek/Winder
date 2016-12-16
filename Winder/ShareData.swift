@@ -9,15 +9,16 @@
 import Foundation
 
 class ShareData {
+    private static var __once: () = {
+            Static.instance = ShareData()
+        }()
     class var sharedInstance: ShareData {
         struct Static {
             static var instance: ShareData?
-            static var token: dispatch_once_t = 0
+            static var token: Int = 0
         }
         
-        dispatch_once(&Static.token) {
-            Static.instance = ShareData()
-        }
+        _ = ShareData.__once
         
         return Static.instance!
     }

@@ -12,18 +12,18 @@ import Firebase
 class ViewController: UIViewController,UIAlertViewDelegate {
     
 
-    private let backgroundPic = UIImageView()
-    private let logoImage = UIImageView()
-    private let choseButtonLeft = UIButton()
-    private let choseButtonRight = UIButton()
-    private let logInUserName = UITextField()
-    private let underlineUsername = UIView()
-    private let logInPassword = UITextField()
-    private let signUpPassword = UITextField()
-    private let underlinePassword2 = UIView()
-    private let underlinePassword = UIView()
-    private let logInButton = UIButton()
-    private let signUpButton = UIButton()
+    fileprivate let backgroundPic = UIImageView()
+    fileprivate let logoImage = UIImageView()
+    fileprivate let choseButtonLeft = UIButton()
+    fileprivate let choseButtonRight = UIButton()
+    fileprivate let logInUserName = UITextField()
+    fileprivate let underlineUsername = UIView()
+    fileprivate let logInPassword = UITextField()
+    fileprivate let signUpPassword = UITextField()
+    fileprivate let underlinePassword2 = UIView()
+    fileprivate let underlinePassword = UIView()
+    fileprivate let logInButton = UIButton()
+    fileprivate let signUpButton = UIButton()
 
     
     override func viewDidLoad() {
@@ -47,14 +47,14 @@ class ViewController: UIViewController,UIAlertViewDelegate {
         
         self.view.addSubview(backgroundPic)
         
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.Light)
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.light)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = view.bounds
-        blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         blurEffectView.alpha = 0.7
         view.addSubview(blurEffectView)
         
-        logoImage.frame = CGRectMake(0, 0, 300, 300)
+        logoImage.frame = CGRect(x: 0, y: 0, width: 300, height: 300)
         logoImage.center = CGPoint(x: self.view.center.x,y: self.view.center.y*0.47)
         logoImage.image = UIImage(named: "logo")
         self.view.addSubview(logoImage)
@@ -72,32 +72,32 @@ class ViewController: UIViewController,UIAlertViewDelegate {
         //choseButtonLeft.layer.backgroundColor = UIColor.blackColor().CGColor
         let rectShape = CAShapeLayer()
         rectShape.frame = choseButtonLeft.bounds
-        rectShape.path = UIBezierPath(roundedRect: rectShape.bounds, byRoundingCorners: [UIRectCorner.BottomLeft,UIRectCorner.TopLeft], cornerRadii: CGSize(width: 25, height: 25)).CGPath
-        choseButtonLeft.layer.backgroundColor = UIColor.getWustlGreenColor(UIColor())().CGColor
+        rectShape.path = UIBezierPath(roundedRect: rectShape.bounds, byRoundingCorners: [UIRectCorner.bottomLeft,UIRectCorner.topLeft], cornerRadii: CGSize(width: 25, height: 25)).cgPath
+        choseButtonLeft.layer.backgroundColor = UIColor.getWustlGreenColor(UIColor())().cgColor
         choseButtonLeft.layer.mask = rectShape
-        choseButtonLeft.setTitle("Log In", forState: UIControlState.Normal)
-        choseButtonLeft.titleLabel?.textColor = UIColor.whiteColor()
+        choseButtonLeft.setTitle("Log In", for: UIControlState())
+        choseButtonLeft.titleLabel?.textColor = UIColor.white
         self.view.addSubview(choseButtonLeft)
         
-        choseButtonLeft.addTarget(self, action: #selector(ViewController.choseLogIn), forControlEvents:UIControlEvents.TouchUpInside)
+        choseButtonLeft.addTarget(self, action: #selector(ViewController.choseLogIn), for:UIControlEvents.touchUpInside)
 
         
         choseButtonRight.frame = CGRect(x: 0, y: 0, width: 150, height: 50)
         choseButtonRight.center = CGPoint(x: self.view.center.x+75, y: self.view.center.y*0.95)
         let rectShape2 = CAShapeLayer()
         rectShape2.frame = choseButtonRight.bounds
-        rectShape2.path = UIBezierPath(roundedRect: rectShape2.bounds, byRoundingCorners: [UIRectCorner.BottomRight,UIRectCorner.TopRight], cornerRadii: CGSize(width: 25, height: 25)).CGPath
-        choseButtonRight.layer.backgroundColor = UIColor.grayColor().CGColor
+        rectShape2.path = UIBezierPath(roundedRect: rectShape2.bounds, byRoundingCorners: [UIRectCorner.bottomRight,UIRectCorner.topRight], cornerRadii: CGSize(width: 25, height: 25)).cgPath
+        choseButtonRight.layer.backgroundColor = UIColor.gray.cgColor
         choseButtonRight.layer.mask = rectShape2
-        choseButtonRight.setTitle("Sign Up", forState: UIControlState.Normal)
-        choseButtonRight.titleLabel?.textColor = UIColor.whiteColor()
+        choseButtonRight.setTitle("Sign Up", for: UIControlState())
+        choseButtonRight.titleLabel?.textColor = UIColor.white
         self.view.addSubview(choseButtonRight)
        
-        choseButtonRight.addTarget(self, action: #selector(ViewController.choseSignUp), forControlEvents:UIControlEvents.TouchUpInside)
+        choseButtonRight.addTarget(self, action: #selector(ViewController.choseSignUp), for:UIControlEvents.touchUpInside)
         
         //username textfield
         
-        logInUserName.frame = CGRectMake(0, 0, 300, 50)
+        logInUserName.frame = CGRect(x: 0, y: 0, width: 300, height: 50)
         logInUserName.center = CGPoint(x: self.view.center.x, y:self.view.center.y*1.2)
         //logInUserName.layer.borderColor = UIColor.whiteColor().CGColor
         //logInUserName.layer.borderWidth = 3
@@ -108,14 +108,14 @@ class ViewController: UIViewController,UIAlertViewDelegate {
         logInUserName.text = ""
         self.view.addSubview(logInUserName)
         
-        underlineUsername.frame = CGRectMake(0, 0, 300, 1)
+        underlineUsername.frame = CGRect(x: 0, y: 0, width: 300, height: 1)
         underlineUsername.center = CGPoint(x: logInUserName.center.x, y: logInUserName.center.y+10)
         underlineUsername.backgroundColor = UIColor.getWustlGreenColor(UIColor())()
         self.view.addSubview(underlineUsername)
     
         //password textfield
         
-        logInPassword.frame = CGRectMake(0, 0, 300, 50)
+        logInPassword.frame = CGRect(x: 0, y: 0, width: 300, height: 50)
         logInPassword.center = CGPoint(x: self.view.center.x, y: self.view.center.y*1.4)
         //logInPassword.layer.borderColor = UIColor.whiteColor().CGColor
         //logInPassword.layer.borderWidth = 3
@@ -123,63 +123,63 @@ class ViewController: UIViewController,UIAlertViewDelegate {
         //logInPassword.layer.cornerRadius = 10
         logInPassword.textColor = UIColor.getWustlGreenColor(UIColor())()
         logInPassword.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSForegroundColorAttributeName: UIColor.getWustlGreenColor(UIColor())()])
-        logInPassword.secureTextEntry = true
+        logInPassword.isSecureTextEntry = true
         logInPassword.text = "111111"
         self.view.addSubview(logInPassword)
         
-        underlinePassword.frame = CGRectMake(0, 0, 300, 1)
+        underlinePassword.frame = CGRect(x: 0, y: 0, width: 300, height: 1)
         underlinePassword.center = CGPoint(x: logInUserName.center.x, y: logInPassword.center.y+10)
         underlinePassword.backgroundColor = UIColor.getWustlGreenColor(UIColor())()
         self.view.addSubview(underlinePassword)
         
         // sign up password again
         
-        signUpPassword.frame = CGRectMake(0, 0, 300, 50)
+        signUpPassword.frame = CGRect(x: 0, y: 0, width: 300, height: 50)
         signUpPassword.center = CGPoint(x: self.view.center.x, y: self.view.center.y*1.6)
         signUpPassword.textColor = UIColor.getWustlGreenColor(UIColor())()
         signUpPassword.attributedPlaceholder = NSAttributedString(string: "Repeat Your Password", attributes: [NSForegroundColorAttributeName: UIColor.getWustlGreenColor(UIColor())()])
-        signUpPassword.secureTextEntry = true
+        signUpPassword.isSecureTextEntry = true
         self.view.addSubview(signUpPassword)
         
         
-        underlinePassword2.frame = CGRectMake(0, 0, 300, 1)
+        underlinePassword2.frame = CGRect(x: 0, y: 0, width: 300, height: 1)
         underlinePassword2.center = CGPoint(x: logInUserName.center.x, y: signUpPassword.center.y+10)
         underlinePassword2.backgroundColor = UIColor.getWustlGreenColor(UIColor())()
         self.view.addSubview(underlinePassword2)
         
-        signUpPassword.hidden = true
-        underlinePassword2.hidden = true
+        signUpPassword.isHidden = true
+        underlinePassword2.isHidden = true
         
         // Login button setting
         
         
         
-        signUpButton.frame = CGRectMake(0, 0, 300, 50)
+        signUpButton.frame = CGRect(x: 0, y: 0, width: 300, height: 50)
         signUpButton.center = CGPoint(x: self.view.center.x, y: self.view.center.y*1.8)
-        signUpButton.setTitle("SIGN UP", forState: UIControlState.Normal)
-        signUpButton.titleLabel?.textColor = UIColor.whiteColor()
-        signUpButton.layer.backgroundColor = UIColor.getWustlGreenColor(UIColor())().CGColor
+        signUpButton.setTitle("SIGN UP", for: UIControlState())
+        signUpButton.titleLabel?.textColor = UIColor.white
+        signUpButton.layer.backgroundColor = UIColor.getWustlGreenColor(UIColor())().cgColor
         signUpButton.layer.cornerRadius = 25
         self.view.addSubview(signUpButton)
-        signUpButton.hidden = true
+        signUpButton.isHidden = true
         
-        signUpButton.addTarget(self, action: #selector(ViewController.signUpClick), forControlEvents:UIControlEvents.TouchUpInside)
+        signUpButton.addTarget(self, action: #selector(ViewController.signUpClick), for:UIControlEvents.touchUpInside)
         
-        logInButton.frame = CGRectMake(0, 0, 300, 50)
+        logInButton.frame = CGRect(x: 0, y: 0, width: 300, height: 50)
         logInButton.center = CGPoint(x: self.view.center.x, y: self.view.center.y*1.8)
-        logInButton.setTitle("LOG IN", forState: UIControlState.Normal)
-        logInButton.titleLabel?.textColor = UIColor.whiteColor()
-        logInButton.layer.backgroundColor = UIColor.getWustlGreenColor(UIColor())().CGColor
+        logInButton.setTitle("LOG IN", for: UIControlState())
+        logInButton.titleLabel?.textColor = UIColor.white
+        logInButton.layer.backgroundColor = UIColor.getWustlGreenColor(UIColor())().cgColor
         logInButton.layer.cornerRadius = 25
         self.view.addSubview(logInButton)
         
-        logInButton.addTarget(self, action: #selector(ViewController.logInClick), forControlEvents:UIControlEvents.TouchUpInside)
+        logInButton.addTarget(self, action: #selector(ViewController.logInClick), for:UIControlEvents.touchUpInside)
         
     }
     func goToMatchView(){
         let vc = PersonalViewController()
-        vc.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
-        presentViewController(vc, animated: true, completion: nil)
+        vc.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
+        present(vc, animated: true, completion: nil)
     }
     func signOut(){
         print("sign out")
@@ -197,12 +197,12 @@ class ViewController: UIViewController,UIAlertViewDelegate {
         
 //        signOut()
 //        if let email = logInUserName.text != nil && logInUserName.text != "" ? logInUserName.text : "rokee.lv@gmail.com", pwd = logInPassword.text != nil && logInPassword.text != "" ? logInPassword.text : "111111" {
-        if let email = logInUserName.text, pwd = logInPassword.text{
+        if let email = logInUserName.text, let pwd = logInPassword.text{
             print("try to sign up with \(email) and \(pwd)")
-            FIRAuth.auth()?.signInWithEmail(email, password: pwd) {
+            FIRAuth.auth()?.signIn(withEmail: email, password: pwd) {
                 (user, error) in
                 if let error = error {
-                    self.popUpAlert(error)
+                    self.popUpAlert(error as NSError)
                     return
                 }
                 if FIRAuth.auth()?.currentUser != nil {
@@ -217,8 +217,8 @@ class ViewController: UIViewController,UIAlertViewDelegate {
                 }
             }
             let vc = MatchViewController()
-            vc.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
-            presentViewController(vc, animated: false, completion: nil)
+            vc.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
+            present(vc, animated: false, completion: nil)
         } else {
             print("something wrong")
         }
@@ -240,10 +240,10 @@ class ViewController: UIViewController,UIAlertViewDelegate {
         }
         // [END signout]
         
-        if let email = logInUserName.text, pwd = logInPassword.text where signUpPassword.text == logInPassword.text{
+        if let email = logInUserName.text, let pwd = logInPassword.text, signUpPassword.text == logInPassword.text{
             // [START create_user]
             print("sign up with \(email) and \(pwd)")
-            firebaseAuth?.createUserWithEmail(email, password: pwd) { (user, error) in
+            firebaseAuth?.createUser(withEmail: email, password: pwd) { (user, error) in
                 //edit something basic into DB
                 var ref: FIRDatabaseReference!
                 ref = FIRDatabase.database().reference()
@@ -254,7 +254,7 @@ class ViewController: UIViewController,UIAlertViewDelegate {
                     ref.child("users/\(user.uid)/skill").setValue(["course1":Int(arc4random_uniform(100)),"course2":Int(arc4random_uniform(100)),"course3":Int(arc4random_uniform(100)),"course4":Int(arc4random_uniform(100))])
                     ref.child("users/\(user.uid)/image").setValue("")
                 } else {
-                    self.popUpAlert(error!)
+                    self.popUpAlert(error! as NSError)
                     print("error \(error?.localizedDescription)")
                 }
                 
@@ -279,12 +279,12 @@ class ViewController: UIViewController,UIAlertViewDelegate {
     
     func choseLogIn(){
         print("log in mode chosen")
-        choseButtonRight.layer.backgroundColor = UIColor.grayColor().CGColor
-        choseButtonLeft.layer.backgroundColor = UIColor.getWustlGreenColor(UIColor())().CGColor
-        signUpPassword.hidden = true
-        underlinePassword2.hidden = true
-        signUpButton.hidden = true
-        logInButton.hidden = false
+        choseButtonRight.layer.backgroundColor = UIColor.gray.cgColor
+        choseButtonLeft.layer.backgroundColor = UIColor.getWustlGreenColor(UIColor())().cgColor
+        signUpPassword.isHidden = true
+        underlinePassword2.isHidden = true
+        signUpButton.isHidden = true
+        logInButton.isHidden = false
     }
     
     func choseSignUp(){
@@ -292,27 +292,27 @@ class ViewController: UIViewController,UIAlertViewDelegate {
 //        let firebaseAuth = FIRAuth.auth()
         print("is user logged in?", FIRAuth.auth()?.currentUser?.uid)
         print("sign up mode chosen")
-        choseButtonRight.layer.backgroundColor = UIColor.getWustlGreenColor(UIColor())().CGColor
-        choseButtonLeft.layer.backgroundColor = UIColor.grayColor().CGColor
-        signUpPassword.hidden = false
-        underlinePassword2.hidden = false
-        signUpButton.hidden = false
-        logInButton.hidden = true
+        choseButtonRight.layer.backgroundColor = UIColor.getWustlGreenColor(UIColor())().cgColor
+        choseButtonLeft.layer.backgroundColor = UIColor.gray.cgColor
+        signUpPassword.isHidden = false
+        underlinePassword2.isHidden = false
+        signUpButton.isHidden = false
+        logInButton.isHidden = true
         
     }
     
-    func popUpAlert(error: NSError){
+    func popUpAlert(_ error: NSError){
         print("error? \(error.localizedDescription)")
-        let refreshAlert = UIAlertController(title: error.localizedDescription, message: "", preferredStyle: UIAlertControllerStyle.Alert)
+        let refreshAlert = UIAlertController(title: error.localizedDescription, message: "", preferredStyle: UIAlertControllerStyle.alert)
         
-        refreshAlert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: { (action: UIAlertAction!) in
+        refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
         }))
         //
         //                    refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action: UIAlertAction!) in
         //                        print("Handle Cancel Logic here")
         //                    }))
         
-        self.presentViewController(refreshAlert, animated: true, completion: nil)
+        self.present(refreshAlert, animated: true, completion: nil)
 
     }
     override func didReceiveMemoryWarning() {

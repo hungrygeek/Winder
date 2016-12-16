@@ -44,14 +44,14 @@ func makeConversation()->[JSQMessage]{
     let userID = FIRAuth.auth()?.currentUser?.uid
     
     conversation = []
-    ref.child("messages").observeEventType(.Value, withBlock: { snapshot in
+    ref.child("messages").observe(.value, with: { snapshot in
         for child in snapshot.children {
             //print(userID!)
             
-            if String(child.value["fromID"]!!) == userID! && String(child.value["toID"]!!) == partner.partnerID {
+            if String((child as AnyObject).value["fromID"]!!) == userID! && String(child.value["toID"]!!) == partner.partnerID {
 
                 print("11111111111111111")
-                let tempmessage = JSQMessage(senderId: String(child.value["fromID"]!!), displayName: "", text: String(child.value["text"]!!))
+                let tempmessage = JSQMessage(senderId: String((child as AnyObject).value["fromID"]!!), displayName: "", text: String(child.value["text"]!!))
                 //print(conversation)
                 conversation.append(tempmessage)
             }

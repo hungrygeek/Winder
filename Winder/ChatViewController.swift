@@ -14,15 +14,15 @@ class ChatViewController: JSQMessagesViewController {
     //var messages = [JSQMessage]()
     
     var conversation: Conversation?
-    let incomingBubble = JSQMessagesBubbleImageFactory().incomingMessagesBubbleImageWithColor(UIColor.jsq_messageBubbleBlueColor())
-    let outgoingBubble = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImageWithColor(UIColor.lightGrayColor())
+    let incomingBubble = JSQMessagesBubbleImageFactory().incomingMessagesBubbleImage(with: UIColor.jsq_messageBubbleBlue())
+    let outgoingBubble = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImage(with: UIColor.lightGray)
     let partner = ShareData.sharedInstance
     var messages = [JSQMessage]()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .Plain, target: self, action: #selector(handleBack))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(handleBack))
         self.title = partner.partnerName
         //print(self.partner.partnerID)
         //print(self.partner.partnerName)
@@ -61,13 +61,13 @@ class ChatViewController: JSQMessagesViewController {
         print(self.messages)
         
         let recognizer: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(ChatViewController.swipeRight(_:)))
-        recognizer.direction = .Right
+        recognizer.direction = .right
         self.view.addGestureRecognizer(recognizer)
         
         
     }
     
-    override func didPressSendButton(button: UIButton?, withMessageText text: String?, senderId: String?, senderDisplayName: String?, date: NSDate?) {
+    override func didPressSend(_ button: UIButton?, withMessageText text: String?, senderId: String?, senderDisplayName: String?, date: Date?) {
 
         let userID = FIRAuth.auth()?.currentUser?.uid
         
@@ -85,31 +85,31 @@ class ChatViewController: JSQMessagesViewController {
         let values = ["text": text, "fromID": userID, "toID": self.partner.partnerID]
         childRef.updateChildValues(values)
         self.messages.append(JSQMessage(senderId: userID, displayName: "", text: text))
-        self.finishSendingMessageAnimated(true)
+        self.finishSendingMessage(animated: true)
         self.collectionView?.reloadData()
     }
     
-    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return messages.count
     }
     
-    override func collectionView(collectionView: JSQMessagesCollectionView?, messageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageData? {
+    override func collectionView(_ collectionView: JSQMessagesCollectionView?, messageDataForItemAt indexPath: IndexPath!) -> JSQMessageData? {
         
         return messages[indexPath.item]
     }
     
-    override func collectionView(collectionView: JSQMessagesCollectionView?, messageBubbleImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageBubbleImageDataSource? {
+    override func collectionView(_ collectionView: JSQMessagesCollectionView?, messageBubbleImageDataForItemAt indexPath: IndexPath!) -> JSQMessageBubbleImageDataSource? {
         //var ref: FIRDatabaseReference!
         //ref = FIRDatabase.database().reference()
         let userID = FIRAuth.auth()?.currentUser?.uid
         return messages[indexPath.item].senderId == userID ? outgoingBubble : incomingBubble
     }
     
-    override func collectionView(collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageAvatarImageDataSource? {
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource? {
         return nil
     }
     
-    override func collectionView(collectionView: JSQMessagesCollectionView?, attributedTextForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> NSAttributedString! {
+    override func collectionView(_ collectionView: JSQMessagesCollectionView?, attributedTextForMessageBubbleTopLabelAt indexPath: IndexPath!) -> NSAttributedString! {
         let message = messages[indexPath.item]
         var ref: FIRDatabaseReference!
         ref = FIRDatabase.database().reference()
@@ -127,25 +127,25 @@ class ChatViewController: JSQMessagesViewController {
         }
     }
     
-    override func collectionView(collectionView: JSQMessagesCollectionView?, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout?, heightForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+    override func collectionView(_ collectionView: JSQMessagesCollectionView?, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout?, heightForMessageBubbleTopLabelAt indexPath: IndexPath!) -> CGFloat {
         var ref: FIRDatabaseReference!
         ref = FIRDatabase.database().reference()
         let userID = FIRAuth.auth()?.currentUser?.uid
         return messages[indexPath.item].senderId == userID ? 0 : kJSQMessagesCollectionViewCellLabelHeightDefault
     }
     
-    func swipeRight(recognizer: UIGestureRecognizer) {
+    func swipeRight(_ recognizer: UIGestureRecognizer) {
         let vc = MatchViewController()
-        vc.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
-        presentViewController(vc, animated: false, completion: nil)
+        vc.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
+        present(vc, animated: false, completion: nil)
         print("Swiped")
     }
     
     func handleBack() {
         let vc = MessageViewController()
         let navController = UINavigationController(rootViewController: vc)
-        navController.modalTransitionStyle = UIModalTransitionStyle.CoverVertical
-        presentViewController(navController, animated: false, completion: nil)
+        navController.modalTransitionStyle = UIModalTransitionStyle.coverVertical
+        present(navController, animated: false, completion: nil)
         
     }
     
@@ -156,15 +156,15 @@ class ChatViewController: JSQMessagesViewController {
         let userID = FIRAuth.auth()?.currentUser?.uid
         
         
-        ref.child("messages").observeEventType(.Value, withBlock: { snapshot in
+        ref.child("messages").observe(.value, with: { snapshot in
             self.messages = [JSQMessage]()
             for child in snapshot.children {
                 //print(userID!)
                 
-                if (String(child.value["fromID"]!!) == userID! && String(child.value["toID"]!!) == self.partner.partnerID) || ((String(child.value["toID"]!!) == userID! && String(child.value["fromID"]!!) == self.partner.partnerID)) {
+                if (String((child as AnyObject).value["fromID"]!!) == userID! && String(child.value["toID"]!!) == self.partner.partnerID) || ((String(child.value["toID"]!!) == userID! && String(child.value["fromID"]!!) == self.partner.partnerID)) {
                     
                     //print("11111111111111111")
-                    let tempmessage = JSQMessage(senderId: String(child.value["fromID"]!!), displayName: "", text: String(child.value["text"]!!))
+                    let tempmessage = JSQMessage(senderId: String((child as AnyObject).value["fromID"]!!), displayName: "", text: String(child.value["text"]!!))
                     //child.updateChildValues(["read":"1"])
                     //print(conversation)
                     self.messages.append(tempmessage)

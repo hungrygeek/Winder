@@ -29,22 +29,22 @@ class ViewOtherProfileViewController: UIViewController, UITableViewDelegate, UIT
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .Plain, target: self, action: #selector(handleBack))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(handleBack))
 
         var ref: FIRDatabaseReference!
         ref = FIRDatabase.database().reference()
         //let userID = FIRAuth.auth()?.currentUser?.uid
-        ref.child("users").child(self.selectedUserID).child("image").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+        ref.child("users").child(self.selectedUserID).child("image").observeSingleEvent(of: .value, with: { (snapshot) in
             let url = snapshot.value! as! String
             self.loadImageUsingCacheWithUrlString(url)
         })
-        ref.child("users").child(self.selectedUserID).child("skill").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+        ref.child("users").child(self.selectedUserID).child("skill").observeSingleEvent(of: .value, with: { (snapshot) in
             let diction1 = snapshot.value! as! [String: AnyObject]
             self.courses = []
             self.skillLevels = []
             for keydic in diction1.keys {
                 self.courses.append(keydic)
-                self.skillLevels.append(String(diction1[keydic]!))
+                self.skillLevels.append(String(describing: diction1[keydic]!))
             }
             self.skillSet.reloadData()
         })
@@ -59,88 +59,88 @@ class ViewOtherProfileViewController: UIViewController, UITableViewDelegate, UIT
 //        self.view.addSubview(personalAvatar)
         
         
-        self.uniName.frame = CGRectMake(0, 0, 300, 40)
+        self.uniName.frame = CGRect(x: 0, y: 0, width: 300, height: 40)
         self.uniName.center = CGPoint(x: self.view.center.x, y: 400)
-        ref.child("users").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+        ref.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
             //print(userID)
             let uniNamef = snapshot.value![self.selectedUserID]!!["school"]!
             self.uniName.text = String(uniNamef!)
             
         })
         // uniName.text = "Washington University"
-        self.uniName.textAlignment = .Center
+        self.uniName.textAlignment = .center
         self.view.addSubview(self.uniName)
         
         
         //let personName = UILabel()
-        self.personName.frame = CGRectMake(0, 0, 300, 40)
+        self.personName.frame = CGRect(x: 0, y: 0, width: 300, height: 40)
         self.personName.center = CGPoint(x: self.view.center.x, y: 430)
-        ref.child("users").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+        ref.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
             let personNamef = snapshot.value![self.selectedUserID]!!["username"]!
             self.personName.text = String(personNamef!)
         })
         //        personName.text = "Shi Shu"
-        self.personName.textAlignment = .Center
+        self.personName.textAlignment = .center
         self.view.addSubview(personName)
         
         
         
         
-        skillSet.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height-350)
+        skillSet.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height-350)
         skillSet.center = CGPoint(x: self.view.center.x, y: 280 + self.view.frame.height/2)
-        skillSet.registerClass(UITableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
+        skillSet.register(UITableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
         skillSet.dataSource = self
         skillSet.delegate = self
         self.view.addSubview(skillSet)
         
         
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.white
         
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.courses.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell: UITableViewCell? = UITableViewCell(style: .Value1, reuseIdentifier: cellReuseIdentifier)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell: UITableViewCell? = UITableViewCell(style: .value1, reuseIdentifier: cellReuseIdentifier)
         cell!.textLabel?.text = courses[indexPath.row]
         cell!.detailTextLabel?.text = String(self.skillLevels[indexPath.row]) + "%"
         return cell!
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        skillSet.deselectRowAtIndexPath(indexPath, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        skillSet.deselectRow(at: indexPath, animated: true)
         print(courses[indexPath.row])
     }
     
     
     
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
         }
         
     }
     
-    func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
-    func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-        var itemToMove = courses[fromIndexPath.row]
-        courses.removeAtIndex(fromIndexPath.row)
-        courses.insert(itemToMove, atIndex: toIndexPath.row)
+    func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to toIndexPath: IndexPath) {
+        let itemToMove = courses[fromIndexPath.row]
+        courses.remove(at: fromIndexPath.row)
+        courses.insert(itemToMove, at: toIndexPath.row)
     }
     
     
-    private func loadImageUsingCacheWithUrlString(urlString: String) {
+    fileprivate func loadImageUsingCacheWithUrlString(_ urlString: String) {
         if urlString == "" || self.image.image != nil {
             print("we got profile image or the url is null")
             
         } else {
             print("got \(urlString)")
-            let url = NSURL(string: urlString)
-            NSURLSession.sharedSession().dataTaskWithURL(url!, completionHandler: { (data, response, error) in
+            let url = URL(string: urlString)
+            URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
                 
                 //download hit an error so lets return out
                 if error != nil {
@@ -148,15 +148,15 @@ class ViewOtherProfileViewController: UIViewController, UITableViewDelegate, UIT
                     return
                 }
                 
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async(execute: {
                     
                     if let downloadedImage = UIImage(data: data!) {
                         
                         self.image = UIImageView(image: downloadedImage)
-                        self.image.frame = CGRectMake(0, 0, 240, 240)
+                        self.image.frame = CGRect(x: 0, y: 0, width: 240, height: 240)
                         self.image.layer.cornerRadius = 120
                         self.image.clipsToBounds = true
-                        self.image.layer.backgroundColor = UIColor.whiteColor().CGColor
+                        self.image.layer.backgroundColor = UIColor.white.cgColor
                         self.image.center = CGPoint(x: self.view.center.x, y: 220)
 //                        self.image.center = CGPointMake(self.view.frame.midX, self.view.frame.midY)
                         self.view.addSubview(self.image)
@@ -177,7 +177,7 @@ class ViewOtherProfileViewController: UIViewController, UITableViewDelegate, UIT
     
     func handleBack() {
         let vc = MatchViewController()
-        presentViewController(vc, animated: true, completion: nil)
+        present(vc, animated: true, completion: nil)
     }
 
 }

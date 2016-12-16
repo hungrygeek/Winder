@@ -35,6 +35,7 @@ class MatchViewController:UIViewController{
 //        }
 //        return array
 //    }()
+    
     var dataSource = Array<UIView>()
     
     var picArray: Array<UIImage> = {
@@ -50,9 +51,9 @@ class MatchViewController:UIViewController{
     var nameLabel:UILabel = {
         let label = UILabel()
         label.text = ""
-        label.textColor = UIColor.blackColor()
-        label.textAlignment = NSTextAlignment.Center
-        label.font = UIFont.systemFontOfSize(25, weight: UIFontWeightLight)
+        label.textColor = UIColor.black
+        label.textAlignment = NSTextAlignment.center
+        label.font = UIFont.systemFont(ofSize: 25, weight: UIFontWeightLight)
         label.frame = CGRect(x:0,y:0,width: 200,height: 50)
         return label
     }()
@@ -60,9 +61,9 @@ class MatchViewController:UIViewController{
     var schoolLabel:UILabel = {
         let label = UILabel()
         label.text = ""
-        label.textColor = UIColor.blackColor()
-        label.textAlignment = NSTextAlignment.Center
-        label.font = UIFont.systemFontOfSize(20, weight: UIFontWeightLight)
+        label.textColor = UIColor.black
+        label.textAlignment = NSTextAlignment.center
+        label.font = UIFont.systemFont(ofSize: 20, weight: UIFontWeightLight)
         label.frame = CGRect(x:0,y:0,width: 200,height: 50)
         return label
     }()
@@ -70,8 +71,8 @@ class MatchViewController:UIViewController{
         let checkImg = UIImage(named:"Thumb Up")! as UIImage
         var button = UIButton()
         button.frame = CGRect(x: 0,y: 0,width: 75,height: 75)
-        button.setBackgroundImage(checkImg, forState: UIControlState.Normal)
-        button.layer.shadowColor = UIColor.blackColor().CGColor
+        button.setBackgroundImage(checkImg, for: UIControlState())
+        button.layer.shadowColor = UIColor.black.cgColor
         button.layer.shadowRadius = 5
         button.layer.shadowOpacity = 0.5
         return button
@@ -81,8 +82,8 @@ class MatchViewController:UIViewController{
         let checkImg = UIImage(named:"Thumbs Down")! as UIImage
         var button = UIButton()
         button.frame = CGRect(x: 0,y: 0,width: 75,height: 75)
-        button.setBackgroundImage(checkImg, forState: UIControlState.Normal)
-        button.layer.shadowColor = UIColor.blackColor().CGColor
+        button.setBackgroundImage(checkImg, for: UIControlState())
+        button.layer.shadowColor = UIColor.black.cgColor
         button.layer.shadowRadius = 5
         button.layer.shadowOpacity = 0.5
         return button
@@ -92,18 +93,18 @@ class MatchViewController:UIViewController{
         let checkImg = UIImage(named:"person")! as UIImage
         var button = UIButton()
         button.frame = CGRect(x: 0,y: 0,width: 45,height: 45)
-        button.setBackgroundImage(checkImg, forState: UIControlState.Normal)
-        button.layer.shadowColor = UIColor.blackColor().CGColor
+        button.setBackgroundImage(checkImg, for: UIControlState())
+        button.layer.shadowColor = UIColor.black.cgColor
         button.layer.shadowRadius = 5
         button.layer.shadowOpacity = 0.5
         return button
     }()
     
     var backgroundPic = UIImageView()
-    let blurEffect1 = UIBlurEffect(style: UIBlurEffectStyle.ExtraLight)
+    let blurEffect1 = UIBlurEffect(style: UIBlurEffectStyle.extraLight)
 
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         if FIRAuth.auth()?.currentUser != nil {
             print("login success")
             print("uid: \(FIRAuth.auth()!.currentUser!.uid)")
@@ -124,22 +125,22 @@ class MatchViewController:UIViewController{
 
         let blurEffectView = UIVisualEffectView(effect: blurEffect1)
         blurEffectView.frame = view.bounds
-        blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         blurEffectView.alpha = 0.8
         view.addSubview(blurEffectView)
 
         
         likeButton.center = CGPoint(x: view.frame.width-likeButton.frame.width-10, y: view.frame.height-likeButton.frame.height-25)
-        likeButton.addTarget(self, action: #selector(self.like), forControlEvents:UIControlEvents.TouchUpInside)
+        likeButton.addTarget(self, action: #selector(self.like), for:UIControlEvents.touchUpInside)
         view.addSubview(likeButton)
         
-        dislikeButton.addTarget(self, action: #selector(self.dislike), forControlEvents:UIControlEvents.TouchUpInside)
+        dislikeButton.addTarget(self, action: #selector(self.dislike), for:UIControlEvents.touchUpInside)
         dislikeButton.center = CGPoint(x: likeButton.frame.width+10, y: view.frame.height-likeButton.frame.height-15)
         view.addSubview(dislikeButton)
         
         
         personButton.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height-25)
-        personButton.addTarget(self, action: #selector(MatchViewController.personClick), forControlEvents:UIControlEvents.TouchUpInside)
+        personButton.addTarget(self, action: #selector(MatchViewController.personClick), for:UIControlEvents.touchUpInside)
         view.addSubview(personButton)
         
         nameLabel.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height*2.6)
@@ -165,7 +166,7 @@ class MatchViewController:UIViewController{
             var ref: FIRDatabaseReference!
             ref = FIRDatabase.database().reference()
             let userTemp = self.dataSource[self.kolodaView.currentCardIndex] as! PersonalInfo
-            ref.child("users").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+            ref.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
                 let personNamef = snapshot.value![userTemp.uid]!!["username"]!
                 let schoolNamef = snapshot.value![userTemp.uid]!!["school"]!
                 self.schoolLabel.text = String(schoolNamef!)
@@ -175,28 +176,28 @@ class MatchViewController:UIViewController{
         }
         
 
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.white
         
         let recognizer1: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(MatchViewController.swipeLeft(_:)))
-        recognizer1.direction = .Left
+        recognizer1.direction = .left
         self.view.addGestureRecognizer(recognizer1)
         
         let recognizer2: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(MatchViewController.swipeRight(_:)))
-        recognizer2.direction = .Right
+        recognizer2.direction = .right
         self.view.addGestureRecognizer(recognizer2)
     }
     
-    func getMatchList(matchCount:UInt=5, onCompletion: ()->Void){
+    func getMatchList(_ matchCount:UInt=5, onCompletion: @escaping ()->Void){
         print("retrieving match list")
         ref = FIRDatabase.database().reference()
         if self.dataSource.count>0{
             self.kolodaView.reloadData()
             return
         }
-        ref.child("users").queryLimitedToFirst(matchCount).observeSingleEventOfType(.Value, withBlock: {
+        ref.child("users").queryLimited(toFirst: matchCount).observeSingleEvent(of: .value, with: {
             (snapshot) in
             if let users = snapshot.value as? NSDictionary {
-                for (index, key) in (users.allKeys as! [String]).enumerate(){
+                for (index, key) in (users.allKeys as! [String]).enumerated(){
                     if key==FIRAuth.auth()?.currentUser?.uid{
                         continue
                     }
@@ -215,17 +216,17 @@ class MatchViewController:UIViewController{
         })
     }
     
-    func swipeLeft(recognizer1: UIGestureRecognizer) {
+    func swipeLeft(_ recognizer1: UIGestureRecognizer) {
         let vc = MessageViewController()
         let navController = UINavigationController(rootViewController: vc)
-        navController.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
-        presentViewController(navController, animated: false, completion: nil)
+        navController.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+        present(navController, animated: false, completion: nil)
         print("Swiped")
     }
-    func swipeRight(recognizer2: UIGestureRecognizer) {
+    func swipeRight(_ recognizer2: UIGestureRecognizer) {
         let vc = PersonalViewController()
-        vc.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
-        presentViewController(vc, animated: true, completion: nil)
+        vc.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+        present(vc, animated: true, completion: nil)
         print("Swiped")
     }
     
@@ -255,18 +256,18 @@ class MatchViewController:UIViewController{
 //MARK: KolodaViewDelegate
 extension MatchViewController: KolodaViewDelegate {
     
-    func kolodaDidRunOutOfCards(koloda: KolodaView) {
+    func kolodaDidRunOutOfCards(_ koloda: KolodaView) {
         print("no cards more")
 //        dataSource.insert(UIImage(named: "Card_like_6")!, atIndex: kolodaView.currentCardIndex - 1)
 //        let position = kolodaView.currentCardIndex
 //        kolodaView.insertCardAtIndexRange(position...position, animated: true)
     }
     
-    func koloda(koloda: KolodaView, didSelectCardAtIndex index: UInt) {
+    func koloda(_ koloda: KolodaView, didSelectCardAtIndex index: UInt) {
 //        UIApplication.sharedApplication().openURL(NSURL(string: "http://yalantis.com/")!)
         print("you click")
     }
-    func koloda(koloda: KolodaView, didSwipeCardAtIndex index: UInt, inDirection direction: SwipeResultDirection){
+    func koloda(_ koloda: KolodaView, didSwipeCardAtIndex index: UInt, inDirection direction: SwipeResultDirection){
         if direction == .Right {
             print("count \(koloda.countOfCards)")
             print("cur index \(koloda.currentCardIndex)")
@@ -276,8 +277,8 @@ extension MatchViewController: KolodaViewDelegate {
             print((dataSource[Int(index)] as! PersonalInfo).uid)
             
             // add uid to matched lis
-            if let uid = FIRAuth.auth()!.currentUser?.uid, peer_uid = (dataSource[Int(index)] as? PersonalInfo)?.uid{
-                ref.child("users/\(uid)/matched/\(peer_uid)").setValue(NSDate().timeIntervalSince1970*1000)
+            if let uid = FIRAuth.auth()!.currentUser?.uid, let peer_uid = (dataSource[Int(index)] as? PersonalInfo)?.uid{
+                ref.child("users/\(uid)/matched/\(peer_uid)").setValue(Date().timeIntervalSince1970*1000)
             } else{
                 print("can not get user")
             }
@@ -294,25 +295,25 @@ extension MatchViewController: KolodaViewDelegate {
 //MARK: KolodaViewDataSource
 extension MatchViewController: KolodaViewDataSource {
     
-    func kolodaNumberOfCards(koloda:KolodaView) -> UInt {
+    func kolodaNumberOfCards(_ koloda:KolodaView) -> UInt {
         return UInt(dataSource.count)
     }
     
-    func koloda(koloda: KolodaView, viewForCardAtIndex index: UInt) -> UIView {
+    func koloda(_ koloda: KolodaView, viewForCardAtIndex index: UInt) -> UIView {
         
 
         return dataSource[Int(index)]
     }
     
-    func koloda(koloda: KolodaView, viewForCardOverlayAtIndex index: UInt) -> OverlayView? {
+    func koloda(_ koloda: KolodaView, viewForCardOverlayAtIndex index: UInt) -> OverlayView? {
 
-        let ov = NSBundle.mainBundle().loadNibNamed("OverlayView",
+        let ov = Bundle.main.loadNibNamed("OverlayView",
                                                    owner: self, options: nil)[0] as? OverlayView
         print(OverlayView())
         return ov
     }
     
-    func koloda(koloda: KolodaView, didShowCardAtIndex index: UInt){
+    func koloda(_ koloda: KolodaView, didShowCardAtIndex index: UInt){
         
         let userTemp = dataSource[Int(index)] as! PersonalInfo
 //        let ab = Double(index)
@@ -324,7 +325,7 @@ extension MatchViewController: KolodaViewDataSource {
         userTemp.setAbilityBar2()
         var ref: FIRDatabaseReference!
         ref = FIRDatabase.database().reference()
-        ref.child("users").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+        ref.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
             let personNamef = snapshot.value![userTemp.uid]!!["username"]!
             let schoolNamef = snapshot.value![userTemp.uid]!!["school"]!
             self.schoolLabel.text = String(schoolNamef!)
@@ -341,8 +342,8 @@ extension MatchViewController: KolodaViewDataSource {
         vc.selectedUserID = currentSuggestion
 //        print(vc.selectedUserID)
         let navController = UINavigationController(rootViewController: vc)
-        navController.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
-        presentViewController(navController, animated: true, completion: nil)
+        navController.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+        present(navController, animated: true, completion: nil)
         print("clicked")
         
     }

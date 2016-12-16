@@ -14,7 +14,7 @@ extension UIColor{
         return UIColor(red:0, green:115/255 ,blue:96/255 , alpha:1.00)
     }
     
-    func getCustomColor(index:Int)-> UIColor{
+    func getCustomColor(_ index:Int)-> UIColor{
         switch index {
         case 0:
             return UIColor(red: 56/255, green: 146/255, blue: 85/255, alpha: 1.00)

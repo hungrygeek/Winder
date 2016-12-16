@@ -33,9 +33,9 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
         let userID = FIRAuth.auth()?.currentUser?.uid
         
         
-        func loadImageUsingCacheWithUrlString(urlString: String) {
-            let url = NSURL(string: urlString)
-            NSURLSession.sharedSession().dataTaskWithURL(url!, completionHandler: { (data, response, error) in
+        func loadImageUsingCacheWithUrlString(_ urlString: String) {
+            let url = URL(string: urlString)
+            URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
                 
                 //download hit an error so lets return out
                 if error != nil {
@@ -43,7 +43,7 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
                     return
                 }
                 
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async(execute: {
                     
                     if let downloadedImage = UIImage(data: data!) {
                         
@@ -55,9 +55,9 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
             }).resume()
         }
         
-        ref.child("users").child(userID!).child("image").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
-            if String(snapshot.value!) != "" {
-                loadImageUsingCacheWithUrlString(String(snapshot.value!))
+        ref.child("users").child(userID!).child("image").observeSingleEvent(of: .value, with: { (snapshot) in
+            if String(describing: snapshot.value!) != "" {
+                loadImageUsingCacheWithUrlString(String(describing: snapshot.value!))
             } else {
             
                 self.personalAvatar.image = UIImage(named: "avatar1")
@@ -65,26 +65,26 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
             
         })
 
-        ref.child("users").child(userID!).child("skill").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+        ref.child("users").child(userID!).child("skill").observeSingleEvent(of: .value, with: { (snapshot) in
             let diction1 = snapshot.value! as! [String: AnyObject]
             self.courses = []
             self.skillLevels = []
             for keydic in diction1.keys {
                 self.courses.append(keydic)
-                self.skillLevels.append(String(diction1[keydic]!))
+                self.skillLevels.append(String(describing: diction1[keydic]!))
             }
             self.skillSet.reloadData()
         })
         
         //let personalAvatar = UIImageView()
-        self.personalAvatar.frame = CGRectMake(0, 0, 300, 300)
+        self.personalAvatar.frame = CGRect(x: 0, y: 0, width: 300, height: 300)
         self.personalAvatar.center = CGPoint(x: self.view.center.x, y: 180)
         //self.personalAvatar.image = UIImage(named: "avatar1")
         //personalAvatar.layer.backgroundColor = UIColor.whiteColor().CGColor
         self.personalAvatar.layer.cornerRadius = 150
         self.personalAvatar.clipsToBounds = true
         self.personalAvatar.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSelectProfileImageView)))
-        self.personalAvatar.userInteractionEnabled = true
+        self.personalAvatar.isUserInteractionEnabled = true
         self.view.addSubview(personalAvatar)
 
         
@@ -101,92 +101,92 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
         
         
         
-        self.uniName.frame = CGRectMake(0, 0, 300, 40)
+        self.uniName.frame = CGRect(x: 0, y: 0, width: 300, height: 40)
         self.uniName.center = CGPoint(x: self.view.center.x, y: 350)
-        ref.child("users").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+        ref.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
             print(userID)
             let uniNamef = snapshot.value![userID!]!!["school"]!
             // print(String(uniNamef!))
             let attachment = NSTextAttachment()
-            attachment.bounds = CGRectMake(0, 0, 20, 20)
+            attachment.bounds = CGRect(x: 0, y: 0, width: 20, height: 20)
             attachment.image = UIImage(named: "edit_name")
             let attachmentString = NSAttributedString(attachment: attachment)
             let myString = NSMutableAttributedString(string: (String(uniNamef!) + "  "))
-            myString.appendAttributedString(attachmentString)
+            myString.append(attachmentString)
             self.uniName.attributedText = myString
             //uniName.text = String(uniNamef!)
             
         })
         // uniName.text = "Washington University"
-        self.uniName.textAlignment = .Center
-        self.uniName.userInteractionEnabled = true
+        self.uniName.textAlignment = .center
+        self.uniName.isUserInteractionEnabled = true
         let gestureRecognizer1 = UITapGestureRecognizer(target: self, action: #selector(PersonalViewController.schoolPressed(_:)))
         self.uniName.addGestureRecognizer(gestureRecognizer1)
         self.view.addSubview(self.uniName)
         
         
         //let personName = UILabel()
-        self.personName.frame = CGRectMake(0, 0, 300, 40)
+        self.personName.frame = CGRect(x: 0, y: 0, width: 300, height: 40)
         self.personName.center = CGPoint(x: self.view.center.x, y: 380)
-        ref.child("users").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+        ref.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
             let personNamef = snapshot.value![userID!]!!["username"]!
             let attachment = NSTextAttachment()
-            attachment.bounds = CGRectMake(0, 0, 20, 20)
+            attachment.bounds = CGRect(x: 0, y: 0, width: 20, height: 20)
             attachment.image = UIImage(named: "edit_name")
             let attachmentString = NSAttributedString(attachment: attachment)
             let myString = NSMutableAttributedString(string: (String(personNamef!) + "  "))
-            myString.appendAttributedString(attachmentString)
+            myString.append(attachmentString)
             self.personName.attributedText = myString
         })
 //        personName.text = "Shi Shu"
-        self.personName.textAlignment = .Center
-        self.personName.userInteractionEnabled = true
+        self.personName.textAlignment = .center
+        self.personName.isUserInteractionEnabled = true
         let gestureRecognizer2 = UITapGestureRecognizer(target: self, action: #selector(PersonalViewController.namePressed(_:)))
         self.personName.addGestureRecognizer(gestureRecognizer2)
         self.view.addSubview(personName)
         
         let addSkill = UIButton()
         let addicon = UIImage(named: "add_skill_100")
-        addSkill.frame = CGRectMake(0, 0, 30, 30)
+        addSkill.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         addSkill.center = CGPoint(x: 35, y: 420)
-        addSkill.setImage(addicon, forState: .Normal)
+        addSkill.setImage(addicon, for: UIControlState())
         self.view.addSubview(addSkill)
-        addSkill.imageView?.contentMode = .ScaleAspectFit
-        addSkill.addTarget(self, action: #selector(PersonalViewController.addClick), forControlEvents:UIControlEvents.TouchUpInside)
+        addSkill.imageView?.contentMode = .scaleAspectFit
+        addSkill.addTarget(self, action: #selector(PersonalViewController.addClick), for:UIControlEvents.touchUpInside)
 
         
-        self.editSkill.frame = CGRectMake(0, 0, 50, 30)
+        self.editSkill.frame = CGRect(x: 0, y: 0, width: 50, height: 30)
         self.editSkill.center = CGPoint(x: self.view.frame.width-35, y: 420)
-        self.editSkill.setImage(editicon, forState: .Normal)
-        self.editSkill.imageView?.contentMode = .ScaleAspectFit
-        self.editSkill.addTarget(self, action: #selector(PersonalViewController.editClick), forControlEvents:UIControlEvents.TouchUpInside)
+        self.editSkill.setImage(editicon, for: UIControlState())
+        self.editSkill.imageView?.contentMode = .scaleAspectFit
+        self.editSkill.addTarget(self, action: #selector(PersonalViewController.editClick), for:UIControlEvents.touchUpInside)
         self.view.addSubview(self.editSkill)
         
         
         
-        skillSet.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height-440)
+        skillSet.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height-440)
         skillSet.center = CGPoint(x: self.view.center.x, y: 220 + self.view.frame.height/2)
-        skillSet.registerClass(UITableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
+        skillSet.register(UITableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
         skillSet.dataSource = self
         skillSet.delegate = self
         self.view.addSubview(skillSet)
         
         let logout = UIButton()
-        logout.frame = CGRectMake(0, 0, 80, 40)
+        logout.frame = CGRect(x: 0, y: 0, width: 80, height: 40)
         logout.center = CGPoint(x: self.view.frame.width - 40, y: 35)
         //logout.backgroundColor = UIColor.blueColor()
-        logout.setTitle("Log Out", forState: .Normal)
-        logout.titleLabel!.textAlignment = .Right
-        logout.setTitleColor(UIColor.blackColor(), forState: .Normal)
-        logout.addTarget(self, action: #selector(PersonalViewController.signout), forControlEvents:UIControlEvents.TouchUpInside)
+        logout.setTitle("Log Out", for: UIControlState())
+        logout.titleLabel!.textAlignment = .right
+        logout.setTitleColor(UIColor.black, for: UIControlState())
+        logout.addTarget(self, action: #selector(PersonalViewController.signout), for:UIControlEvents.touchUpInside)
         self.view.addSubview(logout)
-        self.view.bringSubviewToFront(logout)
+        self.view.bringSubview(toFront: logout)
         
         
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.white
 
         let recognizer: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(PersonalViewController.swipeLeft(_:)))
-        recognizer.direction = .Left
+        recognizer.direction = .left
         self.view.addGestureRecognizer(recognizer)
 
         
@@ -207,10 +207,10 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
         picker.delegate = self
         picker.allowsEditing = true
         
-        presentViewController(picker, animated: true, completion: nil)
+        present(picker, animated: true, completion: nil)
     }
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         var selectedImageFromPicker: UIImage?
         
@@ -225,12 +225,12 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
             self.personalAvatar.image = selectedImage
         }
         
-        let imageName = NSUUID().UUIDString
+        let imageName = UUID().uuidString
         let storageRef = FIRStorage.storage().reference().child("profile_images").child("\(imageName).png")
         
         if let uploadData = UIImagePNGRepresentation(self.personalAvatar.image!) {
             
-            storageRef.putData(uploadData, metadata: nil, completion: { (metadata, error) in
+            storageRef.put(uploadData, metadata: nil, completion: { (metadata, error) in
                 
                 if error != nil {
                     print(error)
@@ -246,14 +246,14 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
                 }
             })
         
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
         
         }
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         print("canceled picker")
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     
@@ -266,28 +266,28 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
     
     func addClick() {
         //1. Create the alert controller.
-        var alert = UIAlertController(title: "Add a new skill", message: "Enter a new skill", preferredStyle: .Alert)
+        let alert = UIAlertController(title: "Add a new skill", message: "Enter a new skill", preferredStyle: .alert)
         //2. Add the text field. You can configure it however you need.
-        alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
+        alert.addTextField(configurationHandler: { (textField) -> Void in
             textField.text = "Course name:Skill level(0-100)"
         })
         //3. Grab the value from the text field, and print it when the user clicks OK.
-        alert.addAction(UIAlertAction(title: "Add", style: .Default, handler: { [weak alert] (action) -> Void in
+        alert.addAction(UIAlertAction(title: "Add", style: .default, handler: { [weak alert] (action) -> Void in
             let textField = alert!.textFields![0] as UITextField
-            let input = textField.text?.componentsSeparatedByString(":")
+            let input = textField.text?.components(separatedBy: ":")
             print("Text field: \(textField.text)")
             var ref: FIRDatabaseReference!
             ref = FIRDatabase.database().reference()
             let userID = FIRAuth.auth()?.currentUser?.uid
             
             ref.child("users").child(userID!).child("skill").updateChildValues([input![0]:Int(input![1])!])
-            ref.child("users").child(userID!).child("skill").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+            ref.child("users").child(userID!).child("skill").observeSingleEvent(of: .value, with: { (snapshot) in
                 let diction1 = snapshot.value! as! [String: AnyObject]
                 self.courses = []
                 self.skillLevels = []
                 for keydic in diction1.keys {
                     self.courses.append(keydic)
-                    self.skillLevels.append(String(diction1[keydic]!))
+                    self.skillLevels.append(String(describing: diction1[keydic]!))
                 }
                 self.skillSet.reloadData()
             })
@@ -295,71 +295,71 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
             
             
             }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action: UIAlertAction!) in
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
             print("Cancel Logic")
         }))
         
         
         // 4. Present the alert.
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
         
     }
     
-    func swipeLeft(recognizer: UIGestureRecognizer) {
+    func swipeLeft(_ recognizer: UIGestureRecognizer) {
         let vc = MatchViewController()
-        vc.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
-        presentViewController(vc, animated: false, completion: nil)
+        vc.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+        present(vc, animated: false, completion: nil)
         print("Swiped")
     }
     
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.courses.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell: UITableViewCell? = UITableViewCell(style: .Value1, reuseIdentifier: cellReuseIdentifier)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell: UITableViewCell? = UITableViewCell(style: .value1, reuseIdentifier: cellReuseIdentifier)
         cell!.textLabel?.text = courses[indexPath.row]
         cell!.detailTextLabel?.text = String(self.skillLevels[indexPath.row]) + "%"
         return cell!
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        skillSet.deselectRowAtIndexPath(indexPath, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        skillSet.deselectRow(at: indexPath, animated: true)
         print(courses[indexPath.row])
     }
     
 
     
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
             // Delete the row from the data source
-            courses.removeAtIndex(indexPath.row)
+            courses.remove(at: indexPath.row)
             var ref: FIRDatabaseReference!
             ref = FIRDatabase.database().reference()
             let userID = FIRAuth.auth()?.currentUser?.uid
             
             ref.child("users").child(userID!).child("skill").child(self.courses[indexPath.row]).removeValue()
             
-            skillSet.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            skillSet.deleteRows(at: [indexPath], with: .fade)
         }
         
     }
     
-    func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
-    func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-        var itemToMove = courses[fromIndexPath.row]
-        courses.removeAtIndex(fromIndexPath.row)
-        courses.insert(itemToMove, atIndex: toIndexPath.row)
+    func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to toIndexPath: IndexPath) {
+        let itemToMove = courses[fromIndexPath.row]
+        courses.remove(at: fromIndexPath.row)
+        courses.insert(itemToMove, at: toIndexPath.row)
     }
     
     
     func editClick() {
 
-        self.skillSet.editing = !self.skillSet.editing
+        self.skillSet.isEditing = !self.skillSet.isEditing
         
     }
     
@@ -368,29 +368,29 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
          // signout function for Firebase.
         //try FIRAuth.auth()?.signOut()
         let vc = ViewController()
-        vc.view.backgroundColor = UIColor.whiteColor()
-        presentViewController(vc, animated: true, completion: nil)
+        vc.view.backgroundColor = UIColor.white
+        present(vc, animated: true, completion: nil)
 
         
     }
     
-    func schoolPressed(gestureRecognizer1 :UITapGestureRecognizer){
+    func schoolPressed(_ gestureRecognizer1 :UITapGestureRecognizer){
         print("Label pressed")
-        var alert = UIAlertController(title: "Edit your School", message: "Enter your School", preferredStyle: .Alert)
+        let alert = UIAlertController(title: "Edit your School", message: "Enter your School", preferredStyle: .alert)
         //2. Add the text field. You can configure it however you need.
-        alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
+        alert.addTextField(configurationHandler: { (textField) -> Void in
             textField.text = ""
         })
         //3. Grab the value from the text field, and print it when the user clicks OK.
-        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { [weak alert] (action) -> Void in
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (action) -> Void in
             let textField = alert!.textFields![0] as UITextField
             print("Text field: \(textField.text)")
             let attachment = NSTextAttachment()
-            attachment.bounds = CGRectMake(0, 0, 20, 20)
+            attachment.bounds = CGRect(x: 0, y: 0, width: 20, height: 20)
             attachment.image = UIImage(named: "edit_name")
             let attachmentString = NSAttributedString(attachment: attachment)
             let myString = NSMutableAttributedString(string: (String(textField.text!) + "  "))
-            myString.appendAttributedString(attachmentString)
+            myString.append(attachmentString)
             self.uniName.attributedText = myString
             var ref: FIRDatabaseReference!
             ref = FIRDatabase.database().reference()
@@ -398,13 +398,13 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
             ref.child("users").child(userID! + "/school").setValue(String(textField.text!))
             
             }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action: UIAlertAction!) in
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
             print("Cancel Logic")
         }))
         
         
         // 4. Present the alert.
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
         //Your awesome code.
     }
     
@@ -412,23 +412,23 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
     
     
     
-    func namePressed(gestureRecognizer2 :UITapGestureRecognizer){
+    func namePressed(_ gestureRecognizer2 :UITapGestureRecognizer){
         print("Label pressed")
-        var alert = UIAlertController(title: "Edit your Name", message: "Enter your Name", preferredStyle: .Alert)
+        let alert = UIAlertController(title: "Edit your Name", message: "Enter your Name", preferredStyle: .alert)
         //2. Add the text field. You can configure it however you need.
-        alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
+        alert.addTextField(configurationHandler: { (textField) -> Void in
             textField.text = ""
         })
         //3. Grab the value from the text field, and print it when the user clicks OK.
-        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { [weak alert] (action) -> Void in
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (action) -> Void in
             let textField = alert!.textFields![0] as UITextField
             print("Text field: \(textField.text)")
             let attachment = NSTextAttachment()
-            attachment.bounds = CGRectMake(0, 0, 20, 20)
+            attachment.bounds = CGRect(x: 0, y: 0, width: 20, height: 20)
             attachment.image = UIImage(named: "edit_name")
             let attachmentString = NSAttributedString(attachment: attachment)
             let myString = NSMutableAttributedString(string: (String(textField.text!) + "  "))
-            myString.appendAttributedString(attachmentString)
+            myString.append(attachmentString)
             self.personName.attributedText = myString
             var ref: FIRDatabaseReference!
             ref = FIRDatabase.database().reference()
@@ -436,13 +436,13 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
             ref.child("users").child(userID! + "/username").setValue(String(textField.text!))
             
             }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action: UIAlertAction!) in
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
             print("Cancel Logic")
         }))
         
         
         // 4. Present the alert.
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
         //Your awesome code.
     }
     
