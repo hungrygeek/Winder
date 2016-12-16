@@ -22,7 +22,11 @@ xcuserdata/
 *.xccheckout
 *.xcscmblueprint
 Pods
+!Pods/Koloda/
 !Pods/Koloda/*
+!Pod/Koloda/*/*
+!Pod/Koloda/*/*/*
+!Pod/Koloda/*/*/*/*
 project_BACKUP_6060.pbxproj
 project_BASE_*
 project_LOCAL_*
