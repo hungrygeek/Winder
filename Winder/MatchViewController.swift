@@ -170,8 +170,8 @@ class MatchViewController:UIViewController{
             ref = FIRDatabase.database().reference()
             let userTemp = self.dataSource[self.kolodaView.currentCardIndex] as! PersonalInfo
             ref.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
-                let personNamef = snapshot.value![userTemp.uid]!!["username"]!
-                let schoolNamef = snapshot.value![userTemp.uid]!!["school"]!
+                let personNamef = (snapshot as! [String : NSDictionary])![userTemp.uid]!!["username"]!
+                let schoolNamef = (snapshot as! [String : NSDictionary])![userTemp.uid]!!["school"]!
                 self.schoolLabel.text = String(schoolNamef!)
                 self.nameLabel.text = String(personNamef!)
             })
