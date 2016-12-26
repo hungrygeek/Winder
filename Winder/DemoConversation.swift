@@ -36,30 +36,30 @@ let message3 = JSQMessage(senderId: AvatarIdWoz, displayName: DisplayNameWoz, te
 let message4 = JSQMessage(senderId: AvatarIdJobs, displayName: DisplayNameJobs, text: "Sure thats for me")
 let message5 = JSQMessage(senderId: AvatarIDLeonard, displayName: DisplayNameLeonard, text: "Oh wait but that will be Winder demo time")
 
-let partner = ShareData.sharedInstance
-
-func makeConversation()->[JSQMessage]{
-    var ref: FIRDatabaseReference!
-    ref = FIRDatabase.database().reference()
-    let userID = FIRAuth.auth()?.currentUser?.uid
-    
-    conversation = []
-    ref.child("messages").observe(.value, with: { snapshot in
-        for child in snapshot.children {
-            //print(userID!)
-            
-            if String((child as NSDictionary).value["fromID"]!!) == userID! && String(child.value["toID"]!!) == partner.partnerID {
-
-                print("11111111111111111")
-                let tempmessage = JSQMessage(senderId: String((child as NSDictionary).value["fromID"]!!), displayName: "", text: String(child.value["text"]!!))
-                //print(conversation)
-                conversation.append(tempmessage)
-            }
-        }
-        
-    })
-    return conversation
-}
+//let partner = ShareData()
+//
+//func makeConversation()->[JSQMessage]{
+//    var ref: FIRDatabaseReference!
+//    ref = FIRDatabase.database().reference()
+//    let userID = FIRAuth.auth()?.currentUser?.uid
+//    
+//    conversation = []
+//    ref.child("messages").observe(.value, with: { snapshot in
+//        for child in snapshot.children {
+//            //print(userID!)
+//            
+//            if String(describing: (child as! [String: Any])["fromID"]!) == userID! && String(describing: (child as! [String: Any])["toID"]!) == partner.partnerID {
+//
+//                print("11111111111111111")
+//                let tempmessage = JSQMessage(senderId: String(describing: (child as! [String: Any])["fromID"]!), displayName: "", text: String(describing: (child as! [String: Any])["text"]!))
+//                //print(conversation)
+//                conversation.append(tempmessage!)
+//            }
+//        }
+//        
+//    })
+//    return conversation
+//}
 
 func getConversation()->[Conversation]{
     return [convo]

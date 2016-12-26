@@ -105,13 +105,14 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
         self.uniName.center = CGPoint(x: self.view.center.x, y: 350)
         ref.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
             print(userID)
-            let uniNamef = snapshot.value![userID!]!!["school"]!
+            let snapvalue = snapshot.value as! [String: Any]
+            let uniNamef = (snapvalue[userID!]! as! [String: Any])["school"]!
             // print(String(uniNamef!))
             let attachment = NSTextAttachment()
             attachment.bounds = CGRect(x: 0, y: 0, width: 20, height: 20)
             attachment.image = UIImage(named: "edit_name")
             let attachmentString = NSAttributedString(attachment: attachment)
-            let myString = NSMutableAttributedString(string: (String(uniNamef!) + "  "))
+            let myString = NSMutableAttributedString(string: (String(describing: uniNamef) + "  "))
             myString.append(attachmentString)
             self.uniName.attributedText = myString
             //uniName.text = String(uniNamef!)
@@ -129,12 +130,14 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
         self.personName.frame = CGRect(x: 0, y: 0, width: 300, height: 40)
         self.personName.center = CGPoint(x: self.view.center.x, y: 380)
         ref.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
-            let personNamef = snapshot.value![userID!]!!["username"]!
+            print()
+            let snapvalue = snapshot.value as! [String: Any]
+            let personNamef = (snapvalue[userID!]! as! [String: Any])["username"]!
             let attachment = NSTextAttachment()
             attachment.bounds = CGRect(x: 0, y: 0, width: 20, height: 20)
             attachment.image = UIImage(named: "edit_name")
             let attachmentString = NSAttributedString(attachment: attachment)
-            let myString = NSMutableAttributedString(string: (String(personNamef!) + "  "))
+            let myString = NSMutableAttributedString(string: (String(describing: personNamef) + "  "))
             myString.append(attachmentString)
             self.personName.attributedText = myString
         })
