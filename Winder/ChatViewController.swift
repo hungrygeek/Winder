@@ -16,7 +16,7 @@ class ChatViewController: JSQMessagesViewController {
     var conversation: Conversation?
     let incomingBubble = JSQMessagesBubbleImageFactory().incomingMessagesBubbleImage(with: UIColor.jsq_messageBubbleBlue())
     let outgoingBubble = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImage(with: UIColor.lightGray)
-    let partner = ShareData.sharedInstance
+    let partner = ShareData()
     var messages = [JSQMessage]()
     
     
@@ -109,7 +109,7 @@ class ChatViewController: JSQMessagesViewController {
         return nil
     }
     
-    override func collectionView(_ collectionView: JSQMessagesCollectionView?, attributedTextForMessageBubbleTopLabelAt indexPath: IndexPath!) -> NSAttributedString! {
+    override func collectionView(_ collectionView: JSQMessagesCollectionView?, attributedTextForMessageBubbleTopLabelAt indexPath: IndexPath!) -> NSAttributedString? {
         let message = messages[indexPath.item]
         var ref: FIRDatabaseReference!
         ref = FIRDatabase.database().reference()
@@ -161,13 +161,13 @@ class ChatViewController: JSQMessagesViewController {
             for child in snapshot.children {
                 //print(userID!)
                 
-                if (String((child as AnyObject).value["fromID"]!!) == userID! && String(child.value["toID"]!!) == self.partner.partnerID) || ((String(child.value["toID"]!!) == userID! && String(child.value["fromID"]!!) == self.partner.partnerID)) {
+                if (String(describing: (child as! [String: Any])["fromID"]!) == userID! && String(describing: (child as! [String: Any])["toID"]!) == self.partner.partnerID) || ((String(describing: (child as! [String: Any])["toID"]!) == userID! && String(describing: (child as! [String: Any])["fromID"]!) == self.partner.partnerID)) {
                     
                     //print("11111111111111111")
-                    let tempmessage = JSQMessage(senderId: String((child as AnyObject).value["fromID"]!!), displayName: "", text: String(child.value["text"]!!))
+                    let tempmessage = JSQMessage(senderId: String(describing: (child as! [String: Any])["fromID"]!), displayName: "", text: String(describing: (child as! [String: Any])["text"]!))
                     //child.updateChildValues(["read":"1"])
                     //print(conversation)
-                    self.messages.append(tempmessage)
+                    self.messages.append(tempmessage!)
                 }
             }
             self.collectionView?.reloadData()

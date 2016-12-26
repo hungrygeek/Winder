@@ -63,8 +63,8 @@ class ViewOtherProfileViewController: UIViewController, UITableViewDelegate, UIT
         self.uniName.center = CGPoint(x: self.view.center.x, y: 400)
         ref.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
             //print(userID)
-            let uniNamef = snapshot.value![self.selectedUserID]!!["school"]!
-            self.uniName.text = String(uniNamef!)
+            let uniNamef = ((snapshot.value as! [String: Any])[self.selectedUserID]! as! [String: Any])["school"]!
+            self.uniName.text = String(describing: uniNamef)
             
         })
         // uniName.text = "Washington University"
@@ -76,8 +76,8 @@ class ViewOtherProfileViewController: UIViewController, UITableViewDelegate, UIT
         self.personName.frame = CGRect(x: 0, y: 0, width: 300, height: 40)
         self.personName.center = CGPoint(x: self.view.center.x, y: 430)
         ref.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
-            let personNamef = snapshot.value![self.selectedUserID]!!["username"]!
-            self.personName.text = String(personNamef!)
+            let personNamef = ((snapshot.value! as! [String: Any])[self.selectedUserID]! as! [String: Any])["username"]!
+            self.personName.text = String(describing: personNamef)
         })
         //        personName.text = "Shi Shu"
         self.personName.textAlignment = .center
@@ -144,7 +144,7 @@ class ViewOtherProfileViewController: UIViewController, UITableViewDelegate, UIT
                 
                 //download hit an error so lets return out
                 if error != nil {
-                    print(error)
+                    print("error")
                     return
                 }
                 

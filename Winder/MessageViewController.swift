@@ -16,7 +16,7 @@ class MessageViewController: UITableViewController {
     var userlist = [String]()
     var idlist = [String]()
     
-    let partner = ShareData.sharedInstance
+    let partner = ShareData()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,6 +109,8 @@ class MessageViewController: UITableViewController {
         self.partner.partnerID = self.idlist[indexPath.row]
         self.partner.partnerName = self.userlist[indexPath.row]
         let vc = ChatViewController()
+        vc.partner.partnerID = self.partner.partnerID
+        vc.partner.partnerName = self.partner.partnerName
         let navController = UINavigationController(rootViewController: vc)
         navController.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
         present(navController, animated: true, completion: nil)
