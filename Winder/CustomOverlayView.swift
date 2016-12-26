@@ -32,12 +32,12 @@ class CustomOverlayView: OverlayView {
     override var overlayState: SwipeResultDirection?{
         didSet{
             switch overlayState {
-            case .Left?:
+            case .left?:
                 overlayImageView.image = UIImage(named: overlayLeftImageName)
 //                overlayImageView.clipsToBounds = true
 //                overlayImageView.backgroundColor = UIColor.clearColor()
                 
-            case .Right?:
+            case .right?:
                 overlayImageView.image = UIImage(named: overlayRightImageName)
 //                overlayImageView.clipsToBounds = true
 //                overlayImageView.backgroundColor = UIColor.clearColor()

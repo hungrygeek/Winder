@@ -6,7 +6,7 @@ target 'Winder' do
   use_frameworks!
 
   # Pods for Winder
-  pod "Koloda", :git => 'https://github.com/Yalantis/Koloda.git', :branch => 'swift-3'
+  pod "Koloda"
   pod 'Firebase/Core'
   pod 'JSQMessagesViewController'
   pod 'Firebase/Auth'

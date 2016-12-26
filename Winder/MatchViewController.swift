@@ -234,11 +234,11 @@ class MatchViewController:UIViewController{
     }
     
     func like(){
-        kolodaView.swipe(.Right)
+        kolodaView.swipe(.right)
     }
     
     func dislike(){
-        kolodaView.swipe(.Left)
+        kolodaView.swipe(.left)
     }
 
     func signOut(){
@@ -271,7 +271,7 @@ extension MatchViewController: KolodaViewDelegate {
         print("you click")
     }
     func koloda(_ koloda: KolodaView, didSwipeCardAtIndex index: UInt, inDirection direction: SwipeResultDirection){
-        if direction == .Right {
+        if direction == .right {
             print("count \(koloda.countOfCards)")
             print("cur index \(koloda.currentCardIndex)")
             print("you swipe that biatch *RIGHT*")
@@ -298,25 +298,24 @@ extension MatchViewController: KolodaViewDelegate {
 //MARK: KolodaViewDataSource
 extension MatchViewController: KolodaViewDataSource {
     
-    func kolodaNumberOfCards(_ koloda:KolodaView) -> UInt {
-        return UInt(dataSource.count)
+    func kolodaNumberOfCards(_ koloda:KolodaView) -> Int {
+        return dataSource.count
     }
     
-    func koloda(_ koloda: KolodaView, viewForCardAtIndex index: UInt) -> UIView {
-        
-
-        return dataSource[Int(index)]
+    func koloda(_ koloda: KolodaView, viewForCardAt index: Int) -> UIView {
+        return dataSource[index]
     }
     
-    func koloda(_ koloda: KolodaView, viewForCardOverlayAtIndex index: UInt) -> OverlayView? {
-
-        let ov = Bundle.main.loadNibNamed("OverlayView",
-                                                   owner: self, options: nil)[0] as? OverlayView
-        print(OverlayView())
-        return ov
+    func koloda(_ koloda: KolodaView, viewForCardOverlayAt index: Int) -> OverlayView? {
+        return Bundle.main.loadNibNamed("OverlayView",
+                                                  owner: self, options: nil)?[0] as? OverlayView
+//        let ov = Bundle.main.loadNibNamed("OverlayView",
+//                                                   owner: self, options: nil)[0] as? OverlayView
+//        print(OverlayView())
+//        return ov
     }
     
-    func koloda(_ koloda: KolodaView, didShowCardAtIndex index: UInt){
+    func koloda(_ koloda: KolodaView, didShowCardAt index: UInt){
         
         let userTemp = dataSource[Int(index)] as! PersonalInfo
 //        let ab = Double(index)
