@@ -8,18 +8,14 @@
 
 import UIKit
 
-class PersonalInfo:UIView {
+class PersonalInfo:UIView, CAAnimationDelegate {
     
     var image = UIImageView()
     var ability = Array<Double>()
     var layerArray = Array<CAShapeLayer>()
     var userDict: NSDictionary
-    
-    //hardcoded info
     var uid: String
-//    var id: Int
-    //hardcoded info ends
-    
+
     init(w:CGFloat,h:CGFloat, uid:String, userDict: NSDictionary){
         self.uid = uid
         self.userDict = userDict
@@ -119,7 +115,7 @@ class PersonalInfo:UIView {
             let layer = CAShapeLayer()
             layer.backgroundColor = UIColor.clear.cgColor
             layer.fillColor = UIColor.clear.cgColor
-            layer.strokeColor = UIColor.getCustomColor(UIColor())(Int(index)).cgColor
+            layer.strokeColor = UIColor.getCustomColor(UIColor())(index).cgColor
             layer.lineWidth = 15
             layer.lineCap = kCALineCapRound
             let startAngle = CGFloat(M_PI_2*3)

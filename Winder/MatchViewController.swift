@@ -170,10 +170,14 @@ class MatchViewController:UIViewController{
             ref = FIRDatabase.database().reference()
             let userTemp = self.dataSource[self.kolodaView.currentCardIndex] as! PersonalInfo
             ref.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
-                let personNamef = (snapshot as! [String : NSDictionary])![userTemp.uid]!!["username"]!
-                let schoolNamef = (snapshot as! [String : NSDictionary])![userTemp.uid]!!["school"]!
-                self.schoolLabel.text = String(schoolNamef!)
-                self.nameLabel.text = String(personNamef!)
+                let value = snapshot.value as? NSDictionary
+                let userInfo = value?[userTemp.uid] as? NSDictionary
+                let personName = userInfo?["usernmae"] as? String ?? "name N/A"
+                let schoolName = userInfo?["school"] as? String ?? "school N/A"
+//                let personNamef = (snapshot as! [String : NSDictionary])![userTemp.uid]!!["username"]!
+//                let schoolNamef = (snapshot as! [String : NSDictionary])![userTemp.uid]!!["school"]!
+                self.schoolLabel.text = schoolName
+                self.nameLabel.text = personName
             })
             self.backgroundPic.setNeedsDisplay()
         }
@@ -327,11 +331,16 @@ extension MatchViewController: KolodaViewDataSource {
         userTemp.setAbilityBar2()
         var ref: FIRDatabaseReference!
         ref = FIRDatabase.database().reference()
-        ref.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
-            let personNamef = snapshot.value![userTemp.uid]!!["username"]!
-            let schoolNamef = snapshot.value![userTemp.uid]!!["school"]!
-            self.schoolLabel.text = String(schoolNamef!)
-            self.nameLabel.text = String(personNamef!)
+        ref.child("users").observeSingleEvent(of: .value, with: {
+            (snapshot) in
+            let value = snapshot.value as? NSDictionary
+            let userInfo = value?[userTemp.uid] as? NSDictionary
+            let personName = userInfo?["username"] as? String ?? "name N/A"
+            let schoolName = userInfo?["school"] as? String ?? "school N/A"
+//            let personNamef = snapshot.value![userTemp.uid]!!["username"]!
+//            let schoolNamef = snapshot.value![userTemp.uid]!!["school"]!
+            self.schoolLabel.text = schoolName
+            self.nameLabel.text = personName
         })
      
     }
