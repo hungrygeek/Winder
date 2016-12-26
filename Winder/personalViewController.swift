@@ -12,7 +12,8 @@ import Firebase
 
 class PersonalViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    var courses :[String] = ["Artificial Intelligence", "Swift", "Machine Learning", "Calculus", "Differentail Equation","Asian History", "Computer Architecture"]
+//    var courses :[String] = ["Artificial Intelligence", "Swift", "Machine Learning", "Calculus", "Differentail Equation","Asian History", "Computer Architecture"]
+    var courses :[String] = []
     var skillLevels = ["","","","","","",""]
     let cellReuseIdentifier = "cell"
     var skillSet = UITableView()
