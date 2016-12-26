@@ -77,6 +77,14 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
             self.skillSet.reloadData()
         })
         
+        
+        
+//        let avatarBackG = UIView()
+//        avatarBackG.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 480)
+//        avatarBackG.center = CGPoint(x: self.view.center.x, y: 240)
+//        avatarBackG.backgroundColor = UIColor.green
+//        self.view.addSubview(avatarBackG)
+        
         //let personalAvatar = UIImageView()
         self.personalAvatar.frame = CGRect(x: 0, y: 0, width: 300, height: 300)
         self.personalAvatar.center = CGPoint(x: self.view.center.x, y: 180)
@@ -88,19 +96,6 @@ class PersonalViewController: UIViewController, UITableViewDelegate, UITableView
         self.personalAvatar.isUserInteractionEnabled = true
         self.view.addSubview(personalAvatar)
 
-        
-        
-
-        
-        
-        // load image
-
-        
-        // end of load image
-        
-        
-        
-        
         
         self.uniName.frame = CGRect(x: 0, y: 0, width: 300, height: 40)
         self.uniName.center = CGPoint(x: self.view.center.x, y: 350)
