@@ -44,6 +44,7 @@ class ViewController: UIViewController,UIAlertViewDelegate {
         backgroundPic.center = self.view.center
         backgroundPic.image = UIImage(named: "background1")
         backgroundPic.alpha = 0.4
+        backgroundPic.contentMode = .scaleAspectFill
         
         self.view.addSubview(backgroundPic)
         
@@ -321,6 +322,14 @@ class ViewController: UIViewController,UIAlertViewDelegate {
         // Dispose of any resources that can be recreated.
         
         
+    }
+    
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.logInUserName.endEditing(true)
+        self.logInPassword.endEditing(true)
+        self.signUpPassword.endEditing(true)
+        super.touchesBegan(touches, with: event)
     }
     
     
