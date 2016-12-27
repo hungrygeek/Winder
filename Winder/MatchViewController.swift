@@ -19,7 +19,7 @@ private var matchListLenLimit: UInt = 10
 class MatchViewController:UIViewController{
     
     var ref: FIRDatabaseReference!
-    
+    var wasLoaded: Bool!
 //    var kolodaView: KolodaView = {
 //        var kv: KolodaView = KolodaView(frame: CGRect(x:0,y: 0,width:250,height:250))
 //        kv.countOfVisibleCards = 2
@@ -112,6 +112,7 @@ class MatchViewController:UIViewController{
             print("login success")
             print("uid: \(FIRAuth.auth()!.currentUser!.uid)")
             print("login in with \(FIRAuth.auth()!.currentUser!.email)")
+            print("firebase data wasLoaded \(wasLoaded ?? false) in viewDidAppear")
         }
 
     }
@@ -121,7 +122,8 @@ class MatchViewController:UIViewController{
         self.backgroundPic.frame = self.view.frame
         self.backgroundPic.center = self.view.center
         self.backgroundPic.alpha = 0.4
-        
+        self.wasLoaded = false
+        print("firebase data wasLoaded \(wasLoaded) in viewDidLoad")
         ref = FIRDatabase.database().reference()
 
         view.addSubview(backgroundPic)
@@ -171,8 +173,9 @@ class MatchViewController:UIViewController{
             let userTemp = self.dataSource[self.kolodaView.currentCardIndex] as! PersonalInfo
             ref.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
                 let value = snapshot.value as? NSDictionary
+//                print("retriving all users\n\(value)")
                 let userInfo = value?[userTemp.uid] as? NSDictionary
-                let personName = userInfo?["usernmae"] as? String ?? "name N/A"
+                let personName = userInfo?["username"] as? String ?? "name N/A"
                 let schoolName = userInfo?["school"] as? String ?? "school N/A"
 //                let personNamef = (snapshot as! [String : NSDictionary])![userTemp.uid]!!["username"]!
 //                let schoolNamef = (snapshot as! [String : NSDictionary])![userTemp.uid]!!["school"]!
@@ -195,6 +198,14 @@ class MatchViewController:UIViewController{
     }
     
     func getMatchList(_ matchCount:UInt=5, onCompletion: @escaping ()->Void){
+        if self.dataSource != nil && self.dataSource.count>0{
+            print("matchList exist")
+            onCompletion()
+            return
+        } else {
+            print("matchList *DOES NOT* exist")
+
+        }
         print("retrieving match list")
         ref = FIRDatabase.database().reference()
         if self.dataSource.count>0{
@@ -213,8 +224,9 @@ class MatchViewController:UIViewController{
                     let pi = PersonalInfo(w: 270, h: 270, uid: key, userDict: users[key] as! NSDictionary)
                     self.backgroundPicArray.append(tempImage)
                     self.dataSource.append(pi)
-                    print("got \((users[key] as! NSDictionary)["username"])")
+//                    print("got \((users[key] as! NSDictionary)["username"])")
                 }
+                self.wasLoaded = true
                 onCompletion()
             } else {
                 print("load match list wrong")
@@ -319,13 +331,13 @@ extension MatchViewController: KolodaViewDataSource {
 //        return ov
     }
     
-    func koloda(_ koloda: KolodaView, didShowCardAt index: UInt){
+    func koloda(_ koloda: KolodaView, didShowCardAt index: Int){
         
-        let userTemp = dataSource[Int(index)] as! PersonalInfo
+        let userTemp = dataSource[index] as! PersonalInfo
 //        let ab = Double(index)
 //        let matchCount = Double(matchListLenLimit)*2
         
-        self.backgroundPic.image = self.backgroundPicArray[Int(index)]
+        self.backgroundPic.image = self.backgroundPicArray[index]
         self.backgroundPic.setNeedsDisplay()
 //        userTemp.setAbilityBar([73,64,52,78])
         userTemp.setAbilityBar2()
@@ -341,6 +353,7 @@ extension MatchViewController: KolodaViewDataSource {
 //            let schoolNamef = snapshot.value![userTemp.uid]!!["school"]!
             self.schoolLabel.text = schoolName
             self.nameLabel.text = personName
+            
         })
      
     }
@@ -349,14 +362,11 @@ extension MatchViewController: KolodaViewDataSource {
     func personClick() {
         let vc = ViewOtherProfileViewController()
         let currentSuggestion = (dataSource[self.kolodaView.currentCardIndex] as! PersonalInfo).uid
-//        vc.selectedUserID = "YoLazoj0J0cNFLMvoTsjXy7gzmK2"
         vc.selectedUserID = currentSuggestion
-//        print(vc.selectedUserID)
         let navController = UINavigationController(rootViewController: vc)
         navController.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
         present(navController, animated: true, completion: nil)
         print("clicked")
-        
     }
     
 //
