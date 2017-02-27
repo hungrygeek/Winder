@@ -34,7 +34,7 @@ class PersonalInfo:UIView, CAAnimationDelegate {
             print("we got profile image or the url is null")
             
         } else {
-            print("got \(urlString)")
+//            print("got \(urlString)")
             let url = URL(string: urlString)
             URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
                 
@@ -81,7 +81,7 @@ class PersonalInfo:UIView, CAAnimationDelegate {
             layer.lineWidth = 15
             layer.lineCap = kCALineCapRound
             let startAngle = CGFloat(M_PI_2*3)
-            print("ability \((self.userDict["skill"] as AnyObject).value(forKey: keys[index]))")
+//            print("ability \((self.userDict["skill"] as AnyObject).value(forKey: keys[index]))")
             let abilityLevel = ((self.userDict["skill"] as AnyObject).value(forKey: keys[index])) as! Int
 //            let skillValue = abilityLevel as! Double
             let endAngle = CGFloat(M_PI_2*3 + M_PI*Double(abilityLevel)*0.0175)

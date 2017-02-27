@@ -6,6 +6,10 @@
 //  Copyright © 2016 cse438. All rights reserved.
 //
 
+/*
+ this is for login view
+ */
+
 import UIKit
 import Firebase
 
@@ -106,7 +110,7 @@ class ViewController: UIViewController,UIAlertViewDelegate {
         //logInUserName.layer.cornerRadius = 10
         logInUserName.textColor = UIColor.getWustlGreenColor(UIColor())()
         logInUserName.attributedPlaceholder = NSAttributedString(string: "Username", attributes: [NSForegroundColorAttributeName: UIColor.getWustlGreenColor(UIColor())()])
-        logInUserName.text = ""
+        logInUserName.text = "11@1.1"
         self.view.addSubview(logInUserName)
         
         underlineUsername.frame = CGRect(x: 0, y: 0, width: 300, height: 1)

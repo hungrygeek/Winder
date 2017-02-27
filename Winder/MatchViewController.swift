@@ -12,32 +12,16 @@
 import UIKit
 import Koloda
 import Firebase
+import SQLite
 
-private var numberOfCards: UInt = 2
-private var matchListLenLimit: UInt = 10
+
 
 class MatchViewController:UIViewController{
     
+
     var ref: FIRDatabaseReference!
     var wasLoaded: Bool!
-//    var kolodaView: KolodaView = {
-//        var kv: KolodaView = KolodaView(frame: CGRect(x:0,y: 0,width:250,height:250))
-//        kv.countOfVisibleCards = 2
-//        return kv
-//    }()
     var kolodaView: KolodaView!
-    
-//    var dataSource: Array<UIView> = {
-//        
-//        var array = Array<UIView>()
-//        
-//        for index in 0...1{
-//            var userTemp = PersonalInfo(w: 270, h: 270, uid: String(index))
-//            array.append(userTemp)
-//            userTemp.setAbilityBar([1,1,1,1])
-//        }
-//        return array
-//    }()
     
     var dataSource = Array<UIView>()
     
@@ -70,6 +54,7 @@ class MatchViewController:UIViewController{
         label.frame = CGRect(x:0,y:0,width: 200,height: 50)
         return label
     }()
+    
     var likeButton: UIButton = {
         let checkImg = UIImage(named:"Thumb Up")! as UIImage
         var button = UIButton()
@@ -106,7 +91,20 @@ class MatchViewController:UIViewController{
     var backgroundPic = UIImageView()
     let blurEffect1 = UIBlurEffect(style: UIBlurEffectStyle.extraLight)
 
-
+    
+    // db setup
+    let path = NSSearchPathForDirectoriesInDomains(
+        .documentDirectory, .userDomainMask, true
+        ).first!
+    let id = Expression<String>("id")
+    let date = Expression<Date?>("date")
+    let liked = Expression<Bool?>("like") //1 for like 0 for dislike and 3 for no
+    let matched_id = Expression<String>("matched_id")
+    let user_name = Expression<String?>("user_name")
+    
+    let matchedIDs = Table("matchedIDs")
+    var db: Connection?
+    
     override func viewDidAppear(_ animated: Bool) {
         if FIRAuth.auth()?.currentUser != nil {
             print("login success")
@@ -116,13 +114,32 @@ class MatchViewController:UIViewController{
         }
 
     }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        // db will store all matched person's id, whether the person is liked or disliked by user
+        db = try! Connection("\(path)/winder.matchedIDs.sqlite3")
+        do {
+            
+            try db?.run(matchedIDs.create(ifNotExists: true) {
+                t in
+                t.column(id)
+                t.column(date)
+                t.column(matched_id, primaryKey: true)
+                t.column(liked)
+                t.column(user_name)
+            })
+            print("new table for matchedIDs created")
+        } catch  {
+            print("error: \(error)")
+        }
         
         self.backgroundPic.frame = self.view.frame
         self.backgroundPic.center = self.view.center
         self.backgroundPic.alpha = 0.4
         self.wasLoaded = false
+        
         print("firebase data wasLoaded \(wasLoaded) in viewDidLoad")
         ref = FIRDatabase.database().reference()
 
@@ -155,30 +172,26 @@ class MatchViewController:UIViewController{
         view.addSubview(schoolLabel)
         
         // use call back to get the data
-        
         getMatchList(){
             () in
             self.kolodaView = KolodaView(frame: CGRect(x:0,y: 0,width:270,height:270))
+            self.kolodaView.countOfVisibleCards = 2
             self.kolodaView.center = CGPoint(x: self.view.frame.midX, y: self.view.frame.midY-80)
             self.kolodaView.dataSource = self
             self.kolodaView.delegate = self
             self.view.addSubview(self.kolodaView)
-//            let total = Double(matchListLenLimit)*2
-//            (self.dataSource[0] as! PersonalInfo).setAbilityBar([21,1,89,53])
             (self.dataSource[0] as! PersonalInfo).setAbilityBar2()
             print("Now i have \(self.backgroundPicArray.count) images")
             self.backgroundPic.image = self.backgroundPicArray[0]
-            var ref: FIRDatabaseReference!
-            ref = FIRDatabase.database().reference()
+//            var ref: FIRDatabaseReference!
+//            ref = FIRDatabase.database().reference()
             let userTemp = self.dataSource[self.kolodaView.currentCardIndex] as! PersonalInfo
-            ref.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
+            self.ref.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
                 let value = snapshot.value as? NSDictionary
 //                print("retriving all users\n\(value)")
                 let userInfo = value?[userTemp.uid] as? NSDictionary
                 let personName = userInfo?["username"] as? String ?? "name N/A"
                 let schoolName = userInfo?["school"] as? String ?? "school N/A"
-//                let personNamef = (snapshot as! [String : NSDictionary])![userTemp.uid]!!["username"]!
-//                let schoolNamef = (snapshot as! [String : NSDictionary])![userTemp.uid]!!["school"]!
                 self.schoolLabel.text = schoolName
                 self.nameLabel.text = personName
             })
@@ -196,7 +209,9 @@ class MatchViewController:UIViewController{
         recognizer2.direction = .right
         self.view.addGestureRecognizer(recognizer2)
     }
-    
+    /*
+     query limited number of user info from firebase and store into array locally
+    */
     func getMatchList(_ matchCount:UInt=5, onCompletion: @escaping ()->Void){
         if self.dataSource != nil && self.dataSource.count>0{
             print("matchList exist")
@@ -207,24 +222,53 @@ class MatchViewController:UIViewController{
 
         }
         print("retrieving match list")
-        ref = FIRDatabase.database().reference()
+        self.ref = FIRDatabase.database().reference()
         if self.dataSource.count>0{
             self.kolodaView.reloadData()
             return
         }
-        ref.child("users").queryLimited(toFirst: matchCount).observeSingleEvent(of: .value, with: {
+        self.ref.child("users").queryLimited(toFirst: matchCount).observeSingleEvent(of: .value, with: {
             (snapshot) in
             if let users = snapshot.value as? NSDictionary {
-                for (index, key) in (users.allKeys as! [String]).enumerated(){
+                for key in (users.allKeys as! [String]){
                     if key==FIRAuth.auth()?.currentUser?.uid{
                         continue
                     }
-                    let randomIndex = Int(arc4random_uniform(UInt32(self.picArray.count)))
-                    let tempImage = self.picArray[randomIndex]
-                    let pi = PersonalInfo(w: 270, h: 270, uid: key, userDict: users[key] as! NSDictionary)
-                    self.backgroundPicArray.append(tempImage)
-                    self.dataSource.append(pi)
-//                    print("got \((users[key] as! NSDictionary)["username"])")
+                    do{
+                        var username: String
+                        let userInfo = users[key] as? NSDictionary
+                        username = userInfo?["username"] as? String ?? "name N/A"
+                        let count = try self.db?.scalar(self.matchedIDs.filter(self.matched_id == key).count)
+                        /*
+                            check if the incoming ID has already been seen by user,
+                            if yes, skip that one
+                            if NO, add the user info into koloda view
+                         */
+                        if count != nil && count==0 {
+                            // schema id,date,like,matched_id(pk),user_name
+                            // date for SQLite should be "yyyy-MM-dd HH:mm:ss"
+                            let insert = self.matchedIDs.insert(
+                                self.id <- (FIRAuth.auth()?.currentUser?.uid)!,
+                                self.date <- Date(),
+                                self.matched_id <- key,
+                                self.user_name <- username
+                            )
+                            let rowid = try self.db?.run(insert)
+                            print("new matched ID \(key) inserted at \(rowid)")
+                            
+                            // insert the unmatched peer into koloda data source
+                            let randomIndex = Int(arc4random_uniform(UInt32(self.picArray.count)))
+                            let tempImage = self.picArray[randomIndex]
+                            let pi = PersonalInfo(w: 270, h: 270, uid: key, userDict: users[key] as! NSDictionary)
+                            self.backgroundPicArray.append(tempImage)
+                            self.dataSource.append(pi)
+                        } else {
+                            print("log: \(count) entry(s) found")
+                            print("we met this dude \(username) before, skip")
+                        }
+                    } catch {
+                        print("error: \(error)")
+                    }
                 }
                 self.wasLoaded = true
                 onCompletion()
@@ -323,42 +367,30 @@ extension MatchViewController: KolodaViewDataSource {
     }
     
     func koloda(_ koloda: KolodaView, viewForCardOverlayAt index: Int) -> OverlayView? {
-        return Bundle.main.loadNibNamed("OverlayView",
-                                                  owner: self, options: nil)?[0] as? OverlayView
-//        let ov = Bundle.main.loadNibNamed("OverlayView",
-//                                                   owner: self, options: nil)[0] as? OverlayView
-//        print(OverlayView())
-//        return ov
+        return Bundle.main.loadNibNamed("OverlayView", owner: self, options: nil)?[0] as? OverlayView
     }
     
     func koloda(_ koloda: KolodaView, didShowCardAt index: Int){
         
         let userTemp = dataSource[index] as! PersonalInfo
-//        let ab = Double(index)
-//        let matchCount = Double(matchListLenLimit)*2
-        
         self.backgroundPic.image = self.backgroundPicArray[index]
         self.backgroundPic.setNeedsDisplay()
-//        userTemp.setAbilityBar([73,64,52,78])
         userTemp.setAbilityBar2()
-        var ref: FIRDatabaseReference!
-        ref = FIRDatabase.database().reference()
-        ref.child("users").observeSingleEvent(of: .value, with: {
+        self.ref = FIRDatabase.database().reference()
+        self.ref.child("users").observeSingleEvent(of: .value, with: {
             (snapshot) in
             let value = snapshot.value as? NSDictionary
             let userInfo = value?[userTemp.uid] as? NSDictionary
             let personName = userInfo?["username"] as? String ?? "name N/A"
             let schoolName = userInfo?["school"] as? String ?? "school N/A"
-//            let personNamef = snapshot.value![userTemp.uid]!!["username"]!
-//            let schoolNamef = snapshot.value![userTemp.uid]!!["school"]!
             self.schoolLabel.text = schoolName
             self.nameLabel.text = personName
-            
         })
-     
     }
     
-    
+    /*
+     switch to person view to view peer info
+     */
     func personClick() {
         let vc = ViewOtherProfileViewController()
         let currentSuggestion = (dataSource[self.kolodaView.currentCardIndex] as! PersonalInfo).uid

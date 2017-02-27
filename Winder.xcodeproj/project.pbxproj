@@ -22,6 +22,7 @@
 		83B716B31DE2573F0083B24D /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B716B01DE2573F0083B24D /* Conversation.swift */; };
 		83B716B41DE2573F0083B24D /* DemoConversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B716B11DE2573F0083B24D /* DemoConversation.swift */; };
 		BA3E38A01DD7FC7500BD373A /* MatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3E389F1DD7FC7500BD373A /* MatchViewController.swift */; };
+		BA687EF91E62339F0030940B /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BA687EF81E62339F0030940B /* libsqlite3.tbd */; };
 		BA948D4C1DE24FB3001AF134 /* OverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA948D4A1DE24FB3001AF134 /* OverlayView.xib */; };
 		BA948D4E1DE2502A001AF134 /* CustomOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA948D4D1DE2502A001AF134 /* CustomOverlayView.swift */; };
 		BABCA0C11DE2262200DA40DA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BABCA0C01DE2262200DA40DA /* GoogleService-Info.plist */; };
@@ -53,6 +54,7 @@
 		83B716B01DE2573F0083B24D /* Conversation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		83B716B11DE2573F0083B24D /* DemoConversation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoConversation.swift; sourceTree = "<group>"; };
 		BA3E389F1DD7FC7500BD373A /* MatchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchViewController.swift; sourceTree = "<group>"; };
+		BA687EF81E62339F0030940B /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		BA948D4B1DE24FB3001AF134 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/OverlayView.xib; sourceTree = "<group>"; };
 		BA948D4D1DE2502A001AF134 /* CustomOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomOverlayView.swift; sourceTree = "<group>"; };
 		BABCA0C01DE2262200DA40DA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA687EF91E62339F0030940B /* libsqlite3.tbd in Frameworks */,
 				17BF593F1BD29D58DE85FAC5 /* Pods_Winder.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -79,6 +82,7 @@
 		003749E70E99C75B22F45BC3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BA687EF81E62339F0030940B /* libsqlite3.tbd */,
 				6D4FB63AFFE0A26956D28008 /* Pods_Winder.framework */,
 			);
 			name = Frameworks;
@@ -177,7 +181,7 @@
 				TargetAttributes = {
 					83AF57F21DD62BBC00C63709 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = N32KG697D9;
+						DevelopmentTeam = MJ9XJRGRQ2;
 						LastSwiftMigration = 0820;
 					};
 				};
@@ -332,6 +336,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = MJ9XJRGRQ2;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -348,7 +353,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -377,6 +382,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = MJ9XJRGRQ2;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -387,7 +393,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -401,9 +407,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = MJ9XJRGRQ2;
 				INFOPLIST_FILE = Winder/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cse438.Winder;
+				PRODUCT_BUNDLE_IDENTIFIER = com.winder.Winder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 3.0;
@@ -417,9 +424,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = MJ9XJRGRQ2;
 				INFOPLIST_FILE = Winder/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cse438.Winder;
+				PRODUCT_BUNDLE_IDENTIFIER = com.winder.Winder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 3.0;
