@@ -45,9 +45,7 @@ class PersonalInfo:UIView, CAAnimationDelegate {
                 }
                 
                 DispatchQueue.main.async(execute: {
-                    
                     if let downloadedImage = UIImage(data: data!) {
-                        
                         self.image = UIImageView(image: downloadedImage)
                         self.image.frame = CGRect(x: 0, y: 0, width: 240, height: 240)
                         self.image.layer.cornerRadius = 120
@@ -57,13 +55,11 @@ class PersonalInfo:UIView, CAAnimationDelegate {
                         self.addSubview(self.image)
                         self.image.setNeedsDisplay()
                     }
-                    
                 })
-                
             }).resume()
         }
-        
     }
+
     func setAbilityBar2(){
         let keys = (self.userDict["skill"]! as AnyObject).allKeys as! [String]
         let centerPoint = CGPoint(x: self.frame.midX, y: self.frame.midY)

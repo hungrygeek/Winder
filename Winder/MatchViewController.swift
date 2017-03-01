@@ -97,7 +97,7 @@ class MatchViewController:UIViewController{
         .documentDirectory, .userDomainMask, true
         ).first!
     let id = Expression<String>("id")
-    let date = Expression<Date?>("date")
+    let date = Expression<String?>("date")
     let liked = Expression<Bool?>("like") //1 for like 0 for dislike and 3 for no
     let matched_id = Expression<String>("matched_id")
     let user_name = Expression<String?>("user_name")
@@ -121,7 +121,6 @@ class MatchViewController:UIViewController{
         // db will store all matched person's id, whether the person is liked or disliked by user
         db = try! Connection("\(path)/winder.matchedIDs.sqlite3")
         do {
-            
             try db?.run(matchedIDs.create(ifNotExists: true) {
                 t in
                 t.column(id)
@@ -171,15 +170,24 @@ class MatchViewController:UIViewController{
         schoolLabel.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height*2.2)
         view.addSubview(schoolLabel)
         
+        self.kolodaView = KolodaView(frame: CGRect(x:0,y: 0,width:270,height:270))
+        self.kolodaView.countOfVisibleCards = 2
+        self.kolodaView.center = CGPoint(x: self.view.frame.midX, y: self.view.frame.midY-80)
+        self.kolodaView.dataSource = self
+        kolodaView.delegate = self
+        self.view.addSubview(self.kolodaView)
+
         // use call back to get the data
         getMatchList(){
             () in
-            self.kolodaView = KolodaView(frame: CGRect(x:0,y: 0,width:270,height:270))
-            self.kolodaView.countOfVisibleCards = 2
-            self.kolodaView.center = CGPoint(x: self.view.frame.midX, y: self.view.frame.midY-80)
-            self.kolodaView.dataSource = self
-            self.kolodaView.delegate = self
-            self.view.addSubview(self.kolodaView)
+            
+//            self.kolodaView = KolodaView(frame: CGRect(x:0,y: 0,width:270,height:270))
+//            self.kolodaView.countOfVisibleCards = 2
+//            self.kolodaView.center = CGPoint(x: self.view.frame.midX, y: self.view.frame.midY-80)
+//            self.kolodaView.dataSource = self
+//            self.kolodaView.delegate = self
+            self.kolodaView.reloadData()
+//            self.view.addSubview(self.kolodaView)
             (self.dataSource[0] as! PersonalInfo).setAbilityBar2()
             print("Now i have \(self.backgroundPicArray.count) images")
             self.backgroundPic.image = self.backgroundPicArray[0]
@@ -209,10 +217,14 @@ class MatchViewController:UIViewController{
         recognizer2.direction = .right
         self.view.addGestureRecognizer(recognizer2)
     }
+    
     /*
      query limited number of user info from firebase and store into array locally
     */
     func getMatchList(_ matchCount:UInt=5, onCompletion: @escaping ()->Void){
+        // TODO: drop the table if exists, for TEST only
+        try! db?.run(self.matchedIDs.delete())
+        
         if self.dataSource != nil && self.dataSource.count>0{
             print("matchList exist")
             onCompletion()
@@ -245,17 +257,6 @@ class MatchViewController:UIViewController{
                             if NO, add the user info into koloda view
                          */
                         if count != nil && count==0 {
-                            // schema id,date,like,matched_id(pk),user_name
-                            // date for SQLite should be "yyyy-MM-dd HH:mm:ss"
-                            let insert = self.matchedIDs.insert(
-                                self.id <- (FIRAuth.auth()?.currentUser?.uid)!,
-                                self.date <- Date(),
-                                self.matched_id <- key,
-                                self.user_name <- username
-                            )
-                            let rowid = try self.db?.run(insert)
-                            print("new matched ID \(key) inserted at \(rowid)")
-                            
                             // insert the unmatched peer into koloda data source
                             let randomIndex = Int(arc4random_uniform(UInt32(self.picArray.count)))
                             let tempImage = self.picArray[randomIndex]
@@ -275,22 +276,38 @@ class MatchViewController:UIViewController{
             } else {
                 print("load match list wrong")
             }
-            
         })
     }
+    
+    // store the matched peer into SQLite
+    // schema id,date,like,matched_id(pk),user_name
+    // date for SQLite should be "yyyy-MM-dd HH:mm:ss"
+    func storePeerEntry(_ id: String, _ username: String, _ liked: Bool, _ matched_id: String) throws -> (){
+        let insert = self.matchedIDs.insert(
+            self.id <- id,
+            self.date <- Date().datatypeValue,
+            self.matched_id <- matched_id,
+            self.user_name <- username,
+            self.liked <- liked
+        )
+        let rowid = try self.db?.run(insert)
+        print("new matched ID \(matched_id) inserted at \(rowid)")
+    }
+    
     
     func swipeLeft(_ recognizer1: UIGestureRecognizer) {
         let vc = MessageViewController()
         let navController = UINavigationController(rootViewController: vc)
         navController.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
         present(navController, animated: false, completion: nil)
-        print("Swiped")
+        print("View Swiped")
     }
+    
     func swipeRight(_ recognizer2: UIGestureRecognizer) {
         let vc = PersonalViewController()
         vc.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
         present(vc, animated: true, completion: nil)
-        print("Swiped")
+        print("View Swiped")
     }
     
     func like(){
@@ -313,6 +330,24 @@ class MatchViewController:UIViewController{
         // [END signout]
     }
     
+    /*
+     switch to person view to view peer info
+     */
+    func personClick() {
+        let vc = ViewOtherProfileViewController()
+        let currentSuggestion = (dataSource[self.kolodaView.currentCardIndex] as! PersonalInfo).uid
+        vc.selectedUserID = currentSuggestion
+        let navController = UINavigationController(rootViewController: vc)
+        navController.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+        present(navController, animated: true, completion: nil)
+        print("clicked")
+    }
+    
+    
+    func kolodaShouldApplyAppearAnimation(koloda: KolodaView) -> Bool {
+        return true
+    }
+
 
 }
 
@@ -326,19 +361,20 @@ extension MatchViewController: KolodaViewDelegate {
 //        kolodaView.insertCardAtIndexRange(position...position, animated: true)
     }
     
-    func koloda(_ koloda: KolodaView, didSelectCardAtIndex index: UInt) {
+    func koloda(koloda: KolodaView, didSelectCardAtIndex index: UInt) {
 //        UIApplication.sharedApplication().openURL(NSURL(string: "http://yalantis.com/")!)
         print("you click")
     }
-    func koloda(_ koloda: KolodaView, didSwipeCardAtIndex index: UInt, inDirection direction: SwipeResultDirection){
+    
+    func koloda(koloda: KolodaView, didSwipeCardAt index: Int, in direction: SwipeResultDirection){
+        print("swiped")
         if direction == .right {
             print("count \(koloda.countOfCards)")
             print("cur index \(koloda.currentCardIndex)")
-            print("you swipe that biatch *RIGHT*")
             print("you swipe \(index) *RIGHT*")
             
             print((dataSource[Int(index)] as! PersonalInfo).uid)
-            
+//            storePeerEntry(<#T##id: String##String#>, <#T##username: String##String#>, <#T##liked: Bool##Bool#>, <#T##matched_id: String##String#>)
             // add uid to matched lis
             if let uid = FIRAuth.auth()!.currentUser?.uid, let peer_uid = (dataSource[Int(index)] as? PersonalInfo)?.uid{
                 ref.child("users/\(uid)/matched/\(peer_uid)").setValue(Date().timeIntervalSince1970*1000)
@@ -348,9 +384,7 @@ extension MatchViewController: KolodaViewDelegate {
 
         } else {
             print("you swipe that biatch *LEFT*")
-            
         }
-    
     }
     
 }
@@ -388,21 +422,4 @@ extension MatchViewController: KolodaViewDataSource {
         })
     }
     
-    /*
-     switch to person view to view peer info
-     */
-    func personClick() {
-        let vc = ViewOtherProfileViewController()
-        let currentSuggestion = (dataSource[self.kolodaView.currentCardIndex] as! PersonalInfo).uid
-        vc.selectedUserID = currentSuggestion
-        let navController = UINavigationController(rootViewController: vc)
-        navController.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
-        present(navController, animated: true, completion: nil)
-        print("clicked")
-    }
-    
-//
-//    func kolodaShouldApplyAppearAnimation(koloda: KolodaView) -> Bool {
-//        return true
-//    }
 }
