@@ -340,7 +340,7 @@ class MatchViewController:UIViewController{
         let navController = UINavigationController(rootViewController: vc)
         navController.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
         present(navController, animated: true, completion: nil)
-        print("clicked")
+//        print("clicked")
     }
     
     
@@ -362,28 +362,46 @@ extension MatchViewController: KolodaViewDelegate {
     }
     
     func koloda(_ koloda: KolodaView, didSelectCardAt index: Int) {
-        UIApplication.shared.openURL(URL(string: "https://yalantis.com/")!)
+//        UIApplication.shared.openURL(URL(string: "https://yalantis.com/")!)
         print("you click")
+        personClick()
     }
-    
+    /*
+     peer liked will be inserted with liked=1, otherwise liked=0
+     */
     func koloda(_ koloda: KolodaView, didSwipeCardAt index: Int, in direction: SwipeResultDirection){
         print("swiped")
+        let peerName = self.nameLabel.text
         if direction == .right {
             print("count \(koloda.countOfCards)")
             print("cur index \(koloda.currentCardIndex)")
             print("you swipe \(index) *RIGHT*")
             
             print((dataSource[Int(index)] as! PersonalInfo).uid)
-//            storePeerEntry(<#T##id: String##String#>, <#T##username: String##String#>, <#T##liked: Bool##Bool#>, <#T##matched_id: String##String#>)
             // add uid to matched lis
             if let uid = FIRAuth.auth()!.currentUser?.uid, let peer_uid = (dataSource[Int(index)] as? PersonalInfo)?.uid{
                 ref.child("users/\(uid)/matched/\(peer_uid)").setValue(Date().timeIntervalSince1970*1000)
+                do{
+                    try storePeerEntry(uid, peerName!, true, peer_uid)
+                } catch {
+                    print("error \(error)")
+                }
             } else{
                 print("can not get user")
             }
 
         } else {
             print("you swipe that biatch *LEFT*")
+            if let uid = FIRAuth.auth()!.currentUser?.uid, let peer_uid = (dataSource[Int(index)] as? PersonalInfo)?.uid{
+                ref.child("users/\(uid)/matched/\(peer_uid)").setValue(Date().timeIntervalSince1970*1000)
+                do{
+                    try storePeerEntry(uid, peerName!, false, peer_uid)
+                } catch {
+                    print("error \(error)")
+                }
+            } else{
+                print("can not get user")
+            }
         }
     }
     
