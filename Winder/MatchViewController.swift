@@ -170,10 +170,10 @@ class MatchViewController:UIViewController{
         schoolLabel.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height*2.2)
         view.addSubview(schoolLabel)
         
-        self.kolodaView = KolodaView(frame: CGRect(x:0,y: 0,width:270,height:270))
-        self.kolodaView.countOfVisibleCards = 2
-        self.kolodaView.center = CGPoint(x: self.view.frame.midX, y: self.view.frame.midY-80)
-        self.kolodaView.dataSource = self
+        kolodaView = KolodaView(frame: CGRect(x:0,y: 0,width:270,height:270))
+        kolodaView.countOfVisibleCards = 2
+        kolodaView.center = CGPoint(x: self.view.frame.midX, y: self.view.frame.midY-80)
+        kolodaView.dataSource = self
         kolodaView.delegate = self
         self.view.addSubview(self.kolodaView)
 
@@ -361,12 +361,12 @@ extension MatchViewController: KolodaViewDelegate {
 //        kolodaView.insertCardAtIndexRange(position...position, animated: true)
     }
     
-    func koloda(koloda: KolodaView, didSelectCardAtIndex index: UInt) {
-//        UIApplication.sharedApplication().openURL(NSURL(string: "http://yalantis.com/")!)
+    func koloda(_ koloda: KolodaView, didSelectCardAt index: Int) {
+        UIApplication.shared.openURL(URL(string: "https://yalantis.com/")!)
         print("you click")
     }
     
-    func koloda(koloda: KolodaView, didSwipeCardAt index: Int, in direction: SwipeResultDirection){
+    func koloda(_ koloda: KolodaView, didSwipeCardAt index: Int, in direction: SwipeResultDirection){
         print("swiped")
         if direction == .right {
             print("count \(koloda.countOfCards)")
