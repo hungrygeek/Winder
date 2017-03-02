@@ -23,7 +23,7 @@ class MatchViewController:UIViewController{
     var wasLoaded: Bool!
     var kolodaView: KolodaView!
     
-    var dataSource = Array<UIView>()
+    var dataSource = Array<UIView>()//make here personalInfo?
     
     var picArray: Array<UIImage> = {
         var array1 = Array<UIImage>()
