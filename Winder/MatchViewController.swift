@@ -23,7 +23,7 @@ class MatchViewController:UIViewController{
     var wasLoaded: Bool!
     var kolodaView: KolodaView!
     
-    var dataSource = Array<UIView>()//make here personalInfo?
+    var dataSource = Array<PersonalInfo>()
     
     var picArray: Array<UIImage> = {
         var array1 = Array<UIImage>()
@@ -177,26 +177,14 @@ class MatchViewController:UIViewController{
         kolodaView.delegate = self
         self.view.addSubview(self.kolodaView)
 
-        // use call back to get the data
         getMatchList(){
-            () in
-            
-//            self.kolodaView = KolodaView(frame: CGRect(x:0,y: 0,width:270,height:270))
-//            self.kolodaView.countOfVisibleCards = 2
-//            self.kolodaView.center = CGPoint(x: self.view.frame.midX, y: self.view.frame.midY-80)
-//            self.kolodaView.dataSource = self
-//            self.kolodaView.delegate = self
             self.kolodaView.reloadData()
-//            self.view.addSubview(self.kolodaView)
-            (self.dataSource[0] as! PersonalInfo).setAbilityBar2()
-            print("Now i have \(self.backgroundPicArray.count) images")
+            (self.dataSource[0]).setAbilityBar2()
+            print("Now have \(self.backgroundPicArray.count) images")
             self.backgroundPic.image = self.backgroundPicArray[0]
-//            var ref: FIRDatabaseReference!
-//            ref = FIRDatabase.database().reference()
-            let userTemp = self.dataSource[self.kolodaView.currentCardIndex] as! PersonalInfo
+            let userTemp = self.dataSource[self.kolodaView.currentCardIndex]
             self.ref.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
                 let value = snapshot.value as? NSDictionary
-//                print("retriving all users\n\(value)")
                 let userInfo = value?[userTemp.uid] as? NSDictionary
                 let personName = userInfo?["username"] as? String ?? "name N/A"
                 let schoolName = userInfo?["school"] as? String ?? "school N/A"
@@ -222,10 +210,11 @@ class MatchViewController:UIViewController{
      query limited number of user info from firebase and store into array locally
     */
     func getMatchList(_ matchCount:UInt=5, onCompletion: @escaping ()->Void){
-        // TODO: drop the table if exists, for TEST only
+        
+        //*IMPORTANT* TODO: drop the table if exists, for TEST only
         try! db?.run(self.matchedIDs.delete())
         
-        if self.dataSource != nil && self.dataSource.count>0{
+        if self.dataSource.count>0{
             print("matchList exist")
             onCompletion()
             return
@@ -247,24 +236,23 @@ class MatchViewController:UIViewController{
                         continue
                     }
                     do{
-                        var username: String
-                        let userInfo = users[key] as? NSDictionary
-                        username = userInfo?["username"] as? String ?? "name N/A"
                         let count = try self.db?.scalar(self.matchedIDs.filter(self.matched_id == key).count)
                         /*
                             check if the incoming ID has already been seen by user,
                             if yes, skip that one
                             if NO, add the user info into koloda view
                          */
+                        let userDict = users[key] as! NSDictionary
                         if count != nil && count==0 {
                             // insert the unmatched peer into koloda data source
                             let randomIndex = Int(arc4random_uniform(UInt32(self.picArray.count)))
                             let tempImage = self.picArray[randomIndex]
-                            let pi = PersonalInfo(w: 270, h: 270, uid: key, userDict: users[key] as! NSDictionary)
+                            let pi = PersonalInfo(w: 270, h: 270, uid: key, userDict: userDict)
                             self.backgroundPicArray.append(tempImage)
                             self.dataSource.append(pi)
                         } else {
                             print("log: \(count) entry(s) found")
+                            let username = userDict["username"] as? String ?? "name N/A"
                             print("we met this dude \(username) before, skip")
                         }
                     } catch {
@@ -335,7 +323,7 @@ class MatchViewController:UIViewController{
      */
     func personClick() {
         let vc = ViewOtherProfileViewController()
-        let currentSuggestion = (dataSource[self.kolodaView.currentCardIndex] as! PersonalInfo).uid
+        let currentSuggestion = (dataSource[self.kolodaView.currentCardIndex]).uid
         vc.selectedUserID = currentSuggestion
         let navController = UINavigationController(rootViewController: vc)
         navController.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
@@ -377,9 +365,10 @@ extension MatchViewController: KolodaViewDelegate {
             print("cur index \(koloda.currentCardIndex)")
             print("you swipe \(index) *RIGHT*")
             
-            print((dataSource[Int(index)] as! PersonalInfo).uid)
+            print((dataSource[Int(index)]).uid)
             // add uid to matched lis
-            if let uid = FIRAuth.auth()!.currentUser?.uid, let peer_uid = (dataSource[Int(index)] as? PersonalInfo)?.uid{
+            if let uid = FIRAuth.auth()!.currentUser?.uid {
+                let peer_uid = (dataSource[Int(index)]).uid
                 ref.child("users/\(uid)/matched/\(peer_uid)").setValue(Date().timeIntervalSince1970*1000)
                 do{
                     try storePeerEntry(uid, peerName!, true, peer_uid)
@@ -392,7 +381,8 @@ extension MatchViewController: KolodaViewDelegate {
 
         } else {
             print("you swipe that biatch *LEFT*")
-            if let uid = FIRAuth.auth()!.currentUser?.uid, let peer_uid = (dataSource[Int(index)] as? PersonalInfo)?.uid{
+            if let uid = FIRAuth.auth()!.currentUser?.uid {
+                let peer_uid = (dataSource[Int(index)]).uid
                 ref.child("users/\(uid)/matched/\(peer_uid)").setValue(Date().timeIntervalSince1970*1000)
                 do{
                     try storePeerEntry(uid, peerName!, false, peer_uid)
@@ -424,7 +414,7 @@ extension MatchViewController: KolodaViewDataSource {
     
     func koloda(_ koloda: KolodaView, didShowCardAt index: Int){
         
-        let userTemp = dataSource[index] as! PersonalInfo
+        let userTemp = dataSource[index]
         self.backgroundPic.image = self.backgroundPicArray[index]
         self.backgroundPic.setNeedsDisplay()
         userTemp.setAbilityBar2()

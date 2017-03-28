@@ -11,18 +11,23 @@ import UIKit
 class PersonalInfo:UIView, CAAnimationDelegate {
     
     var image = UIImageView()
-    var ability = Array<Double>()
     var layerArray = Array<CAShapeLayer>()
-    var userDict: NSDictionary
-    var uid: String
+    let userDict: NSDictionary
+    let uid: String
+    let skills: NSDictionary
+    let username: String
+    let school: String
+    
 
     init(w:CGFloat,h:CGFloat, uid:String, userDict: NSDictionary){
         self.uid = uid
         self.userDict = userDict
+        self.skills = userDict["skill"] as! NSDictionary
+        self.username = userDict["username"] as! String
+        self.school = userDict["school"] as! String
         super.init(frame:CGRect(x: 0, y: 0, width: w, height: h))
         loadImageUsingCacheWithUrlString(userDict["image"] as! String)
-//        image = UIImage(named:userDict["image"])
-                self.backgroundColor = UIColor.clear
+        self.backgroundColor = UIColor.clear
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -30,20 +35,26 @@ class PersonalInfo:UIView, CAAnimationDelegate {
     }
     
     fileprivate func loadImageUsingCacheWithUrlString(_ urlString: String) {
-        if urlString == "" || self.image.image != nil {
-            print("we got profile image or the url is null")
-            
+        //TODO: shall we use NSCache here?
+        // how to reload if we use NSCache?
+        // should I cache the image or all PersonalInfo object in the array?
+        // 20170324: Let's not worry about cache right now
+        if urlString == "" {
+             print("the url is null")
+        }
+        else if self.image.image != nil {
+            print("we got profile image already")
         } else {
-//            print("got \(urlString)")
             let url = URL(string: urlString)
-            URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
+            URLSession.shared.dataTask(with: url!, completionHandler: {
+                (data, response, error) in
                 
                 //download hit an error so lets return out
-                if error != nil {
+                if (error != nil) {
                     print(error)
                     return
                 }
-                
+
                 DispatchQueue.main.async(execute: {
                     if let downloadedImage = UIImage(data: data!) {
                         self.image = UIImageView(image: downloadedImage)
@@ -53,21 +64,25 @@ class PersonalInfo:UIView, CAAnimationDelegate {
                         self.image.layer.backgroundColor = UIColor.white.cgColor
                         self.image.center = CGPoint(x: self.frame.midX, y: self.frame.midY)
                         self.addSubview(self.image)
-                        self.image.setNeedsDisplay()
+//                        self.image.setNeedsDisplay() //no necessary when using dispatch
                     }
                 })
             }).resume()
+            // After you create the task, you must start it by calling its resume() method.
+            // from https://developer.apple.com/reference/foundation/urlsession/1407613-datatask
         }
     }
 
     func setAbilityBar2(){
-        let keys = (self.userDict["skill"]! as AnyObject).allKeys as! [String]
+        // display the top 4 skills of that person
+        let keys = self.skills.allKeys as! [String]
         let centerPoint = CGPoint(x: self.frame.midX, y: self.frame.midY)
         let c = min(keys.count, 4)
         for index:Int in 0..<c{
             let skill = UILabel()
             skill.frame = CGRect(x: 0, y: 0, width: 100, height: 15)
-            skill.center = CGPoint(x: self.frame.midX-20, y: self.frame.midY-CGFloat(index+8)*15)
+            let hOffset = self.frame.height/2+CGFloat(index)*15
+            skill.center = CGPoint(x: self.frame.midX-20, y: self.frame.midY-hOffset)
             skill.text = keys[index]
             skill.font = skill.font.withSize(10)
             let layer = CAShapeLayer()
@@ -77,11 +92,9 @@ class PersonalInfo:UIView, CAAnimationDelegate {
             layer.lineWidth = 15
             layer.lineCap = kCALineCapRound
             let startAngle = CGFloat(M_PI_2*3)
-//            print("ability \((self.userDict["skill"] as AnyObject).value(forKey: keys[index]))")
-            let abilityLevel = ((self.userDict["skill"] as AnyObject).value(forKey: keys[index])) as! Int
-//            let skillValue = abilityLevel as! Double
+            let abilityLevel = self.skills[keys[index]] as! Int
             let endAngle = CGFloat(M_PI_2*3 + M_PI*Double(abilityLevel)*0.0175)
-            layer.path = UIBezierPath(arcCenter:centerPoint, radius: CGFloat(index+8)*15, startAngle:startAngle, endAngle:endAngle, clockwise: true).cgPath
+            layer.path = UIBezierPath(arcCenter:centerPoint, radius: hOffset, startAngle:startAngle, endAngle:endAngle, clockwise: true).cgPath
             let animation = CABasicAnimation(keyPath: "strokeEnd")
             animation.delegate = self
             animation.duration = 1
