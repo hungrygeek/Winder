@@ -12,19 +12,19 @@ class PersonalInfo:UIView, CAAnimationDelegate {
     
     var image = UIImageView()
     var layerArray = Array<CAShapeLayer>()
-    let userDict: NSDictionary
-    let uid: String
-    let skills: NSDictionary
-    let username: String
-    let school: String
+    public let userDict: NSDictionary
+    public let uid: String
+    public let skills: NSDictionary
+    public let username: String
+    public let school: String
     
 
     init(w:CGFloat,h:CGFloat, uid:String, userDict: NSDictionary){
         self.uid = uid
         self.userDict = userDict
-        self.skills = userDict["skill"] as! NSDictionary
-        self.username = userDict["username"] as! String
-        self.school = userDict["school"] as! String
+        self.skills = userDict["skill"] as? NSDictionary ?? [:]
+        self.username = userDict["username"] as? String ?? "Username: N/A"
+        self.school = userDict["school"] as? String ?? "School: N/A"
         super.init(frame:CGRect(x: 0, y: 0, width: w, height: h))
         loadImageUsingCacheWithUrlString(userDict["image"] as! String)
         self.backgroundColor = UIColor.clear
@@ -35,7 +35,7 @@ class PersonalInfo:UIView, CAAnimationDelegate {
     }
     
     fileprivate func loadImageUsingCacheWithUrlString(_ urlString: String) {
-        //TODO: shall we use NSCache here?
+        // TODO: shall we use NSCache here?
         // how to reload if we use NSCache?
         // should I cache the image or all PersonalInfo object in the array?
         // 20170324: Let's not worry about cache right now
@@ -73,7 +73,7 @@ class PersonalInfo:UIView, CAAnimationDelegate {
         }
     }
 
-    func setAbilityBar2(){
+    func setAbilityBarAndDisplay(){
         // display the top 4 skills of that person
         let keys = self.skills.allKeys as! [String]
         let centerPoint = CGPoint(x: self.frame.midX, y: self.frame.midY)
@@ -110,43 +110,6 @@ class PersonalInfo:UIView, CAAnimationDelegate {
         }
     }
     
-    func setAbilityBar(_ abilityLevel:Array<Double>){
-//        var ability = ability
-        print(abilityLevel)
-        let courseArray = ["Math","Physics","English","Painting"]
-        let centerPoint = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        for index:Int in 0..<4 {
-            let skill = UILabel()
-            skill.frame = CGRect(x: 0, y: 0, width: 100, height: 15)
-            skill.center = CGPoint(x: self.frame.midX-20, y: self.frame.midY-CGFloat(index+8)*15)
-            skill.text = courseArray[index]
-            skill.font = skill.font.withSize(12)
-            let layer = CAShapeLayer()
-            layer.backgroundColor = UIColor.clear.cgColor
-            layer.fillColor = UIColor.clear.cgColor
-            layer.strokeColor = UIColor.getCustomColor(UIColor())(index).cgColor
-            layer.lineWidth = 15
-            layer.lineCap = kCALineCapRound
-            let startAngle = CGFloat(M_PI_2*3)
-            let endAngle = CGFloat(M_PI_2*3 + M_PI*abilityLevel[index]*0.0175)
-            layer.path = UIBezierPath(arcCenter:centerPoint, radius: CGFloat(index+8)*15, startAngle:startAngle, endAngle:endAngle, clockwise: true).cgPath
-            let animation = CABasicAnimation(keyPath: "strokeEnd")
-            animation.delegate = self
-            animation.duration = 1
-            animation.fromValue = 0
-            animation.toValue = 1
-            layer.strokeEnd = 1
-            layer.add(animation, forKey: nil)
-            layerArray.append(layer)
-            self.backgroundColor = UIColor.clear
-
-            self.layer.addSublayer(layer)
-            self.addSubview(skill)
-        }
-        
-    }
-
-
 //    private var shapelayerArray: Array<CAShapeLayer> = {
 //        var shapelayerArray: Array<CAShapeLayer> = []
 //        for index in 0..<4{

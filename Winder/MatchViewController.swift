@@ -3,7 +3,7 @@
 //  Winder
 //
 //  Created by Rokee on 11/12/16.
-//  Copyright © 2016 cse438. All rights reserved.
+//  Copyright © 2016 Team Winder. All rights reserved.
 //
 //
 //modified on Dec. 16, 2016 for Swift3
@@ -171,7 +171,7 @@ class MatchViewController:UIViewController{
         view.addSubview(schoolLabel)
         
         kolodaView = KolodaView(frame: CGRect(x:0,y: 0,width:270,height:270))
-        kolodaView.countOfVisibleCards = 2
+        kolodaView.countOfVisibleCards = 1
         kolodaView.center = CGPoint(x: self.view.frame.midX, y: self.view.frame.midY-80)
         kolodaView.dataSource = self
         kolodaView.delegate = self
@@ -179,18 +179,11 @@ class MatchViewController:UIViewController{
 
         getMatchList(){
             self.kolodaView.reloadData()
-            (self.dataSource[0]).setAbilityBar2()
+            (self.dataSource[0]).setAbilityBarAndDisplay()
             print("Now have \(self.backgroundPicArray.count) images")
             self.backgroundPic.image = self.backgroundPicArray[0]
-            let userTemp = self.dataSource[self.kolodaView.currentCardIndex]
-            self.ref.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
-                let value = snapshot.value as? NSDictionary
-                let userInfo = value?[userTemp.uid] as? NSDictionary
-                let personName = userInfo?["username"] as? String ?? "name N/A"
-                let schoolName = userInfo?["school"] as? String ?? "school N/A"
-                self.schoolLabel.text = schoolName
-                self.nameLabel.text = personName
-            })
+            self.nameLabel.text = self.dataSource[0].username
+            self.schoolLabel.text = self.dataSource[0].school
             self.backgroundPic.setNeedsDisplay()
         }
         
@@ -413,21 +406,12 @@ extension MatchViewController: KolodaViewDataSource {
     }
     
     func koloda(_ koloda: KolodaView, didShowCardAt index: Int){
-        
-        let userTemp = dataSource[index]
         self.backgroundPic.image = self.backgroundPicArray[index]
         self.backgroundPic.setNeedsDisplay()
-        userTemp.setAbilityBar2()
+        dataSource[index].setAbilityBarAndDisplay()
         self.ref = FIRDatabase.database().reference()
-        self.ref.child("users").observeSingleEvent(of: .value, with: {
-            (snapshot) in
-            let value = snapshot.value as? NSDictionary
-            let userInfo = value?[userTemp.uid] as? NSDictionary
-            let personName = userInfo?["username"] as? String ?? "name N/A"
-            let schoolName = userInfo?["school"] as? String ?? "school N/A"
-            self.schoolLabel.text = schoolName
-            self.nameLabel.text = personName
-        })
+        self.schoolLabel.text = self.dataSource[index].school
+        self.nameLabel.text = self.dataSource[index].username
     }
     
 }

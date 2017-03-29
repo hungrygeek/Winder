@@ -3,7 +3,7 @@
 //  Winder
 //
 //  Created by ShiShu on 11/11/16.
-//  Copyright © 2016 cse438. All rights reserved.
+//  Copyright © 2016 Team Winder. All rights reserved.
 //
 
 /*
