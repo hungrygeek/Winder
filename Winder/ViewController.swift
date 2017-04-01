@@ -182,7 +182,7 @@ class ViewController: UIViewController,UIAlertViewDelegate {
         
     }
     func goToMatchView(){
-        let vc = PersonalViewController()
+        let vc = MatchViewController()
         vc.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
         present(vc, animated: true, completion: nil)
     }
@@ -200,8 +200,6 @@ class ViewController: UIViewController,UIAlertViewDelegate {
     
     func logInClick(){
         
-//        signOut()
-//        if let email = logInUserName.text != nil && logInUserName.text != "" ? logInUserName.text : "rokee.lv@gmail.com", pwd = logInPassword.text != nil && logInPassword.text != "" ? logInPassword.text : "111111" {
         if let email = logInUserName.text, let pwd = logInPassword.text{
             print("try to sign up with \(email) and \(pwd)")
             FIRAuth.auth()?.signIn(withEmail: email, password: pwd) {
@@ -222,11 +220,11 @@ class ViewController: UIViewController,UIAlertViewDelegate {
 //                    print("error.localizedFailureReason", error?.localizedFailureReason)
                 }
             }
-            let vc = MatchViewController()
-            vc.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
-            present(vc, animated: false, completion: nil)
+//            let vc = MatchViewController()
+//            vc.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
+//            present(vc, animated: false, completion: nil)
         } else {
-            print("something wrong")
+            print("something wrong with email or password")
         }
         
         

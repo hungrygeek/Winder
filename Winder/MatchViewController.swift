@@ -285,10 +285,10 @@ class MatchViewController:UIViewController{
     }
     
     func swipeRight(_ recognizer2: UIGestureRecognizer) {
-        let vc = PersonalViewController()
-        vc.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
-        present(vc, animated: true, completion: nil)
-        print("View Swiped")
+//        let vc = PersonalViewController()
+//        vc.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+//        present(vc, animated: true, completion: nil)
+//        print("View Swiped")
     }
     
     func like(){
@@ -312,16 +312,27 @@ class MatchViewController:UIViewController{
     }
     
     /*
-     switch to person view to view peer info
+     switch to view peer info
      */
     func personClick() {
-        let vc = ViewOtherProfileViewController()
-        let currentSuggestion = (dataSource[self.kolodaView.currentCardIndex]).uid
-        vc.selectedUserID = currentSuggestion
-        let navController = UINavigationController(rootViewController: vc)
-        navController.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
-        present(navController, animated: true, completion: nil)
+        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        
+        let nextViewController = storyBoard.instantiateViewController(withIdentifier: "PeerViewController")
+        present(nextViewController, animated:true, completion:nil)
+//        let navController = UINavigationController(rootViewController: vc)
+//        navController.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+//        present(navController, animated: true, completion: nil)
+        
+        
+//        let vc = ViewOtherProfileViewController()
+//        let currentSuggestion = (dataSource[self.kolodaView.currentCardIndex]).uid
+//        vc.selectedUserID = currentSuggestion
+//        let navController = UINavigationController(rootViewController: vc)
+//        navController.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+//        present(navController, animated: true, completion: nil)
+
 //        print("clicked")
+//        self.present(vc, animated: true, completion: nil)
     }
     
     

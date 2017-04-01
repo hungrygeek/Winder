@@ -72,15 +72,12 @@ class ViewOtherProfileViewController: UIViewController, UITableViewDelegate, UIT
         self.uniName.textAlignment = .center
         self.view.addSubview(self.uniName)
         
-        
-        //let personName = UILabel()
         self.personName.frame = CGRect(x: 0, y: 0, width: 300, height: 40)
         self.personName.center = CGPoint(x: self.view.center.x, y: 430)
         ref.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
             let personNamef = ((snapshot.value! as! [String: Any])[self.selectedUserID]! as! [String: Any])["username"]!
             self.personName.text = String(describing: personNamef)
         })
-        //        personName.text = "Shi Shu"
         self.personName.textAlignment = .center
         self.view.addSubview(personName)
         
