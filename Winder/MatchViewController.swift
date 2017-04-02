@@ -316,9 +316,10 @@ class MatchViewController:UIViewController{
      */
     func personClick() {
         let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        guard let nextViewController = storyBoard.instantiateViewController(withIdentifier: "PeerViewController") as? PeerViewController else { return }
+//        nextViewController.profileImageView = UIImageView()
+        self.present(nextViewController, animated:true, completion:nil)
         
-        let nextViewController = storyBoard.instantiateViewController(withIdentifier: "PeerViewController")
-        present(nextViewController, animated:true, completion:nil)
 //        let navController = UINavigationController(rootViewController: vc)
 //        navController.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
 //        present(navController, animated: true, completion: nil)

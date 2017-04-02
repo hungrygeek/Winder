@@ -29,7 +29,6 @@ class PeerViewController: UIViewController {
             }
             
         })
-        print("wow")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,7 +41,7 @@ class PeerViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
+        
     }
     
     func loadImageUsingCacheWithUrlString(_ urlString: String) {
@@ -57,9 +56,9 @@ class PeerViewController: UIViewController {
             
             DispatchQueue.main.async(execute: {
                 if let downloadedImage = UIImage(data: data!) {
-                    self.profileImageView = UIImageView(image:downloadedImage)
-                    print("set image")
-                    print(self.profileImageView)
+                    self.profileImageView.image = downloadedImage
+                } else {
+                    print("downloaded image wrong cast to UIImage")
                 }
             })
         }).resume()

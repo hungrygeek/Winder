@@ -29,7 +29,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <outlet property="profileImageView" destination="Jyd-cI-92i" id="Ghj-CY-9Mh"/>
+                        <outlet property="profileImageView" destination="Jyd-cI-92i" id="UUF-oc-5qj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xm1-Hj-w99" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -21,7 +21,6 @@
 		83B716B21DE2573F0083B24D /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B716AF1DE2573F0083B24D /* ChatViewController.swift */; };
 		83B716B31DE2573F0083B24D /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B716B01DE2573F0083B24D /* Conversation.swift */; };
 		83B716B41DE2573F0083B24D /* DemoConversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B716B11DE2573F0083B24D /* DemoConversation.swift */; };
-		BA3A25F51E8F675700B5D4C7 /* PeerProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3A25F41E8F675700B5D4C7 /* PeerProfileViewController.swift */; };
 		BA3A25F71E8F787300B5D4C7 /* PeerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3A25F61E8F787300B5D4C7 /* PeerViewController.swift */; };
 		BA3E38A01DD7FC7500BD373A /* MatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3E389F1DD7FC7500BD373A /* MatchViewController.swift */; };
 		BA687EF91E62339F0030940B /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BA687EF81E62339F0030940B /* libsqlite3.tbd */; };
@@ -56,7 +55,6 @@
 		83B716AF1DE2573F0083B24D /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		83B716B01DE2573F0083B24D /* Conversation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		83B716B11DE2573F0083B24D /* DemoConversation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoConversation.swift; sourceTree = "<group>"; };
-		BA3A25F41E8F675700B5D4C7 /* PeerProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeerProfileViewController.swift; sourceTree = "<group>"; };
 		BA3A25F61E8F787300B5D4C7 /* PeerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeerViewController.swift; sourceTree = "<group>"; };
 		BA3E389F1DD7FC7500BD373A /* MatchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchViewController.swift; sourceTree = "<group>"; };
 		BA687EF81E62339F0030940B /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -149,7 +147,6 @@
 				837279D11DF4E6BB00BDB61C /* MessageViewController.swift */,
 				837279D81DF51EE900BDB61C /* ShareData.swift */,
 				837279DA1DF7B36200BDB61C /* ViewOtherProfileViewController.swift */,
-				BA3A25F41E8F675700B5D4C7 /* PeerProfileViewController.swift */,
 				BA3A25F61E8F787300B5D4C7 /* PeerViewController.swift */,
 			);
 			path = Winder;
@@ -296,7 +293,6 @@
 				BA687EFB1E673FE30030940B /* DateExtension.swift in Sources */,
 				BA3A25F71E8F787300B5D4C7 /* PeerViewController.swift in Sources */,
 				837279DB1DF7B36200BDB61C /* ViewOtherProfileViewController.swift in Sources */,
-				BA3A25F51E8F675700B5D4C7 /* PeerProfileViewController.swift in Sources */,
 				837279D21DF4E6BB00BDB61C /* UserCell.swift in Sources */,
 				E0178F8A1DD7D7E2008FBE1B /* CustomColor.swift in Sources */,
 				837279D91DF51EE900BDB61C /* ShareData.swift in Sources */,
