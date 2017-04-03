@@ -13,6 +13,9 @@ class PeerViewController: UIViewController {
 
     @IBOutlet weak var profileImageView: UIImageView!
     
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var contentView: UIView!
+   
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -29,6 +32,7 @@ class PeerViewController: UIViewController {
             }
             
         })
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -57,6 +61,8 @@ class PeerViewController: UIViewController {
             DispatchQueue.main.async(execute: {
                 if let downloadedImage = UIImage(data: data!) {
                     self.profileImageView.image = downloadedImage
+                    self.scrollView.backgroundColor = UIColor.yellow
+                    self.contentView.backgroundColor = UIColor.blue
                 } else {
                     print("downloaded image wrong cast to UIImage")
                 }

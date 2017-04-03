@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1217" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina5_5" orientation="portrait">
+    <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -18,23 +18,73 @@
                         <viewControllerLayoutGuide type="bottom" id="Nz1-LX-gDE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Bpf-Nk-2p9">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jyd-cI-92i">
-                                <rect key="frame" x="87" y="28" width="240" height="240"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vmg-8B-akP">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Q0-wO-hit" userLabel="Content View">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Vhu-IO-GXg">
+                                                <rect key="frame" x="68" y="44" width="240" height="240"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="240" id="QwS-0Z-U64"/>
+                                                    <constraint firstAttribute="height" constant="240" id="SFA-Bz-Dgc"/>
+                                                </constraints>
+                                            </imageView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="Vhu-IO-GXg" firstAttribute="centerX" secondItem="4Q0-wO-hit" secondAttribute="centerX" id="KfX-p1-mMX"/>
+                                            <constraint firstItem="Vhu-IO-GXg" firstAttribute="top" secondItem="4Q0-wO-hit" secondAttribute="top" constant="44" id="wHb-S6-xo1"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="4Q0-wO-hit" firstAttribute="top" secondItem="vmg-8B-akP" secondAttribute="top" id="Ice-os-tgW"/>
+                                    <constraint firstAttribute="bottom" secondItem="4Q0-wO-hit" secondAttribute="bottom" id="cKb-kA-qjQ"/>
+                                    <constraint firstAttribute="trailing" secondItem="4Q0-wO-hit" secondAttribute="trailing" id="oe9-Pp-fVs"/>
+                                    <constraint firstItem="4Q0-wO-hit" firstAttribute="leading" secondItem="vmg-8B-akP" secondAttribute="leading" id="tCn-zv-Fn5"/>
+                                </constraints>
+                            </scrollView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vbb-JG-akd">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="NYJ-hb-bsP"/>
+                                </constraints>
+                                <items>
+                                    <navigationItem title="Peer Info" id="72F-uq-Zva">
+                                        <barButtonItem key="backBarButtonItem" title="Close" id="jGD-0C-KOX"/>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="vmg-8B-akP" firstAttribute="leading" secondItem="Bpf-Nk-2p9" secondAttribute="leading" id="9p7-no-QFc"/>
+                            <constraint firstItem="4Q0-wO-hit" firstAttribute="width" secondItem="Bpf-Nk-2p9" secondAttribute="width" id="CEu-ID-N2X"/>
+                            <constraint firstItem="Vbb-JG-akd" firstAttribute="top" secondItem="KTM-mo-9JF" secondAttribute="bottom" id="Hr0-ZL-f2y"/>
+                            <constraint firstItem="4Q0-wO-hit" firstAttribute="height" secondItem="Bpf-Nk-2p9" secondAttribute="height" id="Tbn-bE-4BA"/>
+                            <constraint firstItem="Vbb-JG-akd" firstAttribute="centerX" secondItem="Bpf-Nk-2p9" secondAttribute="centerX" id="VyQ-7k-kJx"/>
+                            <constraint firstItem="Nz1-LX-gDE" firstAttribute="top" secondItem="vmg-8B-akP" secondAttribute="bottom" id="c1z-sV-eLV"/>
+                            <constraint firstItem="Vbb-JG-akd" firstAttribute="width" secondItem="Bpf-Nk-2p9" secondAttribute="width" id="dtZ-tt-w7W"/>
+                            <constraint firstAttribute="trailing" secondItem="vmg-8B-akP" secondAttribute="trailing" id="ncr-cN-o7g"/>
+                            <constraint firstItem="vmg-8B-akP" firstAttribute="top" secondItem="Vbb-JG-akd" secondAttribute="bottom" id="taa-J7-FVY"/>
+                        </constraints>
                     </view>
                     <connections>
-                        <outlet property="profileImageView" destination="Jyd-cI-92i" id="UUF-oc-5qj"/>
+                        <outlet property="ProfileImageView" destination="4Q0-wO-hit" id="qXs-Z9-eYK"/>
+                        <outlet property="ScrollView" destination="vmg-8B-akP" id="DiZ-jV-TeP"/>
+                        <outlet property="contentView" destination="4Q0-wO-hit" id="pdA-eV-o7o"/>
+                        <outlet property="profileImageView" destination="Vhu-IO-GXg" id="DLc-gD-UiQ"/>
+                        <outlet property="scrollView" destination="vmg-8B-akP" id="hS7-0o-Za9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xm1-Hj-w99" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-255" y="828"/>
+            <point key="canvasLocation" x="-317.60000000000002" y="756.07196401799104"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -45,7 +95,7 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
