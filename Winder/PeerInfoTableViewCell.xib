@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1217" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="infoCell" rowHeight="79" id="KGk-i7-Jjw" customClass="PeerInfoTableViewCell" customModule="Winder" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="79"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="79"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tNJ-Ep-Gsp">
+                        <rect key="frame" x="8" y="8" width="60" height="35"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="60" id="G6U-Ox-g99"/>
+                            <constraint firstAttribute="height" constant="35" id="RVB-9E-KRt"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="B77-wo-p2e">
+                        <rect key="frame" x="76" y="8" width="236" height="62.5"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="35" id="Wl5-KZ-v04"/>
+                        </constraints>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="wSg-Md-dPE">
+                            <size key="itemSize" width="50" height="50"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                    </collectionView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottomMargin" secondItem="B77-wo-p2e" secondAttribute="bottom" id="0dt-ef-sdS"/>
+                    <constraint firstAttribute="topMargin" secondItem="B77-wo-p2e" secondAttribute="top" id="6z2-zj-lHd"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="B77-wo-p2e" secondAttribute="trailing" id="D26-sg-YQD"/>
+                    <constraint firstAttribute="leadingMargin" secondItem="tNJ-Ep-Gsp" secondAttribute="leading" id="WQO-G2-YRx"/>
+                    <constraint firstAttribute="topMargin" secondItem="tNJ-Ep-Gsp" secondAttribute="top" id="jQT-M1-AB2"/>
+                    <constraint firstItem="B77-wo-p2e" firstAttribute="leading" secondItem="tNJ-Ep-Gsp" secondAttribute="trailing" constant="8" id="zyg-Ar-9gX"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="collection" destination="B77-wo-p2e" id="Xn3-uI-41L"/>
+                <outlet property="title" destination="tNJ-Ep-Gsp" id="cym-PT-s7H"/>
+            </connections>
+            <point key="canvasLocation" x="-29" y="-62.5"/>
+        </tableViewCell>
+    </objects>
+</document>

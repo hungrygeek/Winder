@@ -315,16 +315,13 @@ class MatchViewController:UIViewController{
      switch to view peer info
      */
     func personClick() {
+        
+        // nav to rokee's view
         let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         guard let nextViewController = storyBoard.instantiateViewController(withIdentifier: "PeerViewController") as? PeerViewController else { return }
-//        nextViewController.profileImageView = UIImageView()
         self.present(nextViewController, animated:true, completion:nil)
-        
-//        let navController = UINavigationController(rootViewController: vc)
-//        navController.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
-//        present(navController, animated: true, completion: nil)
-        
-        
+
+        // nav to SS's view
 //        let vc = ViewOtherProfileViewController()
 //        let currentSuggestion = (dataSource[self.kolodaView.currentCardIndex]).uid
 //        vc.selectedUserID = currentSuggestion

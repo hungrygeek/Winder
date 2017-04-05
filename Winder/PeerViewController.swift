@@ -9,13 +9,22 @@
 import UIKit
 import Firebase
 
-class PeerViewController: UIViewController {
+class PeerViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var profileImageView: UIImageView!
-    
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var headerView: UIView!
+    @IBOutlet weak var tableView: UITableView!
    
+    @IBAction func CloseThisView(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+   
+    var array = [ ["Moscow", "Saint Petersburg", "Novosibirsk", "Novosibirsk", "Nizhny Novgorod", "Samara", "Omsk" ],
+                  
+                  ["Kiyv", "Odessa", "Donetsk", "Harkiv", "Lviv", "Uzhgorod", "Zhytomyr", "Luhansk", "Mikolayv", "Kherson"],
+                  
+                  ["Berlin", "Hamburg", "Munich", "Cologne", "Frankfurt", "Stuttgart", "Düsseldorf", "Dortmund", "Essen", "Bremen"]]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -33,10 +42,16 @@ class PeerViewController: UIViewController {
             
         })
         
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 40
+//        tableView.register(GroupedCellsViewTableViewCell.self, forCellReuseIdentifier: "infoCell")
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
+        super.viewDidAppear(animated)
+        tableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -61,22 +76,52 @@ class PeerViewController: UIViewController {
             DispatchQueue.main.async(execute: {
                 if let downloadedImage = UIImage(data: data!) {
                     self.profileImageView.image = downloadedImage
-                    self.scrollView.backgroundColor = UIColor.yellow
-                    self.contentView.backgroundColor = UIColor.blue
+                    self.tableView.backgroundColor = UIColor.yellow
+                    self.headerView.backgroundColor = UIColor.blue
                 } else {
                     print("downloaded image wrong cast to UIImage")
                 }
             })
         }).resume()
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return array.count
     }
-    */
-
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return array[section].count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let indentifier = "infoCell"
+        var cell = tableView.dequeueReusableCell(withIdentifier: indentifier) as? PeerInfoTableViewCell
+        if cell == nil {
+            cell = Bundle.main.loadNibNamed("PeerInfoTableViewCell", owner: self, options: nil)?.first as? PeerInfoTableViewCell
+                }
+        cell?.title?.text = "title \(indexPath.row)"
+        return cell!
+        
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return  array[section][0]
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = Bundle.main.loadNibNamed("GroupedCellsViewTableViewCell", owner: self, options: nil)?.first as! GroupedCellsViewTableViewCell
+        header.backgroundColor = UIColor.green
+        header.headerLabel.text = "!"
+        header.footerLabel.text = "?"
+        return header
+    }
+    
+    // this is set in storyboard
+//    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+//        return CGFloat(0.0)
+//    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return CGFloat(44)
+    }
 }
