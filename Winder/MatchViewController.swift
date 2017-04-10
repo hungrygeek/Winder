@@ -319,6 +319,7 @@ class MatchViewController:UIViewController{
         // nav to rokee's view
         let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         guard let nextViewController = storyBoard.instantiateViewController(withIdentifier: "PeerViewController") as? PeerViewController else { return }
+        nextViewController.peerInfo = self.dataSource[self.kolodaView.currentCardIndex]
         self.present(nextViewController, animated:true, completion:nil)
 
         // nav to SS's view

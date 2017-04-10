@@ -17,14 +17,17 @@ class PersonalInfo:UIView, CAAnimationDelegate {
     public let skills: NSDictionary
     public let username: String
     public let school: String
+    public let email: String
     
 
     init(w:CGFloat,h:CGFloat, uid:String, userDict: NSDictionary){
+        let na = "N/A"
         self.uid = uid
         self.userDict = userDict
         self.skills = userDict["skill"] as? NSDictionary ?? [:]
-        self.username = userDict["username"] as? String ?? "Username: N/A"
-        self.school = userDict["school"] as? String ?? "School: N/A"
+        self.username = userDict["username"] as? String ?? na
+        self.school = userDict["school"] as? String ?? na
+        self.email = userDict["email"] as? String ?? na
         super.init(frame:CGRect(x: 0, y: 0, width: w, height: h))
         loadImageUsingCacheWithUrlString(userDict["image"] as! String)
         self.backgroundColor = UIColor.clear
