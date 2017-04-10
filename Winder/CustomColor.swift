@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIColor{
-    func getWustlGreenColor() -> UIColor{
+    func getWustlGreen() -> UIColor{
         
         return UIColor(red:0, green:115/255 ,blue:96/255 , alpha:1.00)
     }

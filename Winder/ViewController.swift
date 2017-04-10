@@ -78,7 +78,7 @@ class ViewController: UIViewController,UIAlertViewDelegate {
         let rectShape = CAShapeLayer()
         rectShape.frame = choseButtonLeft.bounds
         rectShape.path = UIBezierPath(roundedRect: rectShape.bounds, byRoundingCorners: [UIRectCorner.bottomLeft,UIRectCorner.topLeft], cornerRadii: CGSize(width: 25, height: 25)).cgPath
-        choseButtonLeft.layer.backgroundColor = UIColor.getWustlGreenColor(UIColor())().cgColor
+        choseButtonLeft.layer.backgroundColor = UIColor.getWustlGreen(UIColor())().cgColor
         choseButtonLeft.layer.mask = rectShape
         choseButtonLeft.setTitle("Log In", for: UIControlState())
         choseButtonLeft.titleLabel?.textColor = UIColor.white
@@ -108,14 +108,14 @@ class ViewController: UIViewController,UIAlertViewDelegate {
         //logInUserName.layer.borderWidth = 3
         //logInUserName.layer.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.65).CGColor
         //logInUserName.layer.cornerRadius = 10
-        logInUserName.textColor = UIColor.getWustlGreenColor(UIColor())()
-        logInUserName.attributedPlaceholder = NSAttributedString(string: "Username", attributes: [NSForegroundColorAttributeName: UIColor.getWustlGreenColor(UIColor())()])
+        logInUserName.textColor = UIColor.getWustlGreen(UIColor())()
+        logInUserName.attributedPlaceholder = NSAttributedString(string: "Username", attributes: [NSForegroundColorAttributeName: UIColor.getWustlGreen(UIColor())()])
         logInUserName.text = "11@1.1"
         self.view.addSubview(logInUserName)
         
         underlineUsername.frame = CGRect(x: 0, y: 0, width: 300, height: 1)
         underlineUsername.center = CGPoint(x: logInUserName.center.x, y: logInUserName.center.y+10)
-        underlineUsername.backgroundColor = UIColor.getWustlGreenColor(UIColor())()
+        underlineUsername.backgroundColor = UIColor.getWustlGreen(UIColor())()
         self.view.addSubview(underlineUsername)
     
         //password textfield
@@ -126,30 +126,30 @@ class ViewController: UIViewController,UIAlertViewDelegate {
         //logInPassword.layer.borderWidth = 3
         //logInPassword.layer.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.65).CGColor
         //logInPassword.layer.cornerRadius = 10
-        logInPassword.textColor = UIColor.getWustlGreenColor(UIColor())()
-        logInPassword.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSForegroundColorAttributeName: UIColor.getWustlGreenColor(UIColor())()])
+        logInPassword.textColor = UIColor.getWustlGreen(UIColor())()
+        logInPassword.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSForegroundColorAttributeName: UIColor.getWustlGreen(UIColor())()])
         logInPassword.isSecureTextEntry = true
         logInPassword.text = "111111"
         self.view.addSubview(logInPassword)
         
         underlinePassword.frame = CGRect(x: 0, y: 0, width: 300, height: 1)
         underlinePassword.center = CGPoint(x: logInUserName.center.x, y: logInPassword.center.y+10)
-        underlinePassword.backgroundColor = UIColor.getWustlGreenColor(UIColor())()
+        underlinePassword.backgroundColor = UIColor.getWustlGreen(UIColor())()
         self.view.addSubview(underlinePassword)
         
         // sign up password again
         
         signUpPassword.frame = CGRect(x: 0, y: 0, width: 300, height: 50)
         signUpPassword.center = CGPoint(x: self.view.center.x, y: self.view.center.y*1.6)
-        signUpPassword.textColor = UIColor.getWustlGreenColor(UIColor())()
-        signUpPassword.attributedPlaceholder = NSAttributedString(string: "Repeat Your Password", attributes: [NSForegroundColorAttributeName: UIColor.getWustlGreenColor(UIColor())()])
+        signUpPassword.textColor = UIColor.getWustlGreen(UIColor())()
+        signUpPassword.attributedPlaceholder = NSAttributedString(string: "Repeat Your Password", attributes: [NSForegroundColorAttributeName: UIColor.getWustlGreen(UIColor())()])
         signUpPassword.isSecureTextEntry = true
         self.view.addSubview(signUpPassword)
         
         
         underlinePassword2.frame = CGRect(x: 0, y: 0, width: 300, height: 1)
         underlinePassword2.center = CGPoint(x: logInUserName.center.x, y: signUpPassword.center.y+10)
-        underlinePassword2.backgroundColor = UIColor.getWustlGreenColor(UIColor())()
+        underlinePassword2.backgroundColor = UIColor.getWustlGreen(UIColor())()
         self.view.addSubview(underlinePassword2)
         
         signUpPassword.isHidden = true
@@ -163,7 +163,7 @@ class ViewController: UIViewController,UIAlertViewDelegate {
         signUpButton.center = CGPoint(x: self.view.center.x, y: self.view.center.y*1.8)
         signUpButton.setTitle("SIGN UP", for: UIControlState())
         signUpButton.titleLabel?.textColor = UIColor.white
-        signUpButton.layer.backgroundColor = UIColor.getWustlGreenColor(UIColor())().cgColor
+        signUpButton.layer.backgroundColor = UIColor.getWustlGreen(UIColor())().cgColor
         signUpButton.layer.cornerRadius = 25
         self.view.addSubview(signUpButton)
         signUpButton.isHidden = true
@@ -174,7 +174,7 @@ class ViewController: UIViewController,UIAlertViewDelegate {
         logInButton.center = CGPoint(x: self.view.center.x, y: self.view.center.y*1.8)
         logInButton.setTitle("LOG IN", for: UIControlState())
         logInButton.titleLabel?.textColor = UIColor.white
-        logInButton.layer.backgroundColor = UIColor.getWustlGreenColor(UIColor())().cgColor
+        logInButton.layer.backgroundColor = UIColor.getWustlGreen(UIColor())().cgColor
         logInButton.layer.cornerRadius = 25
         self.view.addSubview(logInButton)
         
@@ -284,7 +284,7 @@ class ViewController: UIViewController,UIAlertViewDelegate {
     func choseLogIn(){
         print("log in mode chosen")
         choseButtonRight.layer.backgroundColor = UIColor.gray.cgColor
-        choseButtonLeft.layer.backgroundColor = UIColor.getWustlGreenColor(UIColor())().cgColor
+        choseButtonLeft.layer.backgroundColor = UIColor.getWustlGreen(UIColor())().cgColor
         signUpPassword.isHidden = true
         underlinePassword2.isHidden = true
         signUpButton.isHidden = true
@@ -296,7 +296,7 @@ class ViewController: UIViewController,UIAlertViewDelegate {
 //        let firebaseAuth = FIRAuth.auth()
         print("is user logged in?", FIRAuth.auth()?.currentUser?.uid)
         print("sign up mode chosen")
-        choseButtonRight.layer.backgroundColor = UIColor.getWustlGreenColor(UIColor())().cgColor
+        choseButtonRight.layer.backgroundColor = UIColor.getWustlGreen(UIColor())().cgColor
         choseButtonLeft.layer.backgroundColor = UIColor.gray.cgColor
         signUpPassword.isHidden = false
         underlinePassword2.isHidden = false

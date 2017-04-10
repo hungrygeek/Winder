@@ -21,18 +21,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vbb-JG-akd">
+                            <navigationBar opaque="NO" contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vbb-JG-akd">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="NYJ-hb-bsP"/>
                                 </constraints>
+                                <color key="barTintColor" red="0.0" green="0.45098039220000002" blue="0.37647058820000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <color key="textColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                </textAttributes>
                                 <items>
                                     <navigationItem title="Peer Info" id="72F-uq-Zva">
                                         <barButtonItem key="rightBarButtonItem" style="plain" id="OFN-bO-gHD">
                                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="cgs-w3-S8b">
                                                 <rect key="frame" x="276" y="7" width="83" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <state key="normal" title="Close"/>
+                                                <state key="normal" title="Close">
+                                                    <color key="titleColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                                </state>
                                                 <connections>
                                                     <action selector="CloseThisView:" destination="VRb-hg-p2n" eventType="touchUpInside" id="qXU-vL-zEv"/>
                                                 </connections>
@@ -41,12 +47,12 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="101" sectionHeaderHeight="18" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="0d7-AZ-fhB">
+                            <tableView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="101" sectionHeaderHeight="18" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="0d7-AZ-fhB">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="PgG-g5-6rd" userLabel="Header View">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="245"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="249"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5ef-Ni-Ycl">
@@ -66,18 +72,17 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstItem="C6F-Vc-VjV" firstAttribute="centerX" secondItem="PgG-g5-6rd" secondAttribute="centerX" id="NQj-me-xv8"/>
                                         <constraint firstItem="C6F-Vc-VjV" firstAttribute="top" secondItem="5ef-Ni-Ycl" secondAttribute="bottom" constant="8" id="Uvt-Mg-Yp0"/>
-                                        <constraint firstAttribute="bottom" secondItem="C6F-Vc-VjV" secondAttribute="bottom" constant="8" id="Uwr-1m-YMd"/>
+                                        <constraint firstAttribute="bottom" secondItem="C6F-Vc-VjV" secondAttribute="bottom" constant="12" id="Uwr-1m-YMd"/>
                                         <constraint firstItem="5ef-Ni-Ycl" firstAttribute="centerX" secondItem="PgG-g5-6rd" secondAttribute="centerX" id="jlB-LU-s1E"/>
                                         <constraint firstItem="5ef-Ni-Ycl" firstAttribute="top" secondItem="PgG-g5-6rd" secondAttribute="top" constant="8" id="yCO-WR-VFP"/>
                                     </constraints>
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="courseCell" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="basicCell" rowHeight="52" id="kdH-3n-Po1" userLabel="Basic Cell" customClass="BasicCell" customModule="Winder" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="301" width="375" height="52"/>
+                                        <rect key="frame" x="0.0" y="305" width="375" height="52"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kdH-3n-Po1" id="UhN-h0-0ju">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="51"/>
@@ -116,7 +121,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="infoCell" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="infoCell" rowHeight="52" id="T3Y-Us-PbQ" userLabel="Info Cell" customClass="PeerInfoTableViewCell" customModule="Winder" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="353" width="375" height="52"/>
+                                        <rect key="frame" x="0.0" y="357" width="375" height="52"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="T3Y-Us-PbQ" id="C8S-fw-JR2">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="51"/>
@@ -134,10 +139,6 @@
                                                 </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o4k-Y8-No8" customClass="PeerInfoTableViewCell" customModule="Winder" customModuleProvider="target">
                                                     <rect key="frame" x="106" y="4" width="261" height="35"/>
-                                                    <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="261" id="5By-Vf-lw5"/>
-                                                    </constraints>
                                                 </view>
                                             </subviews>
                                             <constraints>
@@ -145,6 +146,7 @@
                                                 <constraint firstAttribute="trailing" secondItem="o4k-Y8-No8" secondAttribute="trailing" constant="8" id="6ia-8d-sbg"/>
                                                 <constraint firstItem="syV-gW-25F" firstAttribute="top" secondItem="C8S-fw-JR2" secondAttribute="top" constant="4" id="BmU-AH-ekK"/>
                                                 <constraint firstItem="o4k-Y8-No8" firstAttribute="top" secondItem="C8S-fw-JR2" secondAttribute="top" constant="4" id="Fur-hM-gzi"/>
+                                                <constraint firstItem="o4k-Y8-No8" firstAttribute="leading" secondItem="syV-gW-25F" secondAttribute="trailing" constant="8" id="T0l-v9-9py"/>
                                                 <constraint firstItem="syV-gW-25F" firstAttribute="leading" secondItem="C8S-fw-JR2" secondAttribute="leading" constant="8" id="dBQ-xQ-G22"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -156,7 +158,7 @@
                                 </prototypes>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.0" green="0.45098039220000002" blue="0.37647058820000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="0d7-AZ-fhB" firstAttribute="leading" secondItem="Bpf-Nk-2p9" secondAttribute="leading" id="2vK-gt-JyX"/>
                             <constraint firstItem="Vbb-JG-akd" firstAttribute="top" secondItem="KTM-mo-9JF" secondAttribute="bottom" id="Hr0-ZL-f2y"/>
@@ -165,10 +167,12 @@
                             <constraint firstItem="Nz1-LX-gDE" firstAttribute="top" secondItem="0d7-AZ-fhB" secondAttribute="bottom" id="TMJ-EP-XgS"/>
                             <constraint firstItem="Vbb-JG-akd" firstAttribute="centerX" secondItem="Bpf-Nk-2p9" secondAttribute="centerX" id="VyQ-7k-kJx"/>
                             <constraint firstItem="Vbb-JG-akd" firstAttribute="width" secondItem="Bpf-Nk-2p9" secondAttribute="width" id="dtZ-tt-w7W"/>
+                            <constraint firstItem="Vbb-JG-akd" firstAttribute="top" secondItem="KTM-mo-9JF" secondAttribute="bottom" id="yBF-HR-LpE"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="headerView" destination="PgG-g5-6rd" id="Fkq-AR-A8B"/>
+                        <outlet property="nameLabel" destination="C6F-Vc-VjV" id="20q-pQ-19D"/>
                         <outlet property="profileImageView" destination="5ef-Ni-Ycl" id="iq0-Tj-nFp"/>
                         <outlet property="tableView" destination="0d7-AZ-fhB" id="yhQ-yu-lMB"/>
                     </connections>

@@ -32,7 +32,6 @@
 		BA948D4C1DE24FB3001AF134 /* OverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA948D4A1DE24FB3001AF134 /* OverlayView.xib */; };
 		BA948D4E1DE2502A001AF134 /* CustomOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA948D4D1DE2502A001AF134 /* CustomOverlayView.swift */; };
 		BABCA0C11DE2262200DA40DA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BABCA0C01DE2262200DA40DA /* GoogleService-Info.plist */; };
-		BAEECD9F1DF2372700868C8B /* Second.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BAEECD9E1DF2372700868C8B /* Second.storyboard */; };
 		E002DB401DE690490098A74B /* PersonalInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E002DB3F1DE690490098A74B /* PersonalInfo.swift */; };
 		E0178F871DD7D68C008FBE1B /* background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E0178F851DD7D68B008FBE1B /* background.jpg */; };
 		E0178F881DD7D68C008FBE1B /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = E0178F861DD7D68C008FBE1B /* logo.png */; };
@@ -70,7 +69,6 @@
 		BA948D4B1DE24FB3001AF134 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/OverlayView.xib; sourceTree = "<group>"; };
 		BA948D4D1DE2502A001AF134 /* CustomOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomOverlayView.swift; sourceTree = "<group>"; };
 		BABCA0C01DE2262200DA40DA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		BAEECD9E1DF2372700868C8B /* Second.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Second.storyboard; sourceTree = "<group>"; };
 		E002DB3F1DE690490098A74B /* PersonalInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PersonalInfo.swift; path = ../PersonalInfo.swift; sourceTree = "<group>"; };
 		E0178F851DD7D68B008FBE1B /* background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = background.jpg; sourceTree = SOURCE_ROOT; };
 		E0178F861DD7D68C008FBE1B /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = SOURCE_ROOT; };
@@ -152,7 +150,6 @@
 				83B716AF1DE2573F0083B24D /* ChatViewController.swift */,
 				83B716B01DE2573F0083B24D /* Conversation.swift */,
 				83B716B11DE2573F0083B24D /* DemoConversation.swift */,
-				BAEECD9E1DF2372700868C8B /* Second.storyboard */,
 				837279D01DF4E6BB00BDB61C /* UserCell.swift */,
 				837279D11DF4E6BB00BDB61C /* MessageViewController.swift */,
 				837279D81DF51EE900BDB61C /* ShareData.swift */,
@@ -231,7 +228,6 @@
 				E0178F881DD7D68C008FBE1B /* logo.png in Resources */,
 				E0178F871DD7D68C008FBE1B /* background.jpg in Resources */,
 				83AF58011DD62BBD00C63709 /* Assets.xcassets in Resources */,
-				BAEECD9F1DF2372700868C8B /* Second.storyboard in Resources */,
 				BA948D4C1DE24FB3001AF134 /* OverlayView.xib in Resources */,
 				BA589ADD1E948D7100D992E9 /* GroupedCellsViewTableViewCell.xib in Resources */,
 				83AF57FC1DD62BBD00C63709 /* Main.storyboard in Resources */,

@@ -13,6 +13,7 @@ class PeerViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var headerView: UIView!
+    @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBAction func CloseThisView(_ sender: Any) {
         dismiss(animated: true, completion: nil)
@@ -20,53 +21,39 @@ class PeerViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     var peerInfo: PersonalInfo!
     
-    let backGroundGray = UIColor(red: 213/255, green: 220/255, blue: 209/255, alpha: 0.2)
+    let backGroundGray = UIColor(red: 240/255, green: 241/255, blue: 240/255, alpha: 1)
 
-    var array = [ ["Moscow", "Saint Petersburg", "Novosibirsk", "Novosibirsk", "Nizhny Novgorod", "Samara", "Omsk" ],
-                  
-                  ["Kiyv", "Odessa", "Donetsk", "Harkiv", "Lviv", "Uzhgorod", "Zhytomyr", "Luhansk", "Mikolayv", "Kherson"],
-                  
-                  ["Berlin", "Hamburg", "Munich", "Cologne", "Frankfurt", "Stuttgart", "Düsseldorf", "Dortmund", "Essen", "Bremen"]]
-    
-    var sectionTitles = ["Academic", "Top Courses"]
+    var sectionTitles = ["Academic", "Top Skills"]
     var numberOfRows = [2, 4]
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        var ref: FIRDatabaseReference!
-        self.view.backgroundColor = UIColor.white
-        ref = FIRDatabase.database().reference()
-        let userID = FIRAuth.auth()?.currentUser?.uid
-        ref.child("users").child(userID!).child("image").observeSingleEvent(of: .value, with: { (snapshot) in
-//            if let user = snapshot.value as? NSDictionary {
-//                self.peerInfo = user
-//                if let url = self.peerInfo["image"] as? String{
-//                    self.loadImageUsingCacheWithUrlString(url)
-//                }
+//        var ref: FIRDatabaseReference!
+//        self.view.backgroundColor = UIColor.white
+//        ref = FIRDatabase.database().reference()
+//        let userID = FIRAuth.auth()?.currentUser?.uid
+//        ref.child("users").child(userID!).child("image").observeSingleEvent(of: .value, with: { (snapshot) in
+//            if String(describing: snapshot.value!) != "" {
+//                self.loadImageUsingCacheWithUrlString(String(describing: snapshot.value!))
 //            } else {
-//                self.peerInfo = [:]
+//                self.profileImageView.image = UIImage(named: "avatar1")
 //            }
-            if String(describing: snapshot.value!) != "" {
-                self.loadImageUsingCacheWithUrlString(String(describing: snapshot.value!))
-            } else {
-                //                self.profileImageView.image = UIImage(named: "avatar1")
-            }
-        })
-        
+//        })
+        profileImageView.image = peerInfo.image.image
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 40
         tableView.backgroundColor = backGroundGray
-        headerView.backgroundColor = backGroundGray
+//        headerView.backgroundColor = backGroundGray
+        nameLabel.text = peerInfo.username
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-//        tableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -101,9 +88,6 @@ class PeerViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }).resume()
     }
     
-    func loadPeerInfoWithUid(_ uid: String){
-        
-    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return sectionTitles.count
@@ -132,25 +116,46 @@ class PeerViewController: UIViewController, UITableViewDataSource, UITableViewDe
         } else {
             cell = tableView.dequeueReusableCell(withIdentifier: "infoCell")!
             (cell as! PeerInfoTableViewCell).infoCellTitle?.text = "\(peerInfo.skills.allKeys[indexPath.row])"
-//            cell.infoCellCollection?.backgroundColor = UIColor.black
+            var newFrame = (cell as! PeerInfoTableViewCell).infoCellContent.frame
+            newFrame.origin.y = newFrame.origin.y+5
+            newFrame.size.height = newFrame.height-10
+            let w = peerInfo.skills.allValues[indexPath.row] as! CGFloat
+            newFrame.size.width = w/100*newFrame.size.width
+            if newFrame.size.width <  newFrame.size.height {
+                newFrame.size.width = newFrame.size.height
+            }
+            let gradientLayer = CAGradientLayer()
+            gradientLayer.frame = newFrame
+            let color1 = UIColor.getWustlGreen(UIColor())().cgColor
+            let color2 = UIColor(red: 108/255, green: 115/255, blue: 115/255, alpha: 1).cgColor
+            gradientLayer.colors = [color1, color2]
+            if w >= 75 {
+                gradientLayer.locations = [0.0, 0.75]
+            } else {
+                gradientLayer.locations = [0.75]
+            }
+            gradientLayer.startPoint = CGPoint(x:0.0, y:0.5)
+            gradientLayer.endPoint = CGPoint(x:1.0, y:0.5)
+            cell.layer.addSublayer(gradientLayer)
+            gradientLayer.cornerRadius = newFrame.size.height/2
         }
         
         return cell
         
     }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return  array[section][0]
-    }
+    // will be overrided when there is tableView:viewForHeaderInSection
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//    }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = Bundle.main.loadNibNamed("GroupedCellsViewTableViewCell", owner: self, options: nil)?.first as! GroupedCellsViewTableViewCell
         if section == 0 {
             header.headerLabel.text = "Academic Info"
         } else {
-            header.headerLabel.text = "!"
+            header.headerLabel.text = "Top Skills"
         }
-        header.footerLabel.text = "?"
+//        header.footerLabel.text = "?"
+        header.backgroundColor = backGroundGray
         return header
     }
     

@@ -353,7 +353,6 @@ extension MatchViewController: KolodaViewDelegate {
     }
     
     func koloda(_ koloda: KolodaView, didSelectCardAt index: Int) {
-//        UIApplication.shared.openURL(URL(string: "https://yalantis.com/")!)
         print("you click")
         personClick()
     }

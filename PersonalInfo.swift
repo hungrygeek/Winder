@@ -117,7 +117,7 @@ class PersonalInfo:UIView, CAAnimationDelegate {
 //        var shapelayerArray: Array<CAShapeLayer> = []
 //        for index in 0..<4{
 //            let layer = CAShapeLayer()
-//            layer.strokeColor = UIColor.getWustlGreenColor(UIColor())().CGColor
+//            layer.strokeColor = UIColor.getWustlGreen(UIColor())().CGColor
 //            layer.fillColor = UIColor.getCustomColor(UIColor())(Int(index)).CGColor
 //            layer.lineWidth = 10
 //            layer.lineCap = kCALineCapRound
