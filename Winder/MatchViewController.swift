@@ -404,6 +404,10 @@ extension MatchViewController: KolodaViewDelegate {
 
 //MARK: KolodaViewDataSource
 extension MatchViewController: KolodaViewDataSource {
+    public func kolodaSpeedThatCardShouldDrag(_ koloda: KolodaView) -> DragSpeed {
+        return DragSpeed.default
+    }
+
     
     func kolodaNumberOfCards(_ koloda:KolodaView) -> Int {
         return dataSource.count
