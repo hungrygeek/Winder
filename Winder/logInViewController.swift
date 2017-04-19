@@ -10,26 +10,24 @@ import UIKit
 
 class LoginViewController: UIViewController {
 
+    @IBOutlet weak var switchView: UIView!
+    @IBOutlet weak var emailView: UIView!
+    @IBOutlet weak var emailInput: UITextField!
+    @IBOutlet weak var passwordView: UIView!
+    @IBOutlet weak var passwordInput: UITextField!
+    @IBOutlet weak var passwordRepeatView: UIView!
+    @IBOutlet weak var passwordRepeatInput: UITextField!
+    @IBOutlet weak var buttonView: UIView!
+    @IBOutlet weak var buttonLabel: UILabel!
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        buttonView.layer.cornerRadius = buttonView.frame.size.height/2
+        buttonView.layer.backgroundColor = UIColor.getWustlGreen(UIColor())().cgColor
+        buttonLabel.text = "Login"
+        passwordRepeatView.isHidden = true
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

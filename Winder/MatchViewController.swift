@@ -315,7 +315,10 @@ class MatchViewController:UIViewController{
      switch to view peer info
      */
     func personClick() {
-        
+        // in case the user click before data fully loaded
+        if self.dataSource.count < 1 {
+            return
+        }
         // nav to rokee's view
         let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         guard let nextViewController = storyBoard.instantiateViewController(withIdentifier: "PeerViewController") as? PeerViewController else { return }

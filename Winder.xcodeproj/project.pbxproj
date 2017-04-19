@@ -27,6 +27,7 @@
 		BA589ADD1E948D7100D992E9 /* GroupedCellsViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA589ADB1E948D7100D992E9 /* GroupedCellsViewTableViewCell.xib */; };
 		BA589AE01E95836400D992E9 /* PeerInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA589ADE1E95836400D992E9 /* PeerInfoTableViewCell.swift */; };
 		BA589AE31E99E9CF00D992E9 /* BasicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA589AE21E99E9CF00D992E9 /* BasicCell.swift */; };
+		BA589AE51E9C395000D992E9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA589AE41E9C395000D992E9 /* LoginViewController.swift */; };
 		BA687EF91E62339F0030940B /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BA687EF81E62339F0030940B /* libsqlite3.tbd */; };
 		BA687EFB1E673FE30030940B /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA687EFA1E673FE20030940B /* DateExtension.swift */; };
 		BA948D4C1DE24FB3001AF134 /* OverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA948D4A1DE24FB3001AF134 /* OverlayView.xib */; };
@@ -64,6 +65,7 @@
 		BA589ADB1E948D7100D992E9 /* GroupedCellsViewTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GroupedCellsViewTableViewCell.xib; sourceTree = "<group>"; };
 		BA589ADE1E95836400D992E9 /* PeerInfoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeerInfoTableViewCell.swift; sourceTree = "<group>"; };
 		BA589AE21E99E9CF00D992E9 /* BasicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicCell.swift; sourceTree = "<group>"; };
+		BA589AE41E9C395000D992E9 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		BA687EF81E62339F0030940B /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		BA687EFA1E673FE20030940B /* DateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		BA948D4B1DE24FB3001AF134 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/OverlayView.xib; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 				BA3A25F61E8F787300B5D4C7 /* PeerViewController.swift */,
 				BA589AE21E99E9CF00D992E9 /* BasicCell.swift */,
 				BA589ADE1E95836400D992E9 /* PeerInfoTableViewCell.swift */,
+				BA589AE41E9C395000D992E9 /* LoginViewController.swift */,
 			);
 			path = Winder;
 			sourceTree = "<group>";
@@ -290,6 +293,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA589AE51E9C395000D992E9 /* LoginViewController.swift in Sources */,
 				BA589AE01E95836400D992E9 /* PeerInfoTableViewCell.swift in Sources */,
 				83B716B31DE2573F0083B24D /* Conversation.swift in Sources */,
 				837279D31DF4E6BB00BDB61C /* MessageViewController.swift in Sources */,

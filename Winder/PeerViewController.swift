@@ -126,8 +126,8 @@ class PeerViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }
             let gradientLayer = CAGradientLayer()
             gradientLayer.frame = newFrame
-            let color1 = UIColor.getWustlGreen(UIColor())().cgColor
-            let color2 = UIColor(red: 108/255, green: 115/255, blue: 115/255, alpha: 1).cgColor
+            let color2 = UIColor(rgb: 0x5aaa78).cgColor
+            let color1 = UIColor(rgb: 0x498c96).cgColor
             gradientLayer.colors = [color1, color2]
             if w >= 75 {
                 gradientLayer.locations = [0.0, 0.75]
@@ -143,7 +143,7 @@ class PeerViewController: UIViewController, UITableViewDataSource, UITableViewDe
         return cell
         
     }
-    // will be overrided when there is tableView:viewForHeaderInSection
+    // below will be overrided when tableView:viewForHeaderInSection is implemented
 //    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 //    }
     
