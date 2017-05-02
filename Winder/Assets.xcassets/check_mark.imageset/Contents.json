@@ -2,7 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "check_mark.png",
+      "filename" : "check_mark_s.png",
       "scale" : "1x"
     },
     {
@@ -11,6 +11,7 @@
     },
     {
       "idiom" : "universal",
+      "filename" : "check_mark.png",
       "scale" : "3x"
     }
   ],

@@ -15,19 +15,22 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var emailInput: UITextField!
     @IBOutlet weak var passwordView: UIView!
     @IBOutlet weak var passwordInput: UITextField!
-    @IBOutlet weak var passwordRepeatView: UIView!
-    @IBOutlet weak var passwordRepeatInput: UITextField!
-    @IBOutlet weak var buttonView: UIView!
-    @IBOutlet weak var buttonLabel: UILabel!
-    
+    @IBOutlet weak var signUpButton: UIButton!
+    @IBOutlet weak var loginButton: UIButton!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        buttonView.layer.cornerRadius = buttonView.frame.size.height/2
-        buttonView.layer.backgroundColor = UIColor.getWustlGreen(UIColor())().cgColor
-        buttonLabel.text = "Login"
-        passwordRepeatView.isHidden = true
+        loginButton.layer.cornerRadius = loginButton.frame.size.height/2
+//        signUpButton.addTarget(self, action: #selector(gotoSignUp), for:UIControlEvents.touchUpInside)
     }
     
+    
+    @IBAction func Login(_ sender: Any) {
+        print("login")
+    }
+    @IBAction func singUp(_ sender: Any) {
+        print("sign up")
+
+    }
 }

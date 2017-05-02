@@ -21,6 +21,8 @@
 		83B716B21DE2573F0083B24D /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B716AF1DE2573F0083B24D /* ChatViewController.swift */; };
 		83B716B31DE2573F0083B24D /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B716B01DE2573F0083B24D /* Conversation.swift */; };
 		83B716B41DE2573F0083B24D /* DemoConversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B716B11DE2573F0083B24D /* DemoConversation.swift */; };
+		BA03B9491EB805BD00D5AEC1 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA03B9481EB805BD00D5AEC1 /* SignUpViewController.swift */; };
+		BA0AC5BD1EA8259400E06D4C /* PersonalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0AC5BC1EA8259400E06D4C /* PersonalVC.swift */; };
 		BA3A25F71E8F787300B5D4C7 /* PeerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3A25F61E8F787300B5D4C7 /* PeerViewController.swift */; };
 		BA3E38A01DD7FC7500BD373A /* MatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3E389F1DD7FC7500BD373A /* MatchViewController.swift */; };
 		BA589ADC1E948D7100D992E9 /* GroupedCellsViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA589ADA1E948D7100D992E9 /* GroupedCellsViewTableViewCell.swift */; };
@@ -59,6 +61,8 @@
 		83B716AF1DE2573F0083B24D /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		83B716B01DE2573F0083B24D /* Conversation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		83B716B11DE2573F0083B24D /* DemoConversation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoConversation.swift; sourceTree = "<group>"; };
+		BA03B9481EB805BD00D5AEC1 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		BA0AC5BC1EA8259400E06D4C /* PersonalVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonalVC.swift; sourceTree = "<group>"; };
 		BA3A25F61E8F787300B5D4C7 /* PeerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeerViewController.swift; sourceTree = "<group>"; };
 		BA3E389F1DD7FC7500BD373A /* MatchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchViewController.swift; sourceTree = "<group>"; };
 		BA589ADA1E948D7100D992E9 /* GroupedCellsViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupedCellsViewTableViewCell.swift; sourceTree = "<group>"; };
@@ -130,15 +134,13 @@
 		83AF57F51DD62BBC00C63709 /* Winder */ = {
 			isa = PBXGroup;
 			children = (
+				BA03B9471EB7EF7C00D5AEC1 /* Controller */,
 				83AF57FA1DD62BBD00C63709 /* Main.storyboard */,
 				BA589ADA1E948D7100D992E9 /* GroupedCellsViewTableViewCell.swift */,
 				BA589ADB1E948D7100D992E9 /* GroupedCellsViewTableViewCell.xib */,
 				83AF57F61DD62BBD00C63709 /* AppDelegate.swift */,
-				83AF57F81DD62BBD00C63709 /* ViewController.swift */,
 				E002DB3F1DE690490098A74B /* PersonalInfo.swift */,
-				BA3E389F1DD7FC7500BD373A /* MatchViewController.swift */,
 				BA687EFA1E673FE20030940B /* DateExtension.swift */,
-				831840661DD7E52300FF809E /* personalViewController.swift */,
 				83AF58001DD62BBD00C63709 /* Assets.xcassets */,
 				83AF58051DD62BBD00C63709 /* Info.plist */,
 				E0178F891DD7D7E2008FBE1B /* CustomColor.swift */,
@@ -149,19 +151,31 @@
 				BABCA0C01DE2262200DA40DA /* GoogleService-Info.plist */,
 				BA948D4A1DE24FB3001AF134 /* OverlayView.xib */,
 				BA948D4D1DE2502A001AF134 /* CustomOverlayView.swift */,
-				83B716AF1DE2573F0083B24D /* ChatViewController.swift */,
 				83B716B01DE2573F0083B24D /* Conversation.swift */,
 				83B716B11DE2573F0083B24D /* DemoConversation.swift */,
 				837279D01DF4E6BB00BDB61C /* UserCell.swift */,
-				837279D11DF4E6BB00BDB61C /* MessageViewController.swift */,
 				837279D81DF51EE900BDB61C /* ShareData.swift */,
-				837279DA1DF7B36200BDB61C /* ViewOtherProfileViewController.swift */,
-				BA3A25F61E8F787300B5D4C7 /* PeerViewController.swift */,
 				BA589AE21E99E9CF00D992E9 /* BasicCell.swift */,
 				BA589ADE1E95836400D992E9 /* PeerInfoTableViewCell.swift */,
-				BA589AE41E9C395000D992E9 /* LoginViewController.swift */,
+				BA0AC5BC1EA8259400E06D4C /* PersonalVC.swift */,
 			);
 			path = Winder;
+			sourceTree = "<group>";
+		};
+		BA03B9471EB7EF7C00D5AEC1 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				83AF57F81DD62BBD00C63709 /* ViewController.swift */,
+				BA3E389F1DD7FC7500BD373A /* MatchViewController.swift */,
+				831840661DD7E52300FF809E /* personalViewController.swift */,
+				83B716AF1DE2573F0083B24D /* ChatViewController.swift */,
+				837279D11DF4E6BB00BDB61C /* MessageViewController.swift */,
+				837279DA1DF7B36200BDB61C /* ViewOtherProfileViewController.swift */,
+				BA3A25F61E8F787300B5D4C7 /* PeerViewController.swift */,
+				BA589AE41E9C395000D992E9 /* LoginViewController.swift */,
+				BA03B9481EB805BD00D5AEC1 /* SignUpViewController.swift */,
+			);
+			name = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -299,6 +313,7 @@
 				837279D31DF4E6BB00BDB61C /* MessageViewController.swift in Sources */,
 				BA3E38A01DD7FC7500BD373A /* MatchViewController.swift in Sources */,
 				BA589AE31E99E9CF00D992E9 /* BasicCell.swift in Sources */,
+				BA03B9491EB805BD00D5AEC1 /* SignUpViewController.swift in Sources */,
 				83AF57F91DD62BBD00C63709 /* ViewController.swift in Sources */,
 				BA948D4E1DE2502A001AF134 /* CustomOverlayView.swift in Sources */,
 				83B716B41DE2573F0083B24D /* DemoConversation.swift in Sources */,
@@ -309,6 +324,7 @@
 				BA3A25F71E8F787300B5D4C7 /* PeerViewController.swift in Sources */,
 				837279DB1DF7B36200BDB61C /* ViewOtherProfileViewController.swift in Sources */,
 				837279D21DF4E6BB00BDB61C /* UserCell.swift in Sources */,
+				BA0AC5BD1EA8259400E06D4C /* PersonalVC.swift in Sources */,
 				E0178F8A1DD7D7E2008FBE1B /* CustomColor.swift in Sources */,
 				837279D91DF51EE900BDB61C /* ShareData.swift in Sources */,
 				831840671DD7E52300FF809E /* personalViewController.swift in Sources */,

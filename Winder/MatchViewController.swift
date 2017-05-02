@@ -150,17 +150,17 @@ class MatchViewController:UIViewController{
         blurEffectView.alpha = 0.8
         view.addSubview(blurEffectView)
 
-        
-        likeButton.center = CGPoint(x: view.frame.width-likeButton.frame.width-10, y: view.frame.height-likeButton.frame.height-25)
+        let buttonLevelHeightOffset:CGFloat = 35
+        likeButton.center = CGPoint(x: view.frame.width-likeButton.frame.width-10, y: view.frame.height-likeButton.frame.height-buttonLevelHeightOffset)
         likeButton.addTarget(self, action: #selector(self.like), for:UIControlEvents.touchUpInside)
         view.addSubview(likeButton)
         
         dislikeButton.addTarget(self, action: #selector(self.dislike), for:UIControlEvents.touchUpInside)
-        dislikeButton.center = CGPoint(x: likeButton.frame.width+10, y: view.frame.height-likeButton.frame.height-15)
+        dislikeButton.center = CGPoint(x: likeButton.frame.width+10, y: view.frame.height-likeButton.frame.height-25)
         view.addSubview(dislikeButton)
         
         
-        personButton.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height-25)
+        personButton.center = CGPoint(x: view.frame.midX, y: view.frame.height-likeButton.frame.height-buttonLevelHeightOffset)
         personButton.addTarget(self, action: #selector(MatchViewController.personClick), for:UIControlEvents.touchUpInside)
         view.addSubview(personButton)
         
